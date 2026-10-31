@@ -36,11 +36,11 @@ const DEFAULT_SETTINGS = {
   llmOn: false, llmPreset: "gemini", llmBase: "https://generativelanguage.googleapis.com/v1beta/openai", llmModel: "gemini-2.5-flash", llmKey: ""
 };
 const PRESETS = {
-  gemini: { nome: "Google Gemini (piano gratuito)", base: "https://generativelanguage.googleapis.com/v1beta/openai", model: "gemini-2.5-flash" },
-  groq: { nome: "Groq (piano gratuito)", base: "https://api.groq.com/openai/v1", model: "llama-3.3-70b-versatile" },
-  openrouter: { nome: "OpenRouter", base: "https://openrouter.ai/api/v1", model: "meta-llama/llama-3.3-70b-instruct:free" },
-  ollama: { nome: "Ollama sul tuo computer", base: "http://localhost:11434/v1", model: "qwen2.5:7b" },
-  custom: { nome: "Altro (compatibile OpenAI)", base: "", model: "" }
+  gemini: { nome: "Google Gemini (piano gratuito)", base: "https://generativelanguage.googleapis.com/v1beta/openai", model: "gemini-2.5-flash", chiave: "https://aistudio.google.com/apikey", come: "Accedi con un account Google su Google AI Studio e premi “Create API key”." },
+  groq: { nome: "Groq (piano gratuito)", base: "https://api.groq.com/openai/v1", model: "llama-3.3-70b-versatile", chiave: "https://console.groq.com/keys", come: "Registrati sulla console di Groq e crea una chiave in “API Keys”." },
+  openrouter: { nome: "OpenRouter", base: "https://openrouter.ai/api/v1", model: "meta-llama/llama-3.3-70b-instruct:free", chiave: "https://openrouter.ai/keys", come: "Registrati su OpenRouter e crea una chiave; i modelli con “:free” nel nome sono gratuiti." },
+  ollama: { nome: "Ollama sul tuo computer", base: "http://localhost:11434/v1", model: "qwen2.5:7b", chiave: "", come: "Nessuna chiave: installa Ollama, scarica il modello e avvialo con OLLAMA_ORIGINS=*. Funziona solo dal computer su cui gira." },
+  custom: { nome: "Altro (compatibile OpenAI)", base: "", model: "", chiave: "", come: "Inserisci indirizzo, modello e chiave del servizio che preferisci." }
 };
 let settings = Object.assign({}, DEFAULT_SETTINGS, LS.get(K.settings, {}));
 function saveSettings() { LS.set(K.settings, settings); }
@@ -208,6 +208,7 @@ function renderCard() {
        <button class="btn ${evalAvailable() ? "ghost" : ""}" id="bShow">Mostra i concetti chiave</button>
        <button class="btn ghost" id="bSkip">Salta</button>
      </div>
+     ${(!settings.simOn && !settings.llmOn) ? '<p class="note" style="margin:10px 0 0">Vuoi che la risposta venga valutata in automatico? <button class="linkbtn" id="bGoSet">Attiva la valutazione nelle Impostazioni</button></p>' : ""}
      <div class="progressbar" id="pbar" hidden><i></i></div>
      <div id="after"></div>
    </div>`;
@@ -217,6 +218,7 @@ function renderCard() {
   $("bSkip").addEventListener("click", () => { const nx = pickNext(); if (nx) openQ(nx.n); });
   if ($("bSim")) $("bSim").addEventListener("click", runSimilarity);
   if ($("bLlm")) $("bLlm").addEventListener("click", runLlm);
+  if ($("bGoSet")) $("bGoSet").addEventListener("click", () => { showView("set"); const el = $("boxEval"); if (el) el.scrollIntoView({ block: "start" }); });
   updateEvalBtns();
   if (revealed) reveal(true);
 }
@@ -424,7 +426,10 @@ function renderSettings() {
   el.innerHTML = `
   <div class="box set"><h2>Mazzi</h2>
     <p>I mazzi della cartella <b>mazzi</b> del sito sono sempre disponibili. Puoi anche importare un file JSON dal dispositivo: resterà salvato in questo browser.</p>
-    <div class="row"><button class="btn" id="bImpDeck">Importa un mazzo</button></div>
+    <div class="dropzone" id="dropzone" role="button" tabindex="0" aria-label="Carica il file delle domande">
+      <b>Trascina qui il file delle domande (.json)</b>
+      <span>oppure tocca per sceglierlo dal dispositivo. Puoi trascinare il file anche in qualsiasi punto della pagina.</span>
+    </div>
     ${Object.keys(imp).length ? `<ul class="decklist">${Object.values(imp).map(d => `<li><span>${esc(d.titolo)} <span class="note">(${d.domande.length} ${d.domande.length === 1 ? "domanda" : "domande"})</span></span><button class="btn ghost danger" data-del="${esc(d.id)}">Rimuovi</button></li>`).join("")}</ul>` : ""}
   </div>
   <div class="box set"><h2>Progressi</h2>
@@ -441,7 +446,7 @@ function renderSettings() {
     </div>
     <p class="note">Se spunta troppo poco abbassa le soglie, se spunta troppo alzale.</p>
   </div>
-  <div class="box set"><h2>Valutazione con un modello linguistico (facoltativa)</h2>
+  <div class="box set" id="boxEval"><h2>Valutazione con un modello linguistico (facoltativa)</h2>
     <p>Valutazione più precisa, che segnala anche gli errori. Usa un servizio esterno con la tua chiave personale: i piani gratuiti hanno limiti giornalieri e possono usare i testi inviati per migliorare i loro modelli. La chiave resta salvata solo in questo browser.</p>
     <label class="switch"><input type="checkbox" id="sLlm" ${settings.llmOn ? "checked" : ""}>Attiva la valutazione con il modello</label>
     <label class="field">Servizio<select id="sPreset">${Object.entries(PRESETS).map(([k, v]) => `<option value="${k}" ${settings.llmPreset === k ? "selected" : ""}>${esc(v.nome)}</option>`).join("")}</select></label>
@@ -449,10 +454,19 @@ function renderSettings() {
       <label class="field">Indirizzo API<input type="text" id="sBase" value="${esc(settings.llmBase)}" autocomplete="off"></label>
       <label class="field">Modello<input type="text" id="sModel" value="${esc(settings.llmModel)}" autocomplete="off"></label>
     </div>
+    <p class="note" id="keyHow"></p>
     <label class="field">Chiave API<input type="password" id="sKey" value="${esc(settings.llmKey)}" autocomplete="off" placeholder="Incolla qui la tua chiave"></label>
     <div class="row"><button class="btn ghost" id="bTest">Prova la connessione</button><span class="note" id="testOut"></span></div>
   </div>`;
-  $("bImpDeck").onclick = () => $("fileDeck").click();
+  const dz = $("dropzone");
+  dz.onclick = () => $("fileDeck").click();
+  dz.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("fileDeck").click(); } };
+  const showHow = () => {
+    const p = PRESETS[$("sPreset").value] || {};
+    const el = $("keyHow"); el.textContent = "";
+    if (p.come) el.append(document.createTextNode(p.come + " "));
+    if (p.chiave) { const a = document.createElement("a"); a.href = p.chiave; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Apri la pagina delle chiavi"; el.append(a); }
+  };
   el.querySelectorAll("[data-del]").forEach(b => b.onclick = () => {
     const all = LS.get(K.imported, {}); delete all[b.dataset.del]; LS.set(K.imported, all); toast("Mazzo rimosso"); loadDeckList().then(renderSettings);
   });
@@ -472,8 +486,9 @@ function renderSettings() {
   ["sSim", "sHigh", "sLow", "sLlm", "sBase", "sModel", "sKey"].forEach(id => $(id).addEventListener("change", upd));
   $("sPreset").addEventListener("change", () => {
     const p = PRESETS[$("sPreset").value]; settings.llmPreset = $("sPreset").value;
-    if (p.base) $("sBase").value = p.base; if (p.model) $("sModel").value = p.model; upd();
+    if (p.base) $("sBase").value = p.base; if (p.model) $("sModel").value = p.model; upd(); showHow();
   });
+  showHow();
   $("bTest").onclick = async () => {
     upd(); const out = $("testOut"); out.textContent = "Provo…";
     try { const t = await callLlm('Rispondi solo con il JSON {"ok":true}'); parseJsonLoose(t); out.textContent = "Connessione riuscita."; }
@@ -488,11 +503,7 @@ function exportProgress() {
   document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   toast("Progressi esportati");
 }
-$("fileProg").addEventListener("change", async e => {
-  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
-  try {
-    const j = JSON.parse(await f.text());
-    if (j.tipo !== "exam-flashcards-progressi" || typeof j.progressi !== "object") throw new Error();
+function importProgressData(j) {
     Object.entries(j.progressi).forEach(([id, p]) => {
       const mine = LS.get(K.progress(id), {});
       Object.entries(p).forEach(([n, v]) => { if (!mine[n] || (mine[n].t || 0) < (v.t || 0)) mine[n] = v; });
@@ -500,12 +511,8 @@ $("fileProg").addEventListener("change", async e => {
     });
     if (deck) progress = LS.get(K.progress(deck._key), {});
     renderMap(); toast("Progressi importati (tenuti i risultati più recenti)");
-  } catch (err) { toast("File di progressi non valido"); }
-});
-$("fileDeck").addEventListener("change", async e => {
-  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
-  try {
-    const d = JSON.parse(await f.text());
+}
+async function importDeckData(d) {
     const errs = validateDeck(d);
     if (errs.length) { alert("Il mazzo non è valido:\n\n" + errs.join("\n")); return; }
     const all = LS.get(K.imported, {}); all[d.id] = d;
@@ -514,8 +521,35 @@ $("fileDeck").addEventListener("change", async e => {
     await loadDeckList();
     const key = decks.find(x => x.source === "locale" && x.data && x.data.id === d.id);
     if (key) { $("deckSel").value = key.id; await openDeck(key.id); }
-  } catch (err) { alert("Il file non è un JSON valido."); }
-});
+    if (!$("viewSet").hidden) renderSettings();
+}
+async function importFile(f, expect) {
+  if (!f) return;
+  if (!/\.json$/i.test(f.name) && f.type !== "application/json") { alert("Serve un file .json (il file delle domande o dei progressi)."); return; }
+  let j;
+  try { j = JSON.parse(await f.text()); } catch (err) { alert("Il file “" + f.name + "” non è un JSON valido."); return; }
+  if (j && j.tipo === "exam-flashcards-progressi" && typeof j.progressi === "object") { importProgressData(j); return; }
+  if (expect === "progress") { toast("File di progressi non valido"); return; }
+  await importDeckData(j);
+}
+$("fileProg").addEventListener("change", async e => { const f = e.target.files[0]; e.target.value = ""; await importFile(f, "progress"); });
+$("fileDeck").addEventListener("change", async e => { const f = e.target.files[0]; e.target.value = ""; await importFile(f, "deck"); });
+
+/* trascinamento di file in qualsiasi punto della pagina */
+(function () {
+  let depth = 0;
+  const ov = $("dropOverlay");
+  const hasFiles = e => e.dataTransfer && [...(e.dataTransfer.types || [])].includes("Files");
+  window.addEventListener("dragenter", e => { if (!hasFiles(e)) return; e.preventDefault(); depth++; ov.hidden = false; const dz = $("dropzone"); if (dz) dz.classList.add("over"); });
+  window.addEventListener("dragover", e => { if (!hasFiles(e)) return; e.preventDefault(); e.dataTransfer.dropEffect = "copy"; });
+  window.addEventListener("dragleave", e => { if (!hasFiles(e)) return; depth = Math.max(0, depth - 1); if (!depth) { ov.hidden = true; const dz = $("dropzone"); if (dz) dz.classList.remove("over"); } });
+  window.addEventListener("drop", async e => {
+    if (!hasFiles(e)) return; e.preventDefault(); depth = 0; ov.hidden = true;
+    const dz = $("dropzone"); if (dz) dz.classList.remove("over");
+    const files = [...e.dataTransfer.files];
+    for (const f of files) await importFile(f, "deck");
+  });
+})();
 
 /* ---------- viste ---------- */
 function showView(v) {

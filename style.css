@@ -137,3 +137,12 @@ input[type=text],input[type=password],input[type=number]{font:inherit;font-size:
 .decklist{list-style:none;padding:0;margin:6px 0}
 .decklist li{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--line);padding:8px 0}
 .evalrow{display:flex;gap:8px;flex-wrap:wrap}
+
+.dropzone{border:2px dashed var(--line);border-radius:10px;padding:18px 14px;text-align:center;cursor:pointer;background:var(--paper);display:flex;flex-direction:column;gap:4px;margin:6px 0}
+.dropzone b{font-size:1rem} .dropzone span{font-size:.85rem;color:var(--ink-soft)}
+.dropzone:hover,.dropzone.over{border-color:var(--accent);background:var(--sheet)}
+.dropoverlay{position:fixed;inset:0;z-index:20;background:color-mix(in srgb, var(--paper) 88%, transparent);display:flex;align-items:center;justify-content:center;padding:24px}
+.dropoverlay>div{border:3px dashed var(--accent);border-radius:16px;padding:40px 28px;text-align:center;background:var(--sheet);display:flex;flex-direction:column;gap:6px;max-width:420px}
+.dropoverlay b{font-size:1.25rem} .dropoverlay span{color:var(--ink-soft)}
+.linkbtn{appearance:none;background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
+.note a{color:var(--accent)}

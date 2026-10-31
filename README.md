@@ -40,7 +40,8 @@ Sono salvati nel browser del dispositivo. Per passarli da un dispositivo all’a
 Le spunte manuali bastano e non costano nulla. In più ci sono due aiuti, attivabili in **Impostazioni**:
 
 1. **Controllo automatico gratuito.** Un modello di similarità multilingue (`Xenova/paraphrase-multilingual-MiniLM-L12-v2`, eseguito con Transformers.js) gira direttamente nel browser: confronta il significato delle frasi della tua risposta con ogni concetto chiave e pre-spunta quelli presenti. Al primo uso scarica circa 120 MB, poi resta in memoria e funziona anche offline. **Non riconosce le affermazioni sbagliate**: dice solo se un concetto sembra presente. Le soglie si regolano nelle impostazioni (se spunta troppo poco abbassale, se spunta troppo alzale).
-2. **Modello linguistico con chiave personale.** Più preciso e segnala anche gli errori. Funziona con qualsiasi servizio con API *compatibile OpenAI*; sono preimpostati Google Gemini, Groq, OpenRouter e Ollama (sul tuo computer). Crei una chiave gratuita sul sito del servizio e la incolli nelle impostazioni; resta salvata solo nel tuo browser.
+2. **Modello linguistico con chiave personale.** Attivalo in *Impostazioni → Valutazione con un modello linguistico*: scegli il servizio, segui il link per creare la chiave, incollala e premi *Prova la connessione*. Da quel momento sotto ogni risposta compare il pulsante **Valuta con il modello**.
+   Più preciso e segnala anche gli errori. Funziona con qualsiasi servizio con API *compatibile OpenAI*; sono preimpostati Google Gemini, Groq, OpenRouter e Ollama (sul tuo computer). Crei una chiave gratuita sul sito del servizio e la incolli nelle impostazioni; resta salvata solo nel tuo browser.
    - I piani gratuiti hanno limiti giornalieri e possono usare i testi inviati per migliorare i loro modelli: leggi le condizioni del servizio.
    - I nomi dei modelli cambiano nel tempo: se la prova di connessione fallisce, controlla sul sito del servizio il nome del modello attuale.
    - Alcuni servizi non accettano richieste direttamente da una pagina web (errore di rete o CORS): in quel caso prova un altro servizio. Per Ollama avvia il server con `OLLAMA_ORIGINS=*` e usa la pagina dal computer su cui gira.
@@ -56,7 +57,7 @@ Crea un file `mazzi/<id>.json` e aggiungilo a `mazzi/indice.json`:
 ]
 ```
 
-In alternativa importalo dal dispositivo con *Impostazioni → Importa un mazzo* (resta salvato solo in quel browser).
+In alternativa **trascina il file JSON** in qualsiasi punto della pagina, oppure toccalo nel riquadro *Impostazioni → Mazzi* per sceglierlo dal dispositivo (resta salvato solo in quel browser). Allo stesso modo puoi trascinare anche il file dei progressi esportato.
 
 ### Formato del mazzo
 
