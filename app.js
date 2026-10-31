@@ -118,7 +118,7 @@ async function openDeck(id) {
   const args = deck.argomenti || {};
   SECS = [...new Set(QS.map(q => q.argomento).filter(Boolean))].map(k => [k, args[k] || k]);
   progress = LS.get(K.progress(id), {}); drafts = LS.get(K.drafts(id), {});
-  cur = null; revealed = false; evalResult = null;
+  cur = null; revealed = false; evalResult = null; skipped.clear();
   $("deckTitle").textContent = deck.titolo + " — " + QS.length + (QS.length === 1 ? " domanda" : " domande");
   $("deckDesc").textContent = deck.descrizione || "";
   buildFilters(); renderLegend(); renderMap(); showView("study"); renderCard();
@@ -149,9 +149,16 @@ function ordered() {
   if (o === "rand") { const h = n => Math.sin(n * 12.9898 + randSeed * 78.233) * 43758.5453 % 1; return list.slice().sort((a, b) => h(a.n) - h(b.n)); }
   return list.slice().sort((a, b) => weakness(b) - weakness(a) || a.n - b.n);
 }
+const skipped = new Map(); // domande saltate in questa sessione: tornano in fondo alla coda
 function pickNext() {
   const list = ordered(); if (!list.length) return null;
-  if ($("fOrder").value === "weak") return list[0].n === cur && list.length > 1 ? list[1] : list[0];
+  if ($("fOrder").value === "weak") {
+    const fresh = list.filter(q => q.n !== cur && !skipped.has(q.n));
+    if (fresh.length) return fresh[0];
+    const others = list.filter(q => q.n !== cur).sort((a, b) => (skipped.get(a.n) || 0) - (skipped.get(b.n) || 0));
+    if (others.length) { skipped.clear(); return others[0]; }
+    return list[0];
+  }
   const i = list.findIndex(q => q.n === cur);
   return list[(i + 1) % list.length];
 }
@@ -216,7 +223,7 @@ function renderCard() {
   const ta = $("ans");
   ta.addEventListener("input", () => { drafts[q.n] = ta.value; LS.set(K.drafts(deck._key), drafts); updateEvalBtns(); });
   $("bShow").addEventListener("click", () => reveal());
-  $("bSkip").addEventListener("click", () => { const nx = pickNext(); if (nx) openQ(nx.n); });
+  $("bSkip").addEventListener("click", () => { skipped.set(q.n, Date.now()); const nx = pickNext(); if (nx) openQ(nx.n); });
   if ($("bSim")) $("bSim").addEventListener("click", runSimilarity);
   if ($("bLlm")) $("bLlm").addEventListener("click", runLlm);
   if ($("bGoSet")) $("bGoSet").addEventListener("click", () => { showView("set"); const el = $("boxEval"); if (el) el.scrollIntoView({ block: "start" }); });
@@ -276,6 +283,7 @@ function save() {
   try {
     const q = byN.get(cur), s = calc(), st = statusFor(s), old = progress[q.n];
     progress[q.n] = { s, st, t: Date.now(), k: ((old && old.k) || 0) + 1 };
+    skipped.delete(q.n);
     LS.set(K.progress(deck._key), progress);
     toast("Salvato: " + stLabel(st) + " (" + s + "%)");
     renderMap();
