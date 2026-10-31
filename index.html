@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ripasso esami</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Ripasso esami<small id="deckTitle">Caricamento…</small></h1>
+    <div class="sync local" id="sync" role="status"><i></i><span>Progressi salvati su questo dispositivo</span></div>
+  </header>
+
+  <div class="deckbar">
+    <label for="deckSel" class="note">Materia</label>
+    <select id="deckSel" aria-label="Scegli la materia"></select>
+  </div>
+  <p class="deckdesc" id="deckDesc"></p>
+
+  <section class="map" aria-label="Mappa delle domande">
+    <div class="map-head"><span><b id="mapCount">0 / 0</b> domande ripassate</span><span id="mapPct"></span></div>
+    <div class="sectors" id="sectors"></div>
+    <div class="legend" id="legend"></div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="tabStudy" aria-selected="true">Studia</button>
+    <button class="tab" role="tab" id="tabStats" aria-selected="false">Andamento</button>
+    <button class="tab" role="tab" id="tabSet" aria-selected="false">Impostazioni</button>
+  </div>
+
+  <section id="viewStudy">
+    <div class="filters">
+      <label>Priorità<select id="fPrio"></select></label>
+      <label>Argomento<select id="fSec"></select></label>
+      <label>Ordine<select id="fOrder"><option value="weak">Prima le più deboli</option><option value="seq">In ordine numerico</option><option value="rand">Casuale</option></select></label>
+    </div>
+    <article class="card" id="card"></article>
+  </section>
+
+  <section id="viewStats" hidden><div class="stats" id="stats"></div></section>
+  <section id="viewSet" hidden><div class="stats" id="settings"></div></section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<input type="file" id="fileDeck" accept=".json,application/json" hidden>
+<input type="file" id="fileProg" accept=".json,application/json" hidden>
+<script src="app.js"></script>
+</body>
+</html>

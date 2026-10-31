@@ -1,0 +1,1119 @@
+{
+ "id": "computer-forensics",
+ "titolo": "Computer Forensics",
+ "descrizione": "Prof. D. E. Caccavella — Università degli Studi di Milano. 73 domande d’esame con risposte modello.",
+ "legenda_priorita": {
+  "3": "★★★ chiesta spesso",
+  "2": "★★ chiesta",
+  "1": "★ mai chiesta"
+ },
+ "argomenti": {
+  "A": "Definizioni e principi",
+  "B": "Fasi, acquisizione e hash",
+  "C": "Analisi, date, timeline, ricerche",
+  "D": "Il disco: slack, recupero, file system",
+  "E": "Dispositivi mobili e geolocalizzazione",
+  "F": "Web, email, rete, cloud",
+  "G": "Processo e contraddittorio"
+ },
+ "domande": [
+  {
+   "n": 1,
+   "argomento": "A",
+   "priorita": 2,
+   "fonti": "F16, Sabrina",
+   "domanda": "Si dia una definizione di informatica forense.",
+   "concetti": [
+    "Definizione di Maioli: individuazione, conservazione, protezione, estrazione, documentazione, interpretazione del dato",
+    "Finalità: il dato deve essere valutato come prova nel processo",
+    "Studia processi, tecniche e strumenti per l’esame metodologico di qualsiasi sistema informatico o telematico",
+    "Serve un metodo rigoroso per superare la prova di resistenza giudiziaria"
+   ],
+   "risposta": "L’informatica forense è la disciplina che si occupa dell’individuazione, conservazione, protezione, estrazione, documentazione e di ogni altra forma di trattamento e interpretazione del dato memorizzato su supporto informatico, al fine di essere valutato come prova nel processo (definizione di Cesare Maioli). Studia i processi, le tecniche e gli strumenti per esaminare in modo metodologico qualsiasi sistema informatico o telematico (computer, reti, telefoni, ogni dispositivo che tratta dati digitali), per recuperare i dati ed esibirli come prova. Ciò che la distingue dall’informatica comune è la **finalità probatoria**: non basta trovare un dato, bisogna trattarlo in modo che resista alle contestazioni della controparte in giudizio, cioè alla “prova di resistenza giudiziaria”. Per questo l’informatica forense si fonda su un metodo rigoroso e documentato."
+  },
+  {
+   "n": 2,
+   "argomento": "A",
+   "priorita": 2,
+   "fonti": "F17, Sabrina",
+   "domanda": "Si illustri la rilevanza delle best practice nell’informatica forense.",
+   "concetti": [
+    "Best practice = procedure riconosciute dalla comunità scientifica (es. ISO/IEC 27037)",
+    "Motivo: il dato digitale si altera e si falsifica facilmente",
+    "Garantiscono integrità (write blocker, copia bit a bit, hash)",
+    "Garantiscono ripetibilità/verificabilità e trasparenza (documentazione, catena di custodia)",
+    "Sono anche un obbligo di legge (L. 48/2008, misure per conservare l’originale e impedirne l’alterazione)",
+    "Esempio di danni senza metodo (Garlasco)"
+   ],
+   "risposta": "Le best practice sono le procedure riconosciute dalla comunità scientifica per trattare le prove digitali, come la norma ISO/IEC 27037. Sono rilevanti perché il dato digitale è fragile: si altera facilmente, anche solo accendendo un computer, si falsifica facilmente e non conserva traccia delle modifiche subite. Seguire le best practice garantisce quattro cose:\n\n- l’**integrità** della prova, con write blocker, copia bit per bit e hash;\n- la sua **ripetibilità e verificabilità**, perché si lavora su copie identiche che anche le controparti possono esaminare;\n- la **trasparenza**, con la documentazione di ogni operazione e la catena di custodia;\n- l’**utilizzabilità** in giudizio.\n\nSolo un accertamento metodologicamente rigoroso supera la prova di resistenza giudiziaria. Dal 2008 (L. 48/2008) adottare misure tecniche che assicurino la conservazione dei dati originali e ne impediscano l’alterazione è anche un **obbligo di legge** previsto dal codice di procedura penale per ispezioni, perquisizioni, sequestri e accertamenti urgenti. Quando le best practice non vengono seguite il danno può essere enorme: nel caso Garlasco gli accessi al computer dell’indagato senza tecniche forensi alterarono circa tre quarti dei file, rendendo molto più difficile verificare l’alibi."
+  },
+  {
+   "n": 3,
+   "argomento": "A",
+   "priorita": 2,
+   "fonti": "F18, Sabrina",
+   "domanda": "Quali sono le criticità dell’informatica forense?",
+   "concetti": [
+    "Estrema alterabilità dei reperti (dolosa o colposa)",
+    "Facile creazione ad arte di prove false",
+    "Difficile riconducibilità dei dati ai veri autori",
+    "Effimero valore del bit e presunzione di ripudio",
+    "Atteggiamento: autocritica, diffidenza, ricerca di riscontri"
+   ],
+   "risposta": "Il corso individua tre limiti strutturali.\n\n1. **Estrema alterabilità dei reperti**, per dolo o per colpa: basta un errore di chi indaga, o una cattiva conservazione, per modificare i dati.\n2. **Facile creazione ad arte di prove false**: date dei file modificabili con un comando, email costruite da zero, SMS falsi generati da app.\n3. **Difficile riconducibilità dei dati ai veri autori**: un IP identifica un’utenza e non una persona, un computer può essere usato da più persone.\n\nA questi limiti si lega l’“effimero valore probatorio del bit”: analizzando una sequenza di bit non si può sapere se e quando sia stata modificata. Ne deriva la “presunzione di ripudio”, per cui il dato va presunto alterato finché chi lo produce non ne dimostra l’attendibilità. Il consulente deve quindi:\n\n- praticare una profonda autocritica;\n- essere diffidente anche verso le proprie conclusioni;\n- cercare in modo quasi “paranoico” riscontri indipendenti.\n\nAltre criticità sono la mole crescente di dati, la cifratura, i dati conservati nel cloud o all’estero, l’estrema varietà dei dispositivi mobili e l’elevato margine di errore della localizzazione tramite celle telefoniche."
+  },
+  {
+   "n": 4,
+   "argomento": "A",
+   "priorita": 2,
+   "fonti": "F19, Sabrina",
+   "domanda": "Che cosa individua un indirizzo IP nel contesto dell’informatica forense?",
+   "concetti": [
+    "L’IP identifica un sistema in rete in un preciso istante",
+    "Su Internet identifica un’utenza (contratto/linea), non una persona",
+    "Servono data, ora e fuso esatti e i log del provider",
+    "Limiti: NAT, Wi-Fi condivisa o abusiva, proxy/VPN/Tor, log imprecisi",
+    "Per arrivare alla persona servono altri riscontri"
+   ],
+   "risposta": "Un indirizzo IP individua univocamente un sistema in una rete **in un preciso istante**. Su Internet individua l’**utenza**, cioè il contratto o la linea del fornitore di connettività a cui quell’indirizzo era assegnato in quel momento. Siccome i provider riassegnano gli indirizzi nel tempo, per sapere a chi corrispondeva un IP servono la data e l’ora esatte, con il fuso orario, e i registri (log) del provider.\n\nL’IP **non individua una persona**:\n\n- dietro un router domestico più dispositivi condividono lo stesso IP pubblico;\n- una rete Wi-Fi può essere usata da altri, anche abusivamente;\n- proxy, VPN e Tor fanno apparire un indirizzo diverso da quello reale;\n- i log possono essere imprecisi.\n\nL’IP è quindi un indizio che porta a un’utenza; per arrivare alla persona servono riscontri sui dispositivi e da altre fonti. Nel caso del “terrorista mancato” visto a lezione, l’imputato fu assolto proprio perché nulla collegava gli indirizzi IP dell’attacco a un’utenza a lui riconducibile."
+  },
+  {
+   "n": 5,
+   "argomento": "A",
+   "priorita": 2,
+   "fonti": "F22, Sabrina",
+   "domanda": "Quale deve essere il ruolo del consulente tecnico?",
+   "concetti": [
+    "Risponde ai quesiti di chi lo nomina (PM, giudice, parti)",
+    "L’investigatore resta il dominus; la tecnologia è ausilio, non risolutore",
+    "Resta tecnico: non si sostituisce al giurista, parla di compatibilità",
+    "Rigore metodologico e obiettività (anche il CTP non altera i dati)",
+    "Garantisce il contraddittorio e si fa capire (scrivere per chi legge)"
+   ],
+   "risposta": "Il consulente tecnico svolge accertamenti sui dati informatici per rispondere ai quesiti posti da chi lo ha nominato: il pubblico ministero (consulente del PM), il giudice penale (perito), il giudice civile (consulente tecnico d’ufficio) o una delle parti (consulente di parte). Il suo ruolo ha due confini precisi.\n\n- Nei confronti dell’indagine: l’investigatore resta il “dominus” e usa le tecnologie forensi come strumenti di ausilio, non come risolutori.\n- Nei confronti del diritto: il consulente resta un tecnico e non si sostituisce al giurista. Non afferma che qualcuno è colpevole, ma che un dato è compatibile o incompatibile con un’ipotesi, e con quale grado di certezza.\n\nI suoi doveri sono:\n\n- seguire un metodo rigoroso e documentato;\n- essere obiettivo (anche il consulente di parte non può alterare o nascondere dati);\n- garantire il contraddittorio, svolgendo l’accertamento insieme ai consulenti delle altre parti;\n- farsi capire da giudici e avvocati, scrivendo “per chi legge” e spiegando i termini tecnici con esempi e metafore."
+  },
+  {
+   "n": 6,
+   "argomento": "A",
+   "priorita": 2,
+   "fonti": "F26",
+   "domanda": "Che cos’è la presunzione di ripudio?",
+   "concetti": [
+    "Il bit non conserva traccia delle modifiche (effimero valore probatorio)",
+    "La modifica va presunta come avvenuta: dato presunto modificato ad arte",
+    "L’onere di dimostrare l’attendibilità spetta a chi produce il dato",
+    "Strumenti: acquisizione forense, hash, catena di custodia, firma, marca, riscontri"
+   ],
+   "risposta": "Una sequenza di bit può sempre essere stata modificata da qualcuno, e la modifica non lascia traccia nei bit stessi. Per questo il dato informatico ha un “effimero valore probatorio”. La presunzione di ripudio ne è la conseguenza: la possibilità che un dato sia stato modificato va considerata come avvenuta, quindi un dato informatico prodotto in giudizio va presunto **modificato ad arte**. **Spetta alla parte che lo produce dimostrarne l’attendibilità**: con un’acquisizione forense, l’hash, la catena di custodia, la firma digitale, la marca temporale e i riscontri incrociati con fonti indipendenti."
+  },
+  {
+   "n": 7,
+   "argomento": "A",
+   "priorita": 2,
+   "fonti": "F44",
+   "domanda": "Quando un dato informatico può considerarsi attendibile?",
+   "concetti": [
+    "Legittimità dell’acquisizione",
+    "Attendibilità: descrizione di come e con quali strumenti è stato acquisito",
+    "Integrità: completo e non alterato, dimostrata con l’hash (es. mail senza header non è integra)",
+    "Autenticità: firma digitale, marca temporale, PEC",
+    "Riscontri su sistemi indipendenti e catena di custodia; grado di certezza con Casey"
+   ],
+   "risposta": "Un dato è attendibile quando supera la fase di valutazione.\n\n- Prima di tutto deve essere stato **acquisito legittimamente**.\n- Poi bisogna giudicarne l’**attendibilità**, che dipende da un’accurata descrizione di come e con quali strumenti è stato acquisito: un’acquisizione live fatta senza la controparte è esposta a forti critiche.\n- Poi l’**integrità**: il dato deve essere completo e non alterato, cosa che si dimostra con l’hash. Una mail senza le sue intestazioni, ad esempio, non è integra.\n- Infine l’**autenticità**: il dato deve provenire da chi si dice e risalire al momento dichiarato, cosa che si dimostra con firma digitale, marca temporale o PEC.\n\nA questo si aggiungono una catena di custodia senza interruzioni, l’assenza di tracce di alterazione nei log, nei file temporanei e nella timeline, e soprattutto la presenza di **riscontri su sistemi indipendenti** (server, provider, dispositivo del destinatario). Il grado di attendibilità si può esprimere con la scala di Casey: un dato è davvero attendibile quando raggiunge almeno i livelli “probabile” o “quasi certo”, cioè quando più fonti indipendenti concordano."
+  },
+  {
+   "n": 8,
+   "argomento": "A",
+   "priorita": 2,
+   "fonti": "F31",
+   "domanda": "Si descriva la scala di certezza di Casey.",
+   "concetti": [
+    "Scala per esprimere il grado di certezza di una prova digitale",
+    "7 livelli da C0 (errato) a C6 (certo)",
+    "C2: una sola prova manomettibile; C3: fonte protetta ma prove insufficienti",
+    "C4-C5: più fonti indipendenti concordano (protette in C5)",
+    "Almeno un esempio per livello e principio di considerare tutte le spiegazioni"
+   ],
+   "risposta": "La scala di Casey, tratta dal libro di Eoghan Casey *Digital Evidence and Computer Crime*, è un criterio per esprimere in modo uniforme il grado di certezza di una prova digitale, su sette livelli.\n\n- **C0, errato**: la prova contraddice fatti noti, come immagini attribuite all’utente ma scaricate automaticamente da un programma spia.\n- **C1, molto incerto**: ad esempio la data di un file su un floppy disk.\n- **C2, un po’ incerto**: una sola prova a rischio di manomissione, come una mail o un log presentati da una parte.\n- **C3, possibile**: la fonte è difficile da manomettere ma le prove sono insufficienti, come un accesso da un IP tedesco nei log del provider, quando l’autore potrebbe usare un proxy.\n- **C4, probabile**: la prova è protetta oppure più fonti indipendenti concordano, come IP, email, Skype e SMS che portano alla stessa persona.\n- **C5, quasi certo**: più fonti indipendenti e protette concordano con piccole incertezze, come tabulati e Telepass che delineano gli stessi spostamenti.\n- **C6, certo**: la prova è indiscutibile, come centinaia di foto illecite ordinate in cartelle sul desktop dell’indagato.\n\nIl principio è individuare tutte le spiegazioni compatibili con i dati prima di sceglierne una."
+  },
+  {
+   "n": 9,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F27",
+   "domanda": "Quali sono le fasi del trattamento del dato informatico?",
+   "concetti": [
+    "Identificazione: esaustiva, luoghi fisici e virtuali",
+    "Raccolta: acquisizione, conservazione, trasporto (write blocker, hash, sigillo, catena di custodia)",
+    "Analisi: sulla copia, riproducibile, 5W",
+    "Valutazione: significato, attendibilità/integrità/autenticità, grado di certezza",
+    "Presentazione: relazione chiara ed esposizione in udienza"
+   ],
+   "risposta": "Il trattamento del reperto informatico si articola in cinque fasi.\n\n1. **Identificazione**: individuare in modo esaustivo e preciso tutti i supporti e i luoghi, fisici e virtuali, che contengono dati rilevanti, dai computer ai telefoni fino ai server remoti e al cloud.\n2. **Raccolta**, che comprende acquisizione, conservazione e trasporto: copiare i dati bit per bit con un write blocker, calcolarne l’hash, applicare il sigillo elettronico, conservare e trasportare i reperti senza contaminarli, documentando ogni passaggio nella catena di custodia.\n3. **Analisi**: sulla copia e mai sull’originale, in modo riproducibile, ricostruire i fatti rispondendo alle domande chi, cosa, quando, dove e perché, con ricerche, recupero dei dati cancellati, timeline e studio degli artefatti.\n4. **Valutazione**: stabilire il significato dei dati, verificarne legittimità, attendibilità, integrità e autenticità ed esprimere il grado di certezza delle conclusioni.\n5. **Presentazione**: esporre i risultati in una relazione chiara, conforme ai quesiti e comprensibile a chi non è tecnico, e poi oralmente in udienza."
+  },
+  {
+   "n": 10,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F28, 23/11/24",
+   "domanda": "Che differenza c’è tra acquisizione live e post mortem? Che cos’è la live forensics?",
+   "concetti": [
+    "Post mortem: a sistema spento, write blocker o distro forense, copia bit a bit; ideale ma perde i volatili e rischia la cifratura",
+    "Live forensics: sistema acceso, raccolta di RAM, processi, connessioni, ora di sistema, volumi cifrati aperti",
+    "Sequenza: foto dello schermo → live (ordine di volatilità) → spegnimento motivato → post mortem",
+    "Vantaggio della live: supera cifratura e server non spegnibili",
+    "Svantaggio: altera il sistema, è irripetibile, va fatta in contraddittorio (art. 360)"
+   ],
+   "risposta": "L’acquisizione **post mortem** avviene a computer spento. Il disco viene estratto e collegato tramite un write blocker a una stazione di acquisizione, oppure il computer viene avviato con una distribuzione forense che non scrive sui dischi. Il disco viene poi copiato bit per bit. È la soluzione ideale perché è completa, verificabile e ripetibile, ma perde i dati che esistono solo in memoria e, se il disco è cifrato, può produrre una copia illeggibile. Un computer trovato spento non va acceso.\n\nLa **live forensics** è invece l’acquisizione, e talvolta l’analisi, di un sistema **acceso e funzionante**. Serve a raccogliere i dati volatili che lo spegnimento distruggerebbe:\n\n- il contenuto della RAM, con processi attivi, chiavi di cifratura, password, conversazioni non salvate;\n- le connessioni di rete e le porte aperte;\n- l’ora di sistema;\n- i volumi cifrati già sbloccati.\n\nLa procedura insegnata nel corso è: fotografare lo schermo, acquisire i dati live seguendo l’ordine di volatilità (prima la memoria), poi spegnere il computer motivando la scelta tra staccare la spina e spegnimento regolare, infine eseguire l’acquisizione post mortem.\n\nIl vantaggio della live forensics è che supera situazioni altrimenti senza uscita, come un disco cifrato o un server che non può essere fermato. Lo svantaggio è che altera inevitabilmente il sistema, perché il programma di acquisizione lascia tracce. Per questo è un atto **irripetibile** e va svolto in contraddittorio con le altre parti (art. 360 c.p.p.). Altrimenti, come avverte il corso, il reperto è esposto a fortissime critiche di attendibilità."
+  },
+  {
+   "n": 11,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F11, 14/01/23",
+   "domanda": "Il perito propone di acquisire i dati con un copia-incolla. Come consulente di parte accettate?",
+   "concetti": [
+    "No, il copia-incolla non è una copia forense",
+    "Non copia spazio non allocato (file cancellati), slack, metadati del file system",
+    "Altera le date (creazione della copia, accesso dell’originale)",
+    "Proposta: copia bit a bit con write blocker, hash, verbale, copia per ogni parte",
+    "Il CTP non può avallare un metodo scorretto; la difesa si gioca sulla valutazione dei dati"
+   ],
+   "risposta": "No. Il copia-incolla, come il trascinamento dei file con il mouse, non è una copia forense. Copia soltanto i file visibili, cioè quelli che l’indice del file system elenca come presenti. Restano fuori lo spazio non allocato, dove si trovano i file cancellati ma non ancora sovrascritti, lo slack space con i residui di vecchi file e le strutture del file system con le date originali. In più il copia-incolla **altera le date** (la copia riceve una nuova data di creazione, l’originale una nuova data di accesso) e non garantisce né integrità né ripetibilità.\n\nProporrei invece una **copia forense bit per bit** dell’intero disco, eseguita con write blocker, con calcolo dell’hash sull’originale e sulla copia, verbalizzata e con una copia identica consegnata a ogni parte. Anche se sapessi che tra i dati cancellati ci sono elementi sfavorevoli al mio assistito, non potrei avallare un metodo scorretto per tenerli fuori. Il consulente di parte deve essere corretto sul piano tecnico. La difesa si gioca semmai sulla valutazione di quei dati: ad esempio sostenendo che file recuperabili solo con strumenti specialistici non erano nella disponibilità dell’utente, come nel caso “L’insostenibile leggerezza del settore” visto a lezione."
+  },
+  {
+   "n": 12,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F52, 27/01/24",
+   "domanda": "Indicare cinque esempi di dati che non si possono raccogliere con un copia-incolla ma solo con una copia forense.",
+   "concetti": [
+    "File cancellati nello spazio non allocato",
+    "Slack space",
+    "Metadati del file system (MFT, journal, date originali)",
+    "Partizioni nascoste/non montate e aree fuori partizione",
+    "Artefatti di sistema: registro, pagefile/hiberfil, punti di ripristino, log, tracce USB"
+   ],
+   "risposta": "1. I **file cancellati** che si trovano ancora nello spazio non allocato del disco.\n2. Lo **slack space**, cioè i residui di vecchi file rimasti nella parte finale dei cluster occupati dai file attuali.\n3. I **metadati del file system**: la tabella principale dei file di NTFS, il journal e le date originali di creazione, modifica e accesso, che il copia-incolla altera.\n4. Le **partizioni nascoste o non montate** e le aree del disco esterne alle partizioni, compresi i contenitori cifrati.\n5. I **file di sistema e gli artefatti** non accessibili all’utente: il registro di Windows, il file di paging e il file di ibernazione (che contengono porzioni della memoria RAM), le copie shadow e i punti di ripristino, i log degli eventi e la traccia dei dispositivi USB collegati."
+  },
+  {
+   "n": 13,
+   "argomento": "B",
+   "priorita": 2,
+   "fonti": "F45",
+   "domanda": "Che differenza c’è tra immagine forense fisica, immagine logica e copia di file?",
+   "concetti": [
+    "Fisica: tutti i settori, compresi cancellati e aree riservate; idonea",
+    "Logica: solo i file del file system in un contenitore con hash; perde cancellati e slack",
+    "Copia di file: estrazione 'così com’è’, nessuna integrità, altera le date; non forense",
+    "Quando la logica è accettabile (server, cloud, mobile)"
+   ],
+   "risposta": "L’**immagine fisica** copia tutti i settori del supporto, compresi file cancellati, frammenti e aree riservate. Può essere un clone su un altro disco o un file immagine, ed è verificabile con l’hash. È la soluzione completa e idonea, anche se più lenta e ingombrante.\n\nL’**immagine logica** copia soltanto i file presenti nel file system, raccolti in un contenitore verificabile con l’hash. È più veloce ma perde file cancellati, slack e spazio libero. È accettabile quando la copia fisica è impossibile o sproporzionata, come per un grande server, un servizio cloud o molti dispositivi mobili.\n\nLa **copia di file** estrae solo alcuni file “così come sono”. È rapidissima ma non offre alcuna garanzia di integrità, altera le date e perde informazioni: non è un’acquisizione forense."
+  },
+  {
+   "n": 14,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F1, 14/01/23, 25/05",
+   "domanda": "Scrivere il comando per clonare una partizione / per fare l’immagine di un disco da sdd a sdg.",
+   "concetti": [
+    "Sintassi dd if=sorgente of=destinazione",
+    "Partizione: dd if=/dev/sdd3 of=/dev/sdg2",
+    "Disco intero: dd if=/dev/sdd of=/dev/sdg",
+    "Immagine su file: montare sdg e dd if=/dev/sdd of=/mnt/.../reperto.dd",
+    "Hash di sorgente e copia (md5sum/sha256sum) e write blocker"
+   ],
+   "risposta": "In Linux i dischi sono file speciali nella cartella `/dev`: `/dev/sdd` è il disco “d” e `/dev/sdd3` la sua terza partizione. Il comando `dd` copia bit per bit dalla sorgente indicata con `if=` alla destinazione indicata con `of=`.\n\nPer clonare la terza partizione di sdd nella seconda partizione di sdg:\n\n```\ndd if=/dev/sdd3 of=/dev/sdg2\n```\n\nPer clonare l’intero disco sdd sul disco sdg:\n\n```\ndd if=/dev/sdd of=/dev/sdg\n```\n\nPer fare un’immagine, cioè un file, del disco sdd su un disco sdg montato in una cartella:\n\n```\nmount /dev/sdg1 /mnt/hdesterno\ndd if=/dev/sdd of=/mnt/hdesterno/reperto.dd\n```\n\nAl termine si calcola l’hash di sorgente e copia con `md5sum` (o `sha256sum`), e i due valori devono coincidere. La sorgente va protetta con un write blocker, perché invertire `if` e `of` distruggerebbe il reperto."
+  },
+  {
+   "n": 15,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F21",
+   "domanda": "Scrivere il comando per il wiping di un disco.",
+   "concetti": [
+    "dd if=/dev/zero of=/dev/sda bs=1M",
+    "/dev/zero produce zeri, bs = dimensione dei blocchi",
+    "Alternative: /dev/urandom, shred",
+    "Su SSD: Secure Erase del firmware"
+   ],
+   "risposta": "```\ndd if=/dev/zero of=/dev/sda bs=1M\n```\n\nIl comando legge da `/dev/zero`, un dispositivo che produce zeri all’infinito, e li scrive su tutto il disco `/dev/sda` a blocchi di 1 MB, sovrascrivendo ogni bit. Alternative sono la scrittura di dati casuali (`if=/dev/urandom`) o comandi dedicati come `shred`. Sugli SSD è preferibile la funzione di cancellazione sicura del firmware, perché il disco gestisce internamente celle di riserva che `dd` non raggiunge."
+  },
+  {
+   "n": 16,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F70",
+   "domanda": "Che cos’è il wiping e a che cosa serve nella computer forensics?",
+   "concetti": [
+    "Wiping = sovrascrittura metodica di tutti i bit",
+    "Cancellazione e formattazione toccano solo l’indice, i dati restano",
+    "Serve a preparare dischi di destinazione vergini (evita contaminazione)",
+    "Serve a eliminare definitivamente i dati di casi chiusi",
+    "Va documentato e verificato"
+   ],
+   "risposta": "Il wiping è la sovrascrittura metodica di tutti i bit di un supporto con zeri o con dati casuali. È l’unico modo per cancellare davvero i dati. Cancellare un file o formattare un disco, infatti, modifica solo l’indice del file system e lascia i dati fisicamente al loro posto, recuperabili finché non vengono sovrascritti.\n\nNella computer forensics serve soprattutto a **preparare i dischi di destinazione** delle copie forensi. Questi devono essere vergini, altrimenti residui di casi precedenti si mescolerebbero con i dati del nuovo reperto, contaminandolo. Il rischio è massimo con i cloni, che occupano il disco settore per settore. Serve anche a eliminare definitivamente i dati di casi chiusi. Il wiping si esegue con software come `dd` o con i copiatori hardware, e va documentato verificando alla fine che il disco contenga solo zeri."
+  },
+  {
+   "n": 17,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F64, F60",
+   "domanda": "Che cos’è l’hash, quali proprietà ha e con quale comando si calcola? Perché si dice che non è invertibile?",
+   "concetti": [
+    "Funzione che produce un digest di lunghezza fissa da input di qualsiasi lunghezza",
+    "Deterministica e praticamente univoca",
+    "Effetto valanga: un bit cambiato cambia tutto l’hash",
+    "Non invertibile; collisioni teoriche infinite ma impraticabili (MD5/SHA-1 deboli, SHA-256)",
+    "Usi: congelare il contenuto, provare copia = originale, verificare nel tempo",
+    "Comando: md5sum / sha256sum"
+   ],
+   "risposta": "Una funzione di hash è un algoritmo che trasforma una sequenza di bit di qualsiasi lunghezza, da un breve file a un intero disco, in una stringa di lunghezza fissa chiamata digest o impronta. MD5 produce 128 bit, SHA-1 160 bit, SHA-256 256 bit. Le sue proprietà sono:\n\n- è **deterministica**: lo stesso contenuto dà sempre lo stesso digest;\n- è **praticamente univoca**: contenuti diversi danno digest diversi, per questo funziona come un’impronta digitale;\n- produce un **effetto valanga**: cambiando anche un solo bit il digest cambia completamente, quindi qualsiasi alterazione viene scoperta;\n- **non è invertibile**: dal digest non si può ricostruire il contenuto.\n\nLa non invertibilità dipende dal fatto che infiniti contenuti diversi corrispondono a un numero finito di digest possibili. In teoria quindi esistono infinite “collisioni”, contenuti diversi con lo stesso digest, ma con algoritmi robusti trovarne una apposta è impraticabile. Poiché per MD5 e SHA-1 sono state costruite collisioni, oggi si affianca o si preferisce SHA-256.\n\nNell’informatica forense l’hash serve a “congelare” il contenuto al momento dell’acquisizione, a dimostrare che copia e originale sono identici e a verificare nel tempo che nulla sia cambiato. Siccome rappresenta tutto il contenuto senza rivelarlo, basta firmare o marcare l’hash per firmare o marcare l’intero supporto. Su Linux si calcola con `md5sum /dev/sda > hash.txt` o `sha256sum`. Gli strumenti forensi e i copiatori hardware lo calcolano automaticamente."
+  },
+  {
+   "n": 18,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F59",
+   "domanda": "Quali garanzie danno insieme hash, firma digitale e marca temporale?",
+   "concetti": [
+    "Insieme formano il sigillo elettronico (art. 260 c.p.p.)",
+    "Hash → integrità",
+    "Firma digitale sull’hash → chi ha acquisito, non ripudio",
+    "Marca temporale sull’hash → quando, data certa (anche via PEC)",
+    "Permettono verifica alle parti e restituzione dell’originale"
+   ],
+   "risposta": "Insieme formano il **sigillo elettronico** previsto dall’art. 260 del codice di procedura penale, e ciascuno dà una garanzia diversa:\n\n- l’**hash** garantisce l’**integrità**: chiunque, ricalcolandolo in futuro, può verificare che i dati non sono cambiati di un solo bit;\n- la **firma digitale** apposta sull’hash garantisce **chi** ha eseguito l’acquisizione e impedisce che possa negarlo;\n- la **marca temporale** apposta sull’hash garantisce **quando** l’acquisizione è stata fatta, con una data certa opponibile a terzi. Si può acquistare da un ente certificatore o ottenere inviando l’hash via PEC.\n\nGrazie al sigillo la copia diventa una prova verificabile da tutte le parti, e l’originale può anche essere restituito al proprietario senza perdere il valore probatorio della copia."
+  },
+  {
+   "n": 19,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F48, 27/01/24",
+   "domanda": "Il file “lettera.doc” ha un certo hash. Viene rinominato “Pluto.jpg”: l’hash cambia?",
+   "concetti": [
+    "L’hash non cambia",
+    "L’hash dipende dal contenuto binario; nome ed estensione sono nel file system",
+    "Cambierebbe l’hash del disco/partizione (cambia l’indice)",
+    "La signature analysis (magic number) rivela che non è un JPG"
+   ],
+   "risposta": "Non cambia. L’hash si calcola sul contenuto binario del file, mentre il nome, l’estensione e le date non stanno dentro il file ma nell’indice del file system. Rinominare il file modifica soltanto la voce nell’indice, non i bit del contenuto.\n\nSi possono aggiungere due osservazioni. Cambierebbe invece l’hash dell’intero disco o della partizione, perché l’indice fa parte del disco. E un software forense, o il comando `file`, riconoscerebbe dai primi byte del file (la firma tipica dei vecchi documenti Word, `D0 CF 11 E0`) che “Pluto.jpg” non è un’immagine ma un documento. È la verifica chiamata **signature analysis**, che smaschera le estensioni false."
+  },
+  {
+   "n": 20,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F5, 14/01/23",
+   "domanda": "Si hanno due copie forensi dello stesso disco con hash diversi: come si individuano i file diversi?",
+   "concetti": [
+    "Verificare che le copie siano confrontabili (stessa porzione, dimensione, algoritmo)",
+    "Montare in sola lettura e calcolare l’hash di ogni file (hashdeep) e confrontare gli elenchi",
+    "Se le differenze sono fuori dai file: confronto settore per settore (cmp, hash a blocchi)",
+    "Interpretare la causa: disco montato senza write blocker, settori danneggiati, SSD/TRIM, errore",
+    "Documentare; la copia più vecchia verificata è il riferimento"
+   ],
+   "risposta": "L’hash di un’immagine dice soltanto che le due copie sono diverse, non dove. Il primo passo è verificare che le copie siano davvero confrontabili: devono riguardare lo stesso disco e la stessa porzione (disco intero o partizione), avere la stessa dimensione, nessuna deve essere incompleta per settori illeggibili, e l’algoritmo di hash deve essere lo stesso.\n\nPoi si montano entrambe le immagini in sola lettura e si calcola l’**hash di ogni singolo file**, ad esempio con `hashdeep`. Confrontando i due elenchi emergono i file con hash diverso, quelli presenti in una sola copia e quelli mancanti.\n\nSe le differenze stanno fuori dai file, cioè nello spazio non allocato o nei metadati, si confrontano le immagini **settore per settore**: con `cmp -l` si ottengono le posizioni dei byte diversi, oppure si calcolano hash per blocchi di dimensione fissa per localizzare le zone. Da queste posizioni gli strumenti forensi risalgono al file o all’area interessata.\n\nInfine si interpreta la causa:\n\n- il disco può essere stato **acceso o montato senza write blocker** tra le due acquisizioni, e Windows modifica subito date e log;\n- possono esserci **settori danneggiati** letti in modo diverso;\n- su un **SSD** il comando TRIM può aver azzerato dei blocchi;\n- può esserci un errore di copia.\n\nTutto va documentato, e la copia più vecchia, se verificata, resta il riferimento."
+  },
+  {
+   "n": 21,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F24",
+   "domanda": "Un’immagine forense aveva hash X; dopo due anni ha hash Y. Cosa può essere successo?",
+   "concetti": [
+    "Non dovrebbe succedere: un’immagine ben conservata dà sempre lo stesso hash",
+    "Degrado del supporto di conservazione",
+    "Modifica dell’immagine (montata in scrittura, alterazione)",
+    "Errore di annotazione/calcolo o confronto improprio (algoritmo, contenitore, segmento mancante)",
+    "Verificare le copie di riserva e la catena di custodia; immagine non più attendibile"
+   ],
+   "risposta": "Non dovrebbe mai succedere: un’immagine conservata correttamente dà sempre lo stesso hash. Le cause possibili sono quattro:\n\n1. il **supporto di conservazione si è degradato** (settori guasti, deterioramento di dischi o supporti ottici) e alcuni bit sono cambiati;\n2. l’immagine è stata **modificata**, ad esempio montata in scrittura, aperta con programmi non forensi o alterata volontariamente;\n3. c’è stato un **errore nell’annotare o nel calcolare** l’hash originale;\n4. il confronto è **improprio**: algoritmo diverso, oppure si confronta l’hash del file contenitore con quello dei dati acquisiti, oppure manca un segmento di un’immagine divisa in più file.\n\nBisogna verificare le **copie di riserva** (per questo se ne fanno più d’una), consultare la catena di custodia per capire chi ha avuto accesso all’immagine e segnalare l’anomalia. Quell’immagine non può più essere considerata attendibile."
+  },
+  {
+   "n": 22,
+   "argomento": "B",
+   "priorita": 2,
+   "fonti": "F42, 14/01/23",
+   "domanda": "Che cos’è la catena di custodia?",
+   "concetti": [
+    "Documento che traccia ogni passaggio del reperto dal sequestro al processo",
+    "Scopo: chi l’ha custodito, continuità, integrità della gestione",
+    "Single-evidence form e multi-evidence form",
+    "Contenuti: data/ora, luogo, marca/modello/seriale, chi raccoglie, firme a ogni passaggio, hash"
+   ],
+   "risposta": "La catena di custodia è il documento che traccia ogni passaggio di un reperto, dal momento del sequestro fino al processo. Serve a identificare chi ha avuto in custodia il reperto, a dimostrare che la custodia è stata continua e senza interruzioni, e a provare che il reperto è stato gestito correttamente, così che nessuno possa sostenere che sia stato sostituito o alterato.\n\nEsistono un modulo per ogni singolo reperto (single-evidence form) o un modulo unico per tutti i reperti dello stesso caso (multi-evidence form). Il documento riporta:\n\n- data e ora del sequestro;\n- luogo e persone da cui il reperto è stato prelevato;\n- marca, modello e numero di serie;\n- chi lo ha raccolto;\n- la sua descrizione;\n- per ogni passaggio, nome e firma di chi lo riceve con data e ora;\n- la numerazione interna;\n- i valori di hash, che collegano il documento al contenuto digitale."
+  },
+  {
+   "n": 23,
+   "argomento": "B",
+   "priorita": 3,
+   "fonti": "F55",
+   "domanda": "Da che cosa dipende il tempo necessario per fare una copia forense?",
+   "concetti": [
+    "La copia fisica legge tutti i settori, anche vuoti",
+    "Il tempo dipende dalla capacità del disco, non dai dati presenti",
+    "Tempo ≈ capacità / velocità dell’anello più lento (esempio: 1 TB ≈ 2 ore)",
+    "Più il tempo di verifica dell’hash e dei settori danneggiati",
+    "Solo la copia logica dipende dai dati presenti; conta l’integrità, si documenta"
+   ],
+   "risposta": "> **Attenzione** — Il file domande lega il tempo alla quantità di dati presenti sul disco. Per la copia fisica non è così.\n\nUna copia forense fisica legge **tutti i settori** del disco, compresi quelli vuoti, quindi il tempo dipende dalla **capacità** del disco e non da quanti dati vi sono salvati. Un disco da 2 TB quasi vuoto richiede lo stesso tempo di un disco da 2 TB pieno. Il tempo è all’incirca la capacità divisa per la velocità dell’anello più lento della catena (disco sorgente, collegamento, write blocker, disco di destinazione). Un disco da 1 TB letto a circa 150 MB/s richiede circa due ore, più il tempo della verifica dell’hash, che rilegge i dati. I settori danneggiati possono allungare molto i tempi. Il formato compresso EWF occupa meno spazio per le zone vuote, ma queste vanno comunque lette. Solo la copia logica dipende dalla quantità di dati effettivamente presenti. In ogni caso l’integrità conta più della velocità, e i tempi effettivi si annotano nel log di acquisizione."
+  },
+  {
+   "n": 24,
+   "argomento": "B",
+   "priorita": 2,
+   "fonti": "F33",
+   "domanda": "Quali strumenti si usano per l’imaging e come si garantisce la riproducibilità dell’accertamento?",
+   "concetti": [
+    "Strumenti: dd, dcfldd, ddrescue, ewfacquire, FTK Imager, Guymager, EnCase, copiatori hardware, UFED",
+    "Lavorare su copie verificate con hash e darle a tutte le parti",
+    "Documentare strumenti, versioni, comandi, log",
+    "Stesse operazioni sulla stessa copia → stesso risultato oggettivo",
+    "Per gli atti irripetibili: contraddittorio"
+   ],
+   "risposta": "Per creare le immagini forensi si usano comandi Linux come `dd`, `dcfldd` (che calcola l’hash durante la copia), `ddrescue` (per i dischi danneggiati) ed `ewfacquire` (per il formato EWF). Ci sono poi programmi grafici come FTK Imager e Guymager, suite come EnCase e i copiatori hardware con write blocker integrato. Per i telefoni si usa Cellebrite UFED.\n\nLa riproducibilità si garantisce:\n\n- lavorando sempre su copie identiche all’originale, dimostrato con l’hash;\n- consegnando copie identiche a tutte le parti;\n- documentando ogni operazione (strumenti e versioni, comandi e parametri, log, eventualmente video), così che chiunque, ripetendo le stesse operazioni sulla stessa copia, ottenga lo stesso risultato oggettivo;\n- mantenendo la catena di custodia.\n\nPer le operazioni che non si possono ripetere, come le acquisizioni live, la riproducibilità è sostituita dal **contraddittorio**: si svolgono alla presenza dei consulenti di tutte le parti."
+  },
+  {
+   "n": 25,
+   "argomento": "B",
+   "priorita": 2,
+   "fonti": "F8, F9",
+   "domanda": "Che differenza c’è tra copia clone e immagine in formato EWF? Quali sono i tre vantaggi del formato EWF?",
+   "concetti": [
+    "Il clone NON perde informazioni: copia tutti i settori come l’immagine",
+    "Svantaggi del clone: disco ≥ originale e wipato, rischio di montarlo/alterarlo, niente hash né metadati",
+    "EWF vantaggio 1: hash/CRC incorporati e metadati del caso",
+    "EWF vantaggio 2: compressione",
+    "EWF vantaggio 3: segmentazione in più file"
+   ],
+   "risposta": "> **Attenzione** — Il file domande dice che il clone può perdere informazioni e che l’EWF include anche i settori vuoti a differenza del clone. È sbagliato: il clone copia tutti i settori bit per bit, esattamente come l’immagine.\n\nLa differenza è nella forma. Il **clone** è un secondo disco identico all’originale. È utile solo se serve avviare il sistema clonato, e ha diversi svantaggi pratici:\n\n- richiede un disco di destinazione almeno grande quanto l’originale e sottoposto a wiping;\n- può essere montato e alterato per errore e confuso con l’originale, perché ne ha gli stessi identificativi;\n- non contiene né l’hash né informazioni sul caso;\n- è scomodo da archiviare e da duplicare per le parti.\n\nIl formato **EWF** (Expert Witness Format, file con estensione `.E01`, nato con EnCase e oggi standard di fatto) è un file immagine che contiene tutti i settori e offre tre vantaggi:\n\n1. **integrità verificabile incorporata**: l’hash dell’intera immagine e un codice di controllo per ogni blocco sono salvati nel file insieme ai **metadati del caso** (numero del procedimento, esaminatore, descrizione, date, modello e numero di serie del disco). Un’eventuale corruzione viene localizzata con precisione;\n2. **compressione** senza perdita di dati: le zone vuote occupano pochissimo spazio;\n3. **segmentazione** in più file di dimensione scelta, più facili da archiviare e trasferire."
+  },
+  {
+   "n": 26,
+   "argomento": "B",
+   "priorita": 2,
+   "fonti": "F47, 23/11/24",
+   "domanda": "Come si acquisisce un SSD non rimovibile dal computer?",
+   "concetti": [
+    "Il problema: SSD saldato, non collegabile a un write blocker",
+    "Se acceso e cifrato: prima l’acquisizione live in contraddittorio",
+    "Se spento: non avviare il sistema; boot da distro forense USB che non monta il disco",
+    "Immagine su disco esterno wipato con hash; Target Disk Mode sui Mac (limiti della cifratura hardware)",
+    "TRIM/garbage collection: hash che possono cambiare, acquisire subito, una volta, in contraddittorio"
+   ],
+   "risposta": "> **Attenzione** — Nel file domande la domanda è trascritta come “come realizzare una SSD non rimovibile” e la risposta parla di sigillatura. La domanda riguarda invece l’**acquisizione** di un disco saldato sulla scheda madre, come nei portatili Apple recenti e in molti ultrabook, che non si può estrarre e collegare a un write blocker.\n\nPrima di tutto si documenta e si fotografa il dispositivo e il suo stato. Se il computer è acceso e il disco è cifrato, si valuta prima un’acquisizione live della memoria e del volume già sbloccato, perché dopo lo spegnimento i dati potrebbero diventare inaccessibili. Trattandosi di un atto irripetibile, si svolge in contraddittorio.\n\nSe il computer è spento non si avvia il suo sistema operativo, che modificherebbe il disco. Lo si avvia invece da una **distribuzione forense su chiavetta USB**, che non monta il disco interno o lo monta in sola lettura e funziona così da write blocker software. Da lì si crea l’immagine su un disco esterno sottoposto a wiping, calcolando l’hash.\n\nSui Mac si può usare la modalità **Target Disk Mode**, che fa apparire il computer come disco esterno di un’altra macchina. Sui Mac più recenti, però, il disco è cifrato in hardware e legato al chip: senza credenziali l’immagine fisica è illeggibile e si deve ricorrere a un’acquisizione live o logica.\n\nVa ricordato infine che negli SSD i comandi TRIM e la “garbage collection” possono azzerare blocchi liberati anche solo perché il disco è alimentato. Due acquisizioni successive possono quindi dare hash diversi. Per questo l’acquisizione va fatta subito, una volta sola, in contraddittorio, documentando tutto."
+  },
+  {
+   "n": 27,
+   "argomento": "B",
+   "priorita": 2,
+   "fonti": "F14",
+   "domanda": "Come si procede con un hard disk cifrato?",
+   "concetti": [
+    "Se acceso: acquisizione live di RAM (chiavi) e volume sbloccato, in contraddittorio",
+    "Se spento: copia forense comunque, con hash",
+    "Identificare il sistema di cifratura e cercare le chiavi altrove (recovery key, password manager, altri dispositivi)",
+    "L’indagato non è obbligato a fornire la password",
+    "Attacchi a dizionario/forza bruta; documentare anche l’esito negativo"
+   ],
+   "risposta": "Se il computer è acceso, la priorità è un’acquisizione live in contraddittorio della memoria RAM, che contiene le chiavi di decifratura, e del volume già sbloccato. È il caso tipico in cui l’acquisizione live supera una situazione altrimenti senza uscita.\n\nSe il computer è spento si esegue comunque la copia forense del disco cifrato, con hash e catena di custodia, per conservarne lo stato. Poi si identifica il sistema di cifratura (BitLocker, VeraCrypt, FileVault, LUKS) e si cercano le chiavi altrove:\n\n- la chiave di ripristino di BitLocker salvata nell’account Microsoft dell’utente o nei server aziendali, oppure stampata;\n- password annotate o salvate in un password manager;\n- altri dispositivi dell’indagato.\n\nL’indagato non è obbligato a fornire la password. Se nulla funziona si valutano attacchi a dizionario, costruiti anche con parole trovate sugli altri dispositivi dell’indagato, o a forza bruta, stimandone i tempi. Anche concludere che i dati non sono accessibili è un risultato da documentare nella relazione."
+  },
+  {
+   "n": 28,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "F29, F49, 27/01/24",
+   "domanda": "Che cos’è la timeline, a che cosa serve, come si ottiene e in quale fase del trattamento si usa?",
+   "concetti": [
+    "Elenco cronologico delle date di creazione, modifica, accesso di tutti i file, anche cancellati",
+    "'Giornale di bordo’ del computer",
+    "Si usa nella fase di analisi, sulla copia (poi valutazione)",
+    "Si ottiene con Autopsy/Sleuthkit, EnCase, FTK",
+    "Esempi d’uso: alibi informatico, lettura massiva",
+    "Cautele: scostamento dell’orologio, modifiche automatiche, falsificazioni"
+   ],
+   "risposta": "La timeline è l’elenco in ordine cronologico di tutte le date di creazione, ultima modifica e ultimo accesso (le cosiddette MAC times) di tutti i file del file system, compresi quelli cancellati di cui resta traccia. Il corso la definisce il “giornale di bordo” delle operazioni eseguite sul computer.\n\nSi usa nella fase di **analisi**, sulla copia forense, e i suoi risultati vengono poi interpretati nella fase di **valutazione**. Si ottiene con programmi come Autopsy, EnCase o FTK, oppure con gli strumenti a riga di comando di Sleuthkit.\n\nServe a ricostruire quando il computer è stato usato e che cosa è stato fatto, ad esempio:\n\n- nel caso dell’alibi informatico ha permesso di stabilire che il computer della vittima era stato usato fino alle 13:46;\n- nel caso di un dipendente sleale mostra la “lettura massiva” di centinaia di file in pochi secondi, indizio di una copia su chiavetta.\n\nBisogna però verificare lo scostamento dell’orologio del computer e ricordare che molte date cambiano per processi automatici (antivirus, indicizzazione, spegnimento) e che possono essere falsificate, ad esempio con il comando `touch`."
+  },
+  {
+   "n": 29,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "F66, 23/11/24",
+   "domanda": "Che cos’è la supertimeline? Che differenza c’è con la timeline normale?",
+   "concetti": [
+    "Timeline: solo le date del file system",
+    "Supertimeline: aggiunge metadati interni, registro, log degli eventi, browser, prefetch/LNK, email",
+    "Passa da 'quando i file sono stati toccati’ a 'cosa ha fatto l’utente’",
+    "Strumento: log2timeline/Plaso",
+    "Volume enorme: va filtrata e correlata"
+   ],
+   "risposta": "La timeline normale contiene solo le date registrate dal file system per ogni file, e dice quindi quando un file è stato creato, modificato o letto. La **supertimeline** aggiunge tutte le altre fonti di date presenti nel sistema:\n\n- i **metadati interni ai documenti**, come l’autore, la data di creazione del documento e l’ultima stampa;\n- i dati EXIF delle foto;\n- il **registro di Windows**, con i dispositivi USB collegati, i programmi eseguiti e i documenti recenti;\n- i **log degli eventi**, con accensioni, spegnimenti e accessi;\n- la **cronologia dei browser**;\n- i file di prefetch e i collegamenti (LNK) creati quando si apre un documento;\n- le email.\n\nSi passa così dal sapere quando i file sono stati toccati al ricostruire **che cosa ha fatto l’utente**. Si ottiene con strumenti come log2timeline/Plaso. È molto più completa, ma il volume di dati è enorme e va filtrato per intervalli di tempo e correlato con gli eventi significativi."
+  },
+  {
+   "n": 30,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "F20, Sabrina",
+   "domanda": "Che differenza c’è tra data di ultimo accesso e data di ultima modifica? Fare un esempio di come si possono utilizzare.",
+   "concetti": [
+    "Modifica = ultimo cambiamento del contenuto salvato",
+    "Accesso = ultima lettura, anche senza modifica",
+    "Esempio: lettura massiva + chiavetta USB (evento sentinella) = indizio di copia",
+    "Esempio: modifica anteriore alla creazione = file copiato da altro supporto",
+    "Cautele: aggiornamenti automatici, accesso disattivabile su NTFS, date falsificabili"
+   ],
+   "risposta": "La data di **ultima modifica** indica l’ultimo momento in cui il **contenuto** del file è stato cambiato e salvato. La data di **ultimo accesso** indica l’ultimo momento in cui il file è stato **letto in qualsiasi modo** (aperto, visualizzato, stampato, copiato), anche senza modificarlo.\n\nUn primo esempio è il **furto di dati da parte di un dipendente**. Se nella timeline centinaia di file aziendali hanno la data di ultimo accesso concentrata in pochi secondi, mentre la data di modifica è rimasta invariata, si è di fronte a una “lettura massiva”, compatibile con una copia: copiare un file significa leggerlo, non modificarlo. Se negli stessi secondi il registro di Windows mostra il collegamento di una chiavetta USB (un “evento sentinella”), l’indizio diventa forte.\n\nUn secondo esempio riguarda il riconoscimento delle **copie**. Copiando un file su un altro disco, la copia riceve come data di creazione il momento della copia ma conserva la data di modifica originale. Un file con la data di modifica anteriore alla data di creazione è quindi stato copiato da un altro supporto.\n\nVa sempre ricordato che la data di accesso viene aggiornata anche da processi automatici come antivirus e ricerca di Windows, che su NTFS il suo aggiornamento può essere disattivato e che tutte le date si possono falsificare. Vanno quindi incrociate con log, registro e metadati."
+  },
+  {
+   "n": 31,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "25/05",
+   "domanda": "Come posso sapere se e quando il file “lettera.doc” è stato aperto dall’utente?",
+   "concetti": [
+    "Data di ultimo accesso (se attiva)",
+    "File LNK e Jump List",
+    "Registro: documenti recenti/MRU di Office",
+    "Metadati interni del documento Word",
+    "File temporanei e salvataggi automatici di Word; prefetch e log",
+    "Incrociare in una supertimeline e valutare"
+   ],
+   "risposta": "Bisogna incrociare più fonti, perché nessuna basta da sola.\n\n1. La **data di ultimo accesso** del file, se il sistema la aggiorna.\n2. I **file di collegamento (LNK)** e le **Jump List** di Windows, che vengono creati quando l’utente apre un documento e ne conservano percorso e date anche se il file è stato poi cancellato o si trovava su una chiavetta.\n3. Il **registro di Windows**, che conserva gli elenchi dei documenti aperti di recente, anche quelli specifici di Office, con le date.\n4. I **metadati interni** del documento Word: data dell’ultimo salvataggio, dell’ultima stampa, numero di revisioni, tempo totale di modifica.\n5. I **file temporanei e di salvataggio automatico** che Word crea quando un documento è aperto, gli stessi usati nel caso dell’alibi informatico.\n6. Le tracce dell’avvio di Word (i file di prefetch) e i log di accensione e accesso.\n\nTutte queste date vanno inserite in una supertimeline e valutate, tenendo conto dello scostamento dell’orologio, delle aperture automatiche (antivirus, anteprime) e della possibilità di falsificazione."
+  },
+  {
+   "n": 32,
+   "argomento": "C",
+   "priorita": 2,
+   "fonti": "F30",
+   "domanda": "Quali strumenti si usano per l’analisi forense?",
+   "concetti": [
+    "Autopsy (open source)",
+    "EnCase e FTK",
+    "Internet Evidence Analyzer per le tracce web",
+    "Oxygen/UFED per mobile, P2 Commander per la posta",
+    "Plaso per supertimeline; macchine virtuali per sperimentare"
+   ],
+   "risposta": "Per l’analisi dei dischi:\n\n- **Autopsy**, gratuito e open source: analisi del file system, ricerche per parola chiave, timeline, recupero dei file cancellati;\n- **EnCase**, suite commerciale con timeline accurata, anteprima e linguaggio di script;\n- **FTK**, che indicizza tutto il contenuto per ricerche rapidissime e scompatta gli archivi.\n\nPer le tracce di Internet c’è **Internet Evidence Analyzer**, per i telefoni **Oxygen Forensics** e **Cellebrite UFED**, per la posta **P2 Commander**, e ci sono le piccole utility **NirSoft** per estrarre informazioni da Windows. Per le supertimeline si usa **log2timeline/Plaso**.\n\nFanno parte degli strumenti anche le macchine virtuali, usate per sperimentare senza toccare i reperti."
+  },
+  {
+   "n": 33,
+   "argomento": "C",
+   "priorita": 2,
+   "fonti": "F13",
+   "domanda": "Indicare un software per la ricerca per parola chiave, uno per l’acquisizione di un dispositivo mobile e uno per il traffico di rete.",
+   "concetti": [
+    "Keyword: FTK (o Autopsy/EnCase/grep)",
+    "Mobile: Cellebrite UFED (o Oxygen/XRY)",
+    "Rete: Wireshark"
+   ],
+   "risposta": "Per la ricerca per parola chiave **FTK**, che indicizza tutto il contenuto e rende le ricerche molto rapide (vanno bene anche Autopsy ed EnCase, o il comando `grep` su Linux). Per i dispositivi mobili **Cellebrite UFED** (in alternativa Oxygen Forensics o XRY). Per il traffico di rete **Wireshark**."
+  },
+  {
+   "n": 34,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "F34",
+   "domanda": "Che cos’è il data carving?",
+   "concetti": [
+    "Recupero dallo spazio non allocato senza usare l’indice",
+    "Riconoscimento di header e footer (es. JPEG FF D8 FF... FF D9, PDF, ZIP 'PK’)",
+    "Strumenti: PhotoRec, Scalpel, Foremost, Autopsy, FTK",
+    "Limiti: frammentazione, falsi positivi",
+    "Si perdono nome, percorso e date"
+   ],
+   "risposta": "Quando un file viene cancellato, o un disco viene formattato, il file system elimina la voce nell’indice ma i dati restano nei settori finché non vengono sovrascritti. Il data carving è la tecnica che recupera questi dati leggendo direttamente lo spazio non allocato del disco, **senza usare l’indice**, e riconoscendo i file dalla loro struttura. Ogni tipo di file ha un’intestazione caratteristica e spesso una chiusura: un’immagine JPEG inizia con `FF D8 FF` e finisce con `FF D9`, un PDF inizia con `%PDF` e finisce con `%%EOF`, un archivio ZIP inizia con `PK`. Il programma cerca queste firme ed estrae i dati compresi tra inizio e fine. Strumenti tipici sono PhotoRec, Scalpel, Foremost, Autopsy e FTK.\n\nIl carving ha tre limiti:\n\n1. funziona male con i file frammentati;\n2. produce falsi positivi;\n3. del file recuperato si perdono nome, percorso e date, che stavano nell’indice.\n\nQuest’ultimo limite conta in giudizio: un file recuperato con il carving non dice né quando né come sia arrivato sul disco."
+  },
+  {
+   "n": 35,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "F53, 27/01/24",
+   "domanda": "Inserendo in un software di analisi forense la stringa `[A-Z]{6}[0-9]{2}[ABCDEHLMPRST]{1}[0-9]{2}[A-Z]{1}[0-9]{3}[A-Z]{1}`, quali risultati si ottengono?",
+   "concetti": [
+    "È un’espressione regolare (regex)",
+    "Spiegare la sintassi: [A-Z], [0-9], {n}, insieme di caratteri",
+    "Descrive il codice fiscale (6 lettere, 2 cifre, mese ABCDEHLMPRST, giorno, comune, controllo)",
+    "Restituisce tutte le occorrenze con file e posizione, anche nei cancellati",
+    "Errori nella traccia, falsi positivi/negativi, revisione"
+   ],
+   "risposta": "La stringa è un’**espressione regolare**, cioè uno schema che descrive una struttura di caratteri invece di un testo preciso. `[A-Z]` indica una lettera maiuscola, `[0-9]` una cifra, l’elenco tra parentesi quadre uno dei caratteri indicati e il numero tra graffe quante volte l’elemento si ripete.\n\nLo schema descrive il **codice fiscale italiano**:\n\n- sei lettere (cognome e nome);\n- due cifre (anno di nascita);\n- una lettera che indica il mese, scelta solo tra A, B, C, D, E, H, L, M, P, R, S, T, cioè da gennaio a dicembre;\n- due cifre (giorno, aumentato di 40 per le donne);\n- una lettera e tre cifre (codice del comune di nascita);\n- una lettera di controllo.\n\nIl software restituisce quindi tutte le stringhe del disco che hanno la forma di un codice fiscale, con il file e la posizione in cui si trovano, anche nei file cancellati e nello spazio non allocato. Serve a individuare dati personali, ad esempio in un caso di sottrazione di elenchi di clienti.\n\nNella traccia d’esame lo schema contiene piccoli errori di scrittura (un `{0-9}` al posto di `[0-9]` e uno spazio), che conviene segnalare. I risultati vanno comunque rivisti, perché possono esserci falsi positivi (stringhe casuali con la stessa forma) e codici non trovati (scritti in minuscolo o con alcune cifre sostituite da lettere)."
+  },
+  {
+   "n": 36,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "F65",
+   "domanda": "Si deve verificare se un database di email contiene numeri di carte di credito. Come si procede?",
+   "concetti": [
+    "Copia forense dell’archivio con hash, lavorare sulla copia",
+    "Decodifica/indicizzazione degli allegati",
+    "Ricerca per regex (16 cifre a gruppi) con grep -E, non find",
+    "Parole chiave di supporto (carta, CVV, scadenza)",
+    "Riduzione dei falsi positivi: prefissi dei circuiti, algoritmo di Luhn, revisione",
+    "Documentare espressioni e hash per la ripetibilità"
+   ],
+   "risposta": "> **Attenzione** — Il file domande suggerisce il comando `find`, che però cerca i file per nome e attributi e non nel loro contenuto. Per cercare nel contenuto si usa `grep` con un’espressione regolare.\n\nSi parte da una copia forense dell’archivio di posta, con hash, e si lavora sulla copia. Gli allegati delle mail sono codificati e vanno decodificati e indicizzati, operazione che gli strumenti forensi fanno automaticamente.\n\nSi cerca poi per **schema**: un numero di carta è composto da sedici cifre, spesso in gruppi di quattro separati da spazi o trattini, e si descrive con un’espressione regolare, ad esempio:\n\n```\ngrep -E -r '[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}' /mnt/copia/\n```\n\nSi affianca una ricerca per parole chiave come “carta”, “credito”, “CVV” e “scadenza”.\n\nPer ridurre i falsi positivi si controllano:\n\n- i **prefissi dei circuiti** (le Visa iniziano con 4, le Mastercard con 51-55, le American Express con 34 o 37);\n- la **cifra di controllo**, con l’algoritmo di Luhn;\n- infine si rivedono i risultati a mano.\n\nStrumenti come FTK hanno anche schemi già pronti per le carte di credito. Per garantire la ripetibilità si documentano l’hash della copia e le espressioni usate."
+  },
+  {
+   "n": 37,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "F12",
+   "domanda": "Come consulente tecnico d’ufficio in una causa civile devi verificare se 10.000 file dell’attore sono stati copiati sul computer del convenuto. Come procedi?",
+   "concetti": [
+    "Operare in contraddittorio con i CTP",
+    "Copia forense del disco del convenuto con write blocker e hash",
+    "Hash set dei 10.000 file e confronto con tutti i file (anche cancellati e in archivi)",
+    "Per i file modificati: nome, dimensione, metadati, frasi, hash per somiglianza",
+    "Ricostruire quando e come sono arrivati (date, USB, email, cloud)",
+    "Relazione con elenco, metodo, limiti e grado di certezza"
+   ],
+   "risposta": "Opero in contraddittorio, alla presenza dei consulenti delle parti.\n\nFaccio una copia forense del disco del convenuto con write blocker e hash, e lavoro sulla copia. Calcolo l’hash di ciascuno dei 10.000 file dell’attore, costruendo un **elenco di riferimento** (hash set). Calcolo poi l’hash di tutti i file presenti sul disco del convenuto, compresi quelli cancellati recuperati con il carving e quelli contenuti in archivi compressi, e confronto: le corrispondenze sono copie esatte.\n\nSiccome un file rinominato non cambia hash ma un file modificato sì, per individuare le copie modificate cerco anche per nome, dimensione, metadati interni (autore, titolo, data di creazione del documento) e frasi caratteristiche. Uso anche tecniche di “hash per somiglianza” che misurano quanto due file si assomigliano.\n\nInfine ricostruisco quando e come i file sono arrivati sul disco: date di creazione posteriori a quelle di modifica (segno di copia), collegamenti di chiavette USB, email, servizi cloud. La relazione elenca i file trovati con percorso, hash, date, stato (presente o cancellato) e metodo di individuazione, insieme ai limiti dell’analisi e al grado di certezza."
+  },
+  {
+   "n": 38,
+   "argomento": "C",
+   "priorita": 3,
+   "fonti": "F54, 27/01/24",
+   "domanda": "Al fine di individuare i file in violazione del diritto d’autore contenenti “la Divina Commedia” presenti nel computer etichettato “SUSPECT”, indicare i passaggi fino alla relazione.",
+   "concetti": [
+    "Identificazione: foto, dati del computer, catena di custodia, altri supporti",
+    "Live o post mortem a seconda dello stato",
+    "Acquisizione: write blocker, immagine bit a bit, hash, sigillo, copie alle parti",
+    "Analisi: inventario anche dei cancellati e degli archivi, keyword con varianti, hash, signature analysis, P2P, timeline",
+    "Valutazione: falsi positivi, cancellati vs presenti, pubblico dominio vs edizioni protette",
+    "Relazione con elenco dei file (percorso, hash, date, stato) e metodo"
+   ],
+   "risposta": "La domanda chiede il metodo, non i nomi dei programmi, quindi seguo le fasi del trattamento.\n\nNella fase di **identificazione** fotografo il computer e il suo stato, annoto marca, modello e numero di serie, apro la catena di custodia e verifico se ci sono altri supporti collegati o account cloud da considerare. Se il computer è acceso valuto un’acquisizione live in contraddittorio; se è spento non lo accendo.\n\nNella fase di **acquisizione** estraggo il disco e lo collego a un write blocker, oppure avvio il computer con una distribuzione forense. Creo un’immagine bit per bit su un disco di destinazione sottoposto a wiping, calcolo l’hash dell’originale e della copia, applico il sigillo elettronico, verbalizzo e preparo una copia per ciascuna parte. L’originale resta come master intoccato.\n\nNella fase di **analisi**, lavorando sulla copia in sola lettura:\n\n- inventario tutti i file, compresi quelli cancellati, i frammenti nello slack e quelli dentro archivi compressi;\n- cerco per **parole chiave** con varianti (“Divina Commedia”, “Dante Alighieri”, “Nel mezzo del cammin di nostra vita”, “Inferno, Canto I”) in tutti i formati (testo, PDF, Word, ebook, file audio con i loro metadati);\n- confronto gli **hash** con quelli di copie note delle edizioni protette;\n- verifico con la **signature analysis** le estensioni false;\n- controllo la presenza di **programmi di condivisione** (peer-to-peer) e cartelle condivise, per capire se c’è stata anche diffusione;\n- costruisco la **timeline** per sapere quando e da dove i file sono arrivati.\n\nNella fase di **valutazione** elimino i falsi positivi (un documento che cita un verso non è l’opera) e distinguo i file presenti da quelli cancellati, che pongono il problema della disponibilità per l’utente. Esprimo il grado di certezza. Va anche notato che il testo di Dante è di pubblico dominio: la violazione riguarda edizioni protette come commenti, curatele, traduzioni, audiolibri ed ebook commerciali, e questo va chiarito nella relazione.\n\nNella **relazione** descrivo metodo e strumenti ed elenco i file con percorso, nome, dimensione, hash, date e stato, indicando come ciascuno è stato individuato, i limiti dell’analisi e le conclusioni."
+  },
+  {
+   "n": 39,
+   "argomento": "D",
+   "priorita": 3,
+   "fonti": "F2",
+   "domanda": "Che cos’è lo slack space?",
+   "concetti": [
+    "Il file system assegna lo spazio a cluster interi",
+    "Slack = spazio tra la fine del file e la fine dell’ultimo cluster",
+    "Contiene residui di file precedenti (esempio Promessi sposi / Divina commedia)",
+    "Invisibile all’utente, non copiato dal copia-incolla, si analizza su copia forense",
+    "I frammenti non hanno date né appartenenza certa"
+   ],
+   "risposta": "Il file system assegna lo spazio ai file a blocchi interi, chiamati cluster (ad esempio 4 KB). Un file raramente riempie esattamente l’ultimo blocco che occupa. Lo spazio rimasto tra la fine del file e la fine del blocco è lo **slack space**. Non viene azzerato e conserva ciò che c’era prima in quel blocco, cioè **residui di file precedentemente cancellati o sovrascritti**: frammenti di testo, di immagini, di mail.\n\nL’esempio del corso: se un file “Divina commedia.txt” viene scritto sopra lo spazio di un file cancellato “Promessi sposi.txt”, in fondo all’ultimo blocco sopravvive il frammento “...a mezzogiorno” del vecchio testo.\n\nLo slack non è visibile all’utente e non viene copiato dal copia-incolla. Si analizza solo su una copia forense, con ricerche per parole chiave e carving. In valutazione bisogna ricordare che i frammenti nello slack non hanno date e non appartengono con certezza a un file preciso."
+  },
+  {
+   "n": 40,
+   "argomento": "D",
+   "priorita": 3,
+   "fonti": "F7, 14/01/23",
+   "domanda": "Simulare una presentazione processuale in cui si spiega perché da un disco formattato si possono recuperare i dati.",
+   "concetti": [
+    "Metafora: cassetti (settori) e schedario (indice)",
+    "Cancellazione e formattazione eliminano le schede, non svuotano i cassetti",
+    "I dati restano finché non vengono sovrascritti",
+    "Data carving: lettura cassetto per cassetto riconoscendo la forma dei file",
+    "Limiti: sovrascritture, perdita di nomi e date; solo il wiping cancella davvero; SSD/TRIM"
+   ],
+   "risposta": "Signor Giudice, provo a spiegarlo con un’immagine. Pensi al disco come a un grande archivio fatto di migliaia di cassetti numerati, e al sistema che lo gestisce come allo schedario all’ingresso, che dice in quali cassetti si trova ogni pratica. Quando un utente cancella un file, o formatta il disco, il computer non svuota i cassetti: si limita a buttare via le schede dello schedario e a considerare quei cassetti liberi. Le pratiche restano dove sono, finché qualcuno non ci mette dentro altro, cioè finché quei punti del disco non vengono sovrascritti da nuovi dati.\n\nCon strumenti forensi possiamo leggere il disco cassetto per cassetto, senza usare lo schedario, e riconoscere i documenti dalla loro forma, perché ogni tipo di file ha un inizio e una fine caratteristici. È la tecnica chiamata data carving, ed è così che abbiamo recuperato quei documenti.\n\nIl recupero non è sempre completo: se nel frattempo il disco è stato usato, alcune parti possono essere state sovrascritte. Inoltre dei file recuperati perdiamo il nome e le date, che stavano nello schedario. L’unico modo per cancellare davvero è riscrivere tutti i cassetti, operazione chiamata wiping, che una normale formattazione non fa.\n\nPer completezza va detto che sui dischi a stato solido (SSD) il disco stesso può azzerare in automatico gli spazi liberati, e che alcune formattazioni “complete” scrivono zeri su tutto il disco: in questi casi il recupero può non essere possibile."
+  },
+  {
+   "n": 41,
+   "argomento": "D",
+   "priorita": 2,
+   "fonti": "F57",
+   "domanda": "In quale campo si parla di ext3?",
+   "concetti": [
+    "Si parla di file system (Linux)",
+    "ext3 = ext2 + journaling",
+    "Journaling: registro delle modifiche in corso per restare coerenti dopo un crash",
+    "Utilità forense: recupero dati, date, tracce nel journal"
+   ],
+   "risposta": "Si parla di ext3 nel campo dei **file system**, cioè delle strutture con cui un sistema operativo organizza i dati su disco. ext3 è il terzo file system della famiglia “extended” usata da **Linux**, e corrisponde a **ext2 con l’aggiunta del journaling**: un registro in cui il file system annota le modifiche che sta per fare, così da tornare in uno stato coerente dopo uno spegnimento improvviso. Per l’informatico forense conoscerlo serve a recuperare i dati cancellati, a interpretare le date e a sfruttare il journal, che può contenere tracce di file già cancellati o modificati."
+  },
+  {
+   "n": 42,
+   "argomento": "D",
+   "priorita": 2,
+   "fonti": "F25",
+   "domanda": "Che cosa fanno i comandi pwd, ls, dd e mkdir?",
+   "concetti": [
+    "pwd: mostra la cartella corrente",
+    "ls: elenca il contenuto (-l dettagli, -a nascosti)",
+    "dd: copia bit a bit (clone, immagine, wiping)",
+    "mkdir: crea una cartella"
+   ],
+   "risposta": "- `pwd` (print working directory) mostra il percorso della cartella in cui ci si trova.\n- `ls` elenca il contenuto di una cartella: con l’opzione `-l` mostra i dettagli (permessi, proprietario, dimensione, data di ultima modifica), con `-a` anche i file nascosti.\n- `dd` copia i dati bit per bit da una sorgente (`if=`) a una destinazione (`of=`) ed è usato per clonare dischi, creare immagini forensi ed eseguire il wiping.\n- `mkdir` crea una nuova cartella."
+  },
+  {
+   "n": 43,
+   "argomento": "D",
+   "priorita": 3,
+   "fonti": "25/05",
+   "domanda": "Quali sono le probabilità di recuperare interamente un file ZIP di 10 MB di cui sono stati sovrascritti 100 byte, se in precedenza era stata fatta un’acquisizione forense?",
+   "concetti": [
+    "Con copia forense fatta prima: recupero al 100% dalla copia",
+    "La copia 'congela’ il disco: ciò che accade dopo all’originale non la tocca",
+    "Senza copia: ZIP compresso, pochi byte rovinano il file interno colpito",
+    "Si possono salvare gli altri file dello ZIP compressi separatamente"
+   ],
+   "risposta": "La parola chiave è “in precedenza”. Se la copia forense è stata fatta **prima** della sovrascrittura, nella copia lo ZIP è intatto e lo si recupera **al 100%**, salvo che fosse già danneggiato al momento dell’acquisizione. La copia ha “congelato” il disco, e ciò che succede dopo all’originale non la tocca: è proprio la ragione per cui si acquisisce subito.\n\nSenza una copia precedente, invece, il recupero integrale sarebbe praticamente impossibile. Uno ZIP è compresso, e anche pochi byte sovrascritti rendono illeggibile il resto del file interno colpito (il controllo di integrità non torna). Si potrebbero salvare solo gli altri file contenuti nello ZIP, che sono compressi separatamente, se le loro parti sono intatte."
+  },
+  {
+   "n": 44,
+   "argomento": "D",
+   "priorita": 2,
+   "fonti": "25/05",
+   "domanda": "Hai uno ZIP protetto da password, il sospettato non collabora e hai la copia forense dell’intero disco. Come procedi senza usare la forza bruta?",
+   "concetti": [
+    "Cercare la password sul disco (browser, password manager, note, email, pagefile/hiberfil, non allocato)",
+    "Cercare i file originali con stesso nome, dimensione e CRC",
+    "Attacco a testo in chiaro noto (ZipCrypto, non AES)",
+    "Dizionario personalizzato dalle parole del disco",
+    "Social engineering e altri dispositivi/account; documentare"
+   ],
+   "risposta": "Sfrutto il fatto di avere tutto il disco, su cui ci sono molte informazioni che possono sostituire la forza bruta.\n\n**Cerco la password.** Può trovarsi:\n\n- tra le password salvate nei browser o in un password manager;\n- in documenti, note, email o chat;\n- nel file di paging o di ibernazione, che contengono porzioni di memoria e quindi a volte password digitate;\n- nello spazio non allocato.\n\n**Cerco i file originali.** Anche quando è protetto, uno ZIP mostra i nomi, le dimensioni e, con la cifratura tradizionale, il codice di controllo CRC dei file che contiene. Cerco sul disco, anche tra i cancellati e i temporanei, file con lo stesso nome, la stessa dimensione e lo stesso CRC: se li trovo, ho il contenuto senza aprire lo ZIP.\n\n**Uso un attacco “a testo in chiaro noto”.** Se lo ZIP usa la vecchia cifratura ZipCrypto e trovo sul disco anche solo uno dei file contenuti, programmi specifici possono ricavare le chiavi interne e decifrare tutto senza conoscere la password. Con la cifratura AES questo non funziona.\n\n**Costruisco un dizionario personalizzato.** Non è forza bruta, perché uso parole tratte dal disco stesso dell’indagato: nomi di familiari, date, password già trovate per altri servizi (le persone tendono a riutilizzarle).\n\nIl corso cita anche il **social engineering** e la ricerca su altri dispositivi o account dell’indagato. Ogni passo va documentato in modo ripetibile."
+  },
+  {
+   "n": 45,
+   "argomento": "E",
+   "priorita": 2,
+   "fonti": "F23",
+   "domanda": "Si dia una definizione di mobile forensics.",
+   "concetti": [
+    "Definizione DFRWS 2001: metodi scientifici per identificazione, raccolta, conservazione, validazione, analisi, interpretazione, documentazione, presentazione",
+    "Oggetto: prove nei dispositivi mobili",
+    "Il mobile è un sistema informatico a tutti gli effetti: stesse cautele",
+    "Più complessa per varietà di modelli e perché non si ottiene una vera copia forense"
+   ],
+   "risposta": "La mobile forensics è la branca dell’informatica forense che applica metodi scientificamente provati all’identificazione, raccolta, conservazione, validazione, analisi, interpretazione, documentazione e presentazione delle prove digitali contenute nei dispositivi mobili (smartphone, tablet, telefoni, SIM), per ricostruire i fatti. È la definizione del primo workshop internazionale DFRWS del 2001.\n\nIl presupposto è che un dispositivo mobile è un **sistema informatico a tutti gli effetti**: ha sistemi operativi, memorie, comunica in rete e tratta dati digitali, quindi richiede le stesse cautele di un computer. È però più complessa per l’estrema varietà di modelli, sistemi e applicazioni, e perché in genere non si ottiene una vera copia forense come per i dischi."
+  },
+  {
+   "n": 46,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "F61",
+   "domanda": "Quali sono le modalità di acquisizione di un dispositivo mobile?",
+   "concetti": [
+    "Acquisizione logica (interfacce/backup): dati visibili",
+    "Acquisizione fisica: dump della memoria, dati grezzi",
+    "Tramite agent: più della logica ma altera il reperto",
+    "Fotografica: foto/video dello schermo",
+    "Tecniche invasive (JTAG, chip-off) e limite della cifratura",
+    "Isolamento dalla rete, documentazione, non è una vera copia forense"
+   ],
+   "risposta": "Il corso ne indica quattro.\n\n- **Acquisizione logica**: il telefono si collega al computer e si usano le interfacce del sistema o del produttore, come la funzione di backup. Si ottengono i dati visibili all’utente e talvolta alcuni dati cancellati.\n- **Acquisizione fisica**: con strumenti hardware e software si estrae la sequenza di bit della memoria, poi la si interpreta. È la più completa.\n- **Acquisizione tramite agent**: si installa sul telefono un piccolo programma che estrae i dati. Dà più informazioni della logica ma meno della fisica, e **altera il reperto**.\n- **Acquisizione fotografica**: si fotografa o si filma lo schermo mentre si scorrono i contenuti, quando nient’altro funziona.\n\nQuando anche queste falliscono esistono tecniche invasive come la lettura diretta della memoria tramite i punti di test della scheda (JTAG) o l’estrazione del chip (chip-off), che però è distruttiva e, sui telefoni recenti con memoria cifrata, spesso inutile.\n\nIn ogni caso il telefono va isolato dalla rete, ogni operazione va documentata, si calcola l’hash dei dati estratti, e si ricorda che il risultato non è una copia forense in senso stretto. Molti dati si trovano anche altrove: tabulati, telefono dell’interlocutore, backup, cloud."
+  },
+  {
+   "n": 47,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "F3, F4, 14/01/23",
+   "domanda": "Un cellulare non viene riconosciuto da UFED (o da nessun software). Come si possono acquisire i dati, ad esempio tre immagini che una persona vuole produrre in giudizio?",
+   "concetti": [
+    "Altri software o UFED in altra modalità/aggiornato",
+    "Backup locale o cloud del telefono",
+    "Esportazione delle tre immagini con hash e conservazione degli EXIF",
+    "Acquisizione fotografica documentata",
+    "Tecniche invasive come ultima risorsa",
+    "Prodotte dalla parte: meglio acquisizione da terzi o in contraddittorio"
+   ],
+   "risposta": "Procederei dalla soluzione meno invasiva alla più invasiva.\n\n1. Provare **altri programmi** forensi (Oxygen, XRY, AXIOM), oppure UFED in un’altra modalità o aggiornato.\n2. Fare un **backup** del telefono sul computer, o recuperare il **backup cloud** (iCloud, Google), e analizzarlo.\n3. Per le sole tre immagini: **esportarle** dal telefono verso un computer forense con funzioni del telefono stesso (cavo come archivio di massa, Bluetooth, email), calcolando l’hash dei file e verificando che i metadati (EXIF con data e luogo dello scatto) siano conservati. Se possibile si acquisiscono le stesse immagini anche dal dispositivo di chi le ha inviate o ricevute.\n4. Ricorrere all’**acquisizione fotografica**, fotografando o filmando le immagini e le loro proprietà sullo schermo, con documentazione accurata.\n5. Come ultima risorsa, le tecniche **invasive** come JTAG o chip-off, che sono irripetibili e spesso inutili sui telefoni cifrati.\n\nVa anche ricordato che le immagini sono prodotte dalla **parte interessata**, quindi la controparte potrà contestarle invocando la presunzione di ripudio. È preferibile che l’acquisizione sia fatta da un terzo o in contraddittorio."
+  },
+  {
+   "n": 48,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "F62, F63",
+   "domanda": "Come si acquisisce un messaggio WhatsApp da un telefono con il connettore rotto, oltre a fotografarlo?",
+   "concetti": [
+    "Riparare/sostituire il connettore e usare UFED",
+    "Acquisizione senza cavo (Wi-Fi/Bluetooth)",
+    "Backup WhatsApp su Drive/iCloud ripristinato su telefono forense",
+    "Esporta chat; WhatsApp Web acquisito come pagina web forense",
+    "Telefono dell’interlocutore; invasive come ultima risorsa"
+   ],
+   "risposta": "La prima strada è **riparare o sostituire il connettore**, un intervento di solito poco invasivo, e poi procedere con UFED. Si possono provare acquisizioni **senza cavo**, via Wi-Fi o Bluetooth, se lo strumento le supporta.\n\nCi sono poi diverse strade alternative:\n\n- il **backup di WhatsApp** su Google Drive o iCloud: con le credenziali lo si può ripristinare su un secondo telefono forense e acquisire da lì (serve però ricevere il codice di verifica sul numero, quindi la SIM);\n- la funzione “**Esporta chat**” dell’app, che produce un file di testo con i messaggi e gli allegati;\n- **WhatsApp Web**: dal computer si apre la chat e la si acquisisce come una pagina web, con la procedura forense (macchina virtuale, video, cattura del traffico, hash e marca temporale);\n- il **telefono dell’interlocutore**, che contiene la stessa conversazione.\n\nCome ultima risorsa restano le tecniche invasive, con il limite della cifratura."
+  },
+  {
+   "n": 49,
+   "argomento": "E",
+   "priorita": 2,
+   "fonti": "F39",
+   "domanda": "Come si valuta l’attendibilità dei dati trovati su un dispositivo mobile?",
+   "concetti": [
+    "I dati mobili sono facilmente falsificabili (Fake Text Message, Nokia, SpoofCard)",
+    "Un solo messaggio prodotto da una parte è una prova debole (Casey C2)",
+    "Riscontro con il tabulato (ma il trucco della sostituzione: il tabulato non ha il contenuto)",
+    "Confronto tra telefono del mittente e del destinatario",
+    "Ricerca di app di falsificazione e coerenza dei dati; chi usava il telefono"
+   ],
+   "risposta": "I dati di un telefono sono facili da falsificare. Il corso mostra un’app gratuita, “Fake Text Message”, che crea SMS falsi scegliendo mittente, data, ora, cartella e testo, indistinguibili da quelli veri anche nei dettagli del messaggio. Lo stesso si poteva fare già anni fa su un vecchio Nokia, e servizi come SpoofCard falsificano il numero di chi chiama.\n\nUn singolo messaggio mostrato da una parte è quindi una prova debole. Per valutarlo bisogna:\n\n- verificare come è stato acquisito, possibilmente in contraddittorio;\n- cercare **riscontri esterni**: il **tabulato** dell’operatore, dove un SMS creato con un’app non compare. Attenzione però al trucco di sostituire il testo di un SMS realmente scambiato: il tabulato ne registra l’esistenza ma non il contenuto. La verifica più sicura resta il **confronto tra il telefono del mittente e quello del destinatario**;\n- cercare tracce di **app di falsificazione**;\n- controllare la coerenza interna dei dati.\n\nBisogna infine chiedersi chi usava davvero quel telefono."
+  },
+  {
+   "n": 50,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "F68",
+   "domanda": "Come funzionano le BTS? Irradiano il segnale in tutte le direzioni?",
+   "concetti": [
+    "La BTS fornisce la copertura radio a una cella; controllata da un BSC",
+    "L’operatore registra la cella usata per chiamate/SMS",
+    "Omnidirezionali (360°) o settoriali (3 settori da 120°, Cell ID e azimut)",
+    "Copertura reale irregolare e sovrapposta",
+    "Settore/azimut e misure sul campo restringono l’area"
+   ],
+   "risposta": "La BTS (Base Transceiver Station, stazione radio base) è l’apparato con le antenne a cui si collegano i telefoni: fornisce la copertura radio a una porzione di territorio, la cella, e gestisce i canali di comunicazione. Più BTS sono controllate da un BSC (Base Station Controller), collegato alla centrale che smista le chiamate. Quando un telefono fa o riceve una chiamata o un SMS, l’operatore registra la cella a cui era collegato, e questo permette una localizzazione approssimativa.\n\nNon tutte le BTS irradiano in tutte le direzioni:\n\n- alcune sono **omnidirezionali**, con copertura a 360°;\n- più spesso sono **settoriali**: tipicamente tre antenne, ciascuna rivolta verso un settore di circa 120°, con un proprio identificativo di cella e una direzione di puntamento (azimut).\n\nLa copertura reale è irregolare, perché dipende da colline, edifici e carico della rete, e le celle si sovrappongono: in un punto si ricevono più BTS. Per questo il collegamento a una cella non dice dove fosse esattamente il telefono. Conoscere il settore e l’azimut, chiedendoli all’operatore, e fare misure sul campo permette di restringere l’area."
+  },
+  {
+   "n": 51,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "F10",
+   "domanda": "Che cos’è la linea di handover?",
+   "concetti": [
+    "Handover: passaggio a una cella con segnale migliore oltre una soglia",
+    "Linea di handover: confine dove i segnali di due BTS si equivalgono",
+    "Permette di dire da che parte si trovava il telefono e ricostruire spostamenti",
+    "Prima approssimazione equidistante; va misurata sul campo (non è una retta)",
+    "Criterio prudente (condizione più sfavorevole, sensi unici, mura)"
+   ],
+   "risposta": "Quando un telefono si sposta, a un certo punto il segnale di una cella vicina supera quello della cella a cui è collegato oltre una soglia, e il telefono passa alla nuova cella: è l’handover. La **linea di handover** è la linea, in realtà una fascia, che separa le zone servite da due BTS vicine, dove i loro segnali si equivalgono.\n\nTracciata su una mappa permette di dire che, al momento di un evento registrato su una certa cella, il telefono si trovava da quella parte della linea. Combinata con le strade percorribili e con i tempi di percorrenza, permette di ricostruire gli spostamenti.\n\nIn prima approssimazione la si traccia a metà strada tra le due antenne, supponendo che abbiano la stessa potenza e che non ci siano ostacoli. Questa approssimazione però non regge in aula: la linea va determinata **sul campo con misuratori di segnale**, percorrendo le strade reali, e la linea misurata non è più una retta. Va anche tracciata con criterio prudente: nel caso dell’alibi informatico il perito scelse la condizione più sfavorevole per l’imputato, tenendo conto delle vie a senso unico e dell’effetto schermante delle mura cittadine."
+  },
+  {
+   "n": 52,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "F69, 23/11/24",
+   "domanda": "Spiegare l’handover e illustrare un caso pratico.",
+   "concetti": [
+    "Salvataggio: calo del segnale, movimento",
+    "Confinamento: cella affollata, aggancio anche di celle lontane",
+    "Sconfinamento: segnale oltre l’area teorica",
+    "Caso pratico alibi: PC usato fino alle 13:46 (file delle 13:48 dopo 2 minuti di inattività)",
+    "Celle 12:40, 13:42, 14:13, 14:29; linee di handover, tempi a ritroso, uscita alle 13:35",
+    "Alle 13:46 l’imputato era a circa 8 km: alibi"
+   ],
+   "risposta": "L’handover è il passaggio di un telefono da una cella all’altra.\n\n- L’**handover di salvataggio** avviene quando il segnale scende sotto una soglia, tipicamente durante un viaggio, e permette di proseguire la comunicazione in movimento.\n- L’**handover di confinamento** avviene quando una cella è troppo affollata, ad esempio in centro città o durante un evento sportivo, e il telefono passa a una cella meno carica, che può essere **anche molto lontana** dal punto in cui si trova.\n- Si parla poi di **sconfinamento** quando il segnale di una cella arriva ben oltre la sua area teorica.\n\nIl caso pratico del corso è quello dell’**alibi informatico**. Bisognava stabilire se l’imputato potesse aver ucciso Paolo Tizio nel suo studio.\n\n- La timeline del computer della vittima mostrava che il PC era stato usato fino alle **13:46**. Secondo gli appunti integrativi, un file di sistema creato alle 13:48, che Windows genera dopo due minuti di inattività, fissava l’ultimo utilizzo.\n- I tabulati del telefono dell’imputato mostravano celle in città alle 12:40 e alle 13:42, e celle fuori città alle 14:13 e alle 14:29.\n- Il perito tracciò le linee di handover tenendo conto di sensi unici e mura, stabilì che alle 14:13 il telefono era sulla strada provinciale 64 e, con i tempi di percorrenza calcolati a ritroso, concluse che l’imputato era uscito dallo studio alle 13:35.\n\nAlle 13:46, quando qualcuno usava ancora il PC, l’imputato era già a circa 8 km: computer e telefono insieme gli davano l’alibi."
+  },
+  {
+   "n": 53,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "23/11/24",
+   "domanda": "Esempi di affermazioni vero/falso sull’handover.",
+   "concetti": [
+    "Una BTS non prova vicinanza all’antenna (falso)",
+    "Il tabulato non indica il tipo di handover (falso)",
+    "Salvataggio tipico di chi si sposta (vero); confinamento per sovraccarico (vero)",
+    "Linea teorica ≠ reale; celle non esagonali (falso)",
+    "Più BTS ricevibili in un punto (vero); tabulato solo eventi di traffico"
+   ],
+   "risposta": "- “Il collegamento a una BTS dimostra che il telefono era a poche centinaia di metri dall’antenna”: **falso**, le celle sono ampie e sovrapposte, e il confinamento può far agganciare celle lontane.\n- “Il tabulato indica se l’handover è di salvataggio o di confinamento”: **falso**, riporta solo la cella e l’orario degli eventi.\n- “L’handover di salvataggio è tipico di chi si sposta”: **vero**.\n- “L’handover di confinamento avviene quando una cella è sovraccarica, ad esempio durante un evento sportivo”: **vero**.\n- “La linea di handover teorica coincide con quella reale”: **falso**, va misurata sul campo.\n- “Le celle reali hanno forma esagonale”: **falso**, l’esagono è solo la rappresentazione schematica; le celle reali sono irregolari.\n- “In un punto si può ricevere il segnale di più BTS”: **vero**.\n- “Il tabulato registra la posizione del telefono anche quando non ci sono chiamate o messaggi”: **falso**, registra solo gli eventi di traffico."
+  },
+  {
+   "n": 54,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "F51, 27/01/24",
+   "domanda": "In un caso di rapimento un telefono aggancia antenne distanti tra loro molti chilometri nel tragitto da Napoli a Venezia. Che tipo di handover si è verificato? Il tabulato lo chiarisce?",
+   "concetti": [
+    "Handover di salvataggio (spostamento lungo il tragitto)",
+    "Antenne lontane normali fuori città (celle grandi)",
+    "Il tabulato non lo chiarisce: solo data, ora, evento e cella",
+    "Si deduce da sequenza, orari, percorso e tempi",
+    "Riscontri: pedaggi, telecamere, pagamenti"
+   ],
+   "risposta": "Si tratta di un **handover di salvataggio**. Il telefono si sposta lungo il tragitto, il segnale della cella a cui è collegato si indebolisce sotto la soglia e il telefono passa alla cella successiva con segnale migliore. Che le antenne siano molto distanti tra loro è normale fuori dalle città, dove le celle coprono anche decine di chilometri.\n\nIl tabulato **non lo chiarisce**: per ogni evento di traffico riporta soltanto data, ora, tipo di evento e cella, ma non il tipo di handover né la potenza del segnale. Il tipo di handover si **deduce** dalla sequenza delle celle, dagli orari e dalla compatibilità con un percorso (autostrada, ferrovia) e con i tempi di percorrenza. Va riscontrato con altri elementi come pedaggi, telecamere e pagamenti. Gli handover avvengono durante le chiamate, ma il tabulato registra solo la cella di inizio (e talvolta di fine) dell’evento."
+  },
+  {
+   "n": 55,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "25/05",
+   "domanda": "Omicidio a Milano alle 20; alle 22 il tabulato del sospettato mostra una BTS svizzera nella zona di Lugano. Il consulente della difesa sostiene che si tratta di un “handover di sconfinamento” dall’ultima BTS italiana. Come intervieni?",
+   "concetti": [
+    "La tesi dello sconfinamento è plausibile: va verificata",
+    "Verifiche: dati delle celle, misure sul campo al confine, sequenza delle celle, roaming, riscontri",
+    "Punto decisivo: anche se vera, è compatibile con la presenza a Milano alle 20 (50-60 km)",
+    "Per l’alibi contano gli eventi intorno alle 20; il vuoto non prova nulla",
+    "Conclusione in termini di compatibilità; telefono ≠ titolare"
+   ],
+   "risposta": "La tesi della difesa è che il telefono si trovasse ancora in Italia, vicino al confine, ma avesse agganciato una cella svizzera il cui segnale “sconfina” oltre la frontiera. È tecnicamente plausibile, soprattutto sui laghi e lungo il confine con il Canton Ticino, quindi non va negata a priori ma **verificata**:\n\n- si chiedono agli operatori la posizione, i settori e l’azimut delle celle coinvolte;\n- si fanno **misure sul campo** con misuratori di segnale lungo le strade italiane vicino al confine, per vedere se e dove quella cella svizzera è ricevibile;\n- si analizza la sequenza completa delle celle prima e dopo le 22, e la registrazione del telefono sulla rete estera (roaming);\n- si cercano riscontri come pedaggi, passaggi ai valichi, telecamere e pagamenti.\n\nIl punto decisivo però è logico: **anche se lo sconfinamento fosse vero, non scagionerebbe il sospettato**. Trovarsi vicino al confine svizzero alle 22 è perfettamente compatibile con l’essere stato a Milano alle 20, perché la distanza è di circa 50-60 km, meno di un’ora di auto. Lo sconfinamento sposta il telefono di qualche chilometro, non lo rende incompatibile con la presenza sulla scena del delitto due ore prima. Per l’alibi conta ciò che il tabulato dice intorno alle 20. Se non ci sono eventi, quel vuoto non prova nulla, e va ricordato che il telefono non è necessariamente sempre con il suo titolare.\n\nLa conclusione si esprime in termini di compatibilità: il dato è compatibile sia con la presenza in Svizzera sia con la presenza vicino al confine italiano, e in entrambi i casi non è incompatibile con la presenza a Milano alle 20."
+  },
+  {
+   "n": 56,
+   "argomento": "E",
+   "priorita": 3,
+   "fonti": "F56, 23/11/24",
+   "domanda": "Se nel tabulato di un telefono c’è un intervallo vuoto, come si valuta?",
+   "concetti": [
+    "Il tabulato registra solo eventi di traffico",
+    "Un vuoto significa solo assenza di eventi: assenza di prova ≠ prova di assenza",
+    "Spiegazioni: nessun contatto, telefono spento/aereo, app via Wi-Fi, dati mancanti",
+    "Verifiche: tabulato completo, acquisizione del telefono",
+    "Riscontri esterni (telecamere, pagamenti, pedaggi)"
+   ],
+   "risposta": "Il tabulato registra solo gli **eventi di traffico** (chiamate, SMS, sessioni dati) con la cella attiva in quel momento. Un intervallo vuoto significa soltanto che **non ci sono stati eventi registrati**. Non significa che il telefono fosse spento o fuori copertura, né che la persona fosse ferma: assenza di prova non è prova di assenza.\n\nLe spiegazioni possibili sono molte:\n\n- semplicemente nessuno ha chiamato o scritto;\n- il telefono era spento, scarico o in modalità aereo;\n- la persona usava app di messaggistica collegata al **Wi-Fi**, che non lasciano traccia nel tabulato dell’operatore;\n- mancano dati per un errore o per una richiesta incompleta.\n\nPer valutare il vuoto si chiede all’operatore il tabulato completo, anche del traffico dati, e si acquisisce il telefono: registri delle app, reti Wi-Fi a cui si è collegato, accensioni e spegnimenti, foto con posizione, cronologia delle posizioni. Si cercano poi riscontri esterni come telecamere, pagamenti, pedaggi e testimoni. Senza questi elementi il vuoto non può essere usato né a favore né contro l’interessato."
+  },
+  {
+   "n": 57,
+   "argomento": "F",
+   "priorita": 2,
+   "fonti": "F36",
+   "domanda": "Si dia una definizione di network forensics.",
+   "concetti": [
+    "Identificare, preservare e analizzare dati in transito in una rete",
+    "Monitoraggio e analisi del traffico",
+    "Lavora mentre l’evento accade: alto rischio di perdita",
+    "Strumenti: correlazione dei log, cattura del traffico, ricerca di sniffer/controllo remoto",
+    "Limite di legittimità; operazioni su tutti i sistemi coinvolti"
+   ],
+   "risposta": "La network forensics è la branca dell’informatica forense che si occupa di identificare, preservare e analizzare dati informatici che possono avere valore probatorio **mentre sono in transito in una rete**. Il suo scopo è il monitoraggio e l’analisi del traffico originato da, o destinato a, uno o più sistemi.\n\nA differenza dell’analisi di un disco, che avviene dopo i fatti, lavora mentre l’evento si verifica, con un alto rischio di perdere o alterare il dato, che se non viene catturato in quel momento non si ripresenta.\n\n- Si usa per accessi abusivi, frodi via email, diffamazioni e minacce online, sottrazione di dati.\n- I suoi strumenti sono la correlazione dei log di più sistemi, la cattura del traffico (ad esempio con Wireshark), la ricerca di programmi di intercettazione o controllo remoto e la verifica delle configurazioni.\n- Il suo limite principale è la legittimità: molte attività sono intercettazioni e richiedono un’autorizzazione.\n\nIl corso aggiunge che le operazioni vanno eseguite su tutti i sistemi coinvolti."
+  },
+  {
+   "n": 58,
+   "argomento": "F",
+   "priorita": 2,
+   "fonti": "F38",
+   "domanda": "Le intercettazioni telematiche: tipi, problemi, vantaggi e modalità.",
+   "concetti": [
+    "Lettura del contenuto dei dati scambiati; art. 266-bis c.p.p.; senza autorizzazione è reato",
+    "A bersaglio: sistemi identificati, filtro ai livelli bassi",
+    "Parametriche/applicative: più sistemi, un’applicazione, filtro ai livelli alti",
+    "Sonda vicino al bersaglio/dorsali; scheda in modalità promiscua",
+    "Problemi (costo, cifratura, criteri) e vantaggi (unico modo, localizzazione)",
+    "Modalità: ricerca live vs memorizzazione e ricerca"
+   ],
+   "risposta": "Un’intercettazione telematica consiste nel leggere il contenuto dei dati scambiati tra sistemi informatici. Nel processo penale è prevista dall’art. 266-bis del codice di procedura penale e richiede l’autorizzazione dell’autorità giudiziaria; senza autorizzazione dell’autorità o del titolare della rete è reato.\n\nEsistono due tipi di intercettazione:\n\n- **a bersaglio**: cattura tutto il traffico di uno o più sistemi precisamente identificati, filtrando ai livelli bassi della comunicazione (gli indirizzi);\n- **parametrica** (o applicativa): cattura il traffico di più sistemi relativo a una specifica applicazione o a un certo contenuto, filtrando ai livelli alti.\n\n> **Attenzione** — Il file domande dice che si opera “a basso livello”: è vero solo per le intercettazioni a bersaglio.\n\nSi realizza con una **sonda** posta il più vicino possibile al bersaglio, nelle indagini di solito nei punti di aggregazione del traffico del provider, impostando la scheda di rete in **modalità promiscua** perché raccolga tutto il traffico e non solo quello diretto a lei.\n\n- **Problemi**: è difficile e costosa, è inefficace sulle comunicazioni cifrate e richiede criteri di cattura ben definiti.\n- **Vantaggi**: può essere l’unico modo per ottenere informazioni in tempi ragionevoli senza accedere fisicamente al sistema, e aiuta a localizzarlo.\n- **Modalità**: la **ricerca live**, che conserva solo ciò che corrisponde ai criteri e richiede molta potenza di calcolo, oppure la **memorizzazione e ricerca**, che registra tutto e filtra dopo e richiede molta memoria."
+  },
+  {
+   "n": 59,
+   "argomento": "F",
+   "priorita": 3,
+   "fonti": "F35",
+   "domanda": "Quali sono i passi per acquisire forensicamente un sito web?",
+   "concetti": [
+    "Macchina virtuale con Linux forense",
+    "Registrazione audio-video",
+    "Cattura del traffico di rete (IP, richieste e risposte)",
+    "Sito per data di inizio e di fine; consultazione delle pagine",
+    "Chiusura, spegnimento, archivio compresso",
+    "Hash dell’archivio e marca temporale"
+   ],
+   "risposta": "L’obiettivo è ottenere una copia verificabile, difficile da disconoscere e controllabile dalle altre parti. La stampa non basta, perché è facilmente falsificabile e non dimostra la provenienza della pagina. Il corso indica undici passi:\n\n1. usare una macchina virtuale con un sistema operativo Linux forense, per partire da un ambiente pulito;\n2. avviare una registrazione audio e video delle operazioni, utile per mostrarle anche a chi non è tecnico;\n3. avviare la cattura del traffico di rete generato dalla macchina virtuale, che registra richieste e risposte complete dei server e documenta gli indirizzi IP coinvolti;\n4. consultare un sito che documenti la data di inizio, come la homepage di un quotidiano online;\n5. consultare tutte le pagine da acquisire, a mano o con strumenti automatici;\n6. consultare di nuovo un sito che documenti la data di fine;\n7. chiudere la cattura del traffico e la registrazione;\n8. spegnere la macchina virtuale;\n9. creare un archivio compresso con i file della macchina virtuale, il video, il traffico catturato e le pagine;\n10. calcolare l’hash dell’archivio;\n11. applicare una marca temporale all’hash.\n\nPer le versioni passate di un sito si possono usare la Wayback Machine di Internet Archive e, finché era disponibile, la copia cache dei motori di ricerca, acquisendole a loro volta con la stessa procedura."
+  },
+  {
+   "n": 60,
+   "argomento": "F",
+   "priorita": 3,
+   "fonti": "F50, 27/01/24",
+   "domanda": "Quale dato non è presente nella stampa di una pagina web, rendendo impossibile risalire al luogo fisico del dato consultato? Come si può ricavare?",
+   "concetti": [
+    "Manca l’indirizzo IP del server (e DNS, header, certificato)",
+    "Senza IP non si sa dove sia fisicamente il dato, né provider e giurisdizione",
+    "Si ricava dalla cattura del traffico durante l’acquisizione",
+    "Whois e geolocalizzazione per risalire al provider e al Paese",
+    "Attenzione a CDN e proxy intermedi"
+   ],
+   "risposta": "Manca l’**indirizzo IP del server** che ha fornito la pagina, insieme alle altre informazioni tecniche dello scambio: la traduzione del nome a dominio in indirizzo, le intestazioni della risposta del server, il certificato di sicurezza. La stampa mostra solo il contenuto e l’indirizzo del sito, che non dice dove si trovi fisicamente il server, e quindi né quale fornitore lo ospiti né quale giurisdizione sia competente.\n\nSi ricava catturando il **traffico di rete** durante l’acquisizione, che è il terzo passo della procedura forense: nei pacchetti registrati compaiono l’IP del server e tutte le informazioni dello scambio. Dall’indirizzo, con i servizi “whois” e di geolocalizzazione, si risale al fornitore e al Paese del server. Bisogna fare attenzione ai servizi intermedi, come le reti di distribuzione dei contenuti, che mostrano un proprio indirizzo invece di quello del server originario."
+  },
+  {
+   "n": 61,
+   "argomento": "F",
+   "priorita": 3,
+   "fonti": "25/05",
+   "domanda": "Un consulente ha acquisito una pagina web seguendo esattamente la procedura vista a lezione e ne ha calcolato l’hash MD5. Potrei ripetere l’operazione? Otterrei lo stesso hash?",
+   "concetti": [
+    "Si può ripetere la procedura ma l’hash sarà diverso",
+    "L’archivio contiene video, traffico, VM e pagine che cambiano a ogni esecuzione",
+    "Effetto valanga: basta un bit diverso",
+    "L’hash garantisce l’integrità di quella acquisizione: lo si verifica sull’archivio consegnato",
+    "Acquisizione di fatto irripetibile: documentazione completa"
+   ],
+   "risposta": "Posso ripetere la procedura, ma **otterrò un hash diverso**. L’hash è calcolato sull’archivio che contiene la registrazione video (diversa a ogni esecuzione), il traffico di rete (con orari diversi), i file della macchina virtuale e le pagine, che spesso hanno contenuti dinamici come orari, pubblicità e codici di sessione, o sono state nel frattempo modificate. Basta un bit diverso perché l’hash cambi del tutto.\n\nL’hash del consulente non serve a dimostrare che chiunque otterrà lo stesso risultato. Serve a garantire **l’integrità di quella specifica acquisizione**: posso verificarlo ricalcolando l’hash sull’archivio che mi viene consegnato, e se coincide l’archivio non è stato modificato. La marca temporale prova quando è stato creato. L’acquisizione di un sito è quindi un’operazione di fatto irripetibile, e proprio per questo va documentata in modo completo."
+  },
+  {
+   "n": 62,
+   "argomento": "F",
+   "priorita": 3,
+   "fonti": "F58, 23/11/24",
+   "domanda": "Bisogna acquisire un sito web, ma tra l’accettazione dell’incarico e l’esecuzione il sito è cambiato. Come comportarsi?",
+   "concetti": [
+    "Acquisire subito la versione attuale dichiarando la difformità",
+    "Cercare versioni precedenti (Wayback Machine, archivi) e acquisirle forensicamente come copie di terzi",
+    "Valutare acquisizioni fatte da altri con prudenza",
+    "Chiedere backup e log al gestore tramite l’AG",
+    "Informare subito committente o giudice"
+   ],
+   "risposta": "1. Acquisire comunque **subito**, con la procedura forense, la versione attuale, dichiarando nella relazione che non corrisponde a quella oggetto del quesito.\n2. Cercare le **versioni precedenti** presso fonti terze, soprattutto la Wayback Machine di Internet Archive e altri archivi del web. Ciascuna va acquisita con la stessa procedura forense, precisando che si tratta di copie conservate da terzi, con un’attendibilità diversa da un’acquisizione diretta. Si possono considerare anche eventuali acquisizioni fatte da altri quando il sito era ancora nella versione originale, valutandole con prudenza se prodotte da una parte.\n3. Valutare la richiesta al gestore del sito, tramite l’autorità giudiziaria nel penale, dei **backup e dei log** che documentano le modifiche e chi le ha fatte.\n4. **Informare subito** il committente o il giudice, perché il quesito potrebbe dover essere riformulato."
+  },
+  {
+   "n": 63,
+   "argomento": "F",
+   "priorita": 3,
+   "fonti": "F6, 14/01/23",
+   "domanda": "Siete il consulente dell’imputato, accusato di diffamazione per un post su Facebook che al momento del processo non è più online. Il PM produce solo una stampa. Argomentare in difesa.",
+   "concetti": [
+    "La stampa non è acquisita forensicamente: niente hash, catena di custodia, autore, data",
+    "Pagina facilmente modificabile; presunzione di ripudio, Casey basso",
+    "Mancano gli elementi di provenienza (URL univoco, IP, traffico, data certa)",
+    "Il profilo non prova l’autore: servono IP di Meta, provider, dispositivi",
+    "Il post non c’è più: contenuto e data non verificabili",
+    "Conclusione: nessuna certezza su esistenza e attribuzione"
+   ],
+   "risposta": "La difesa si costruisce mostrando che la stampa non basta a provare né l’esistenza del post né la sua attribuzione all’imputato.\n\n**La stampa non è una prova informatica attendibile.** Non è stata acquisita con metodo forense: non c’è hash, non c’è catena di custodia, non si sa chi l’abbia fatta, quando e come. Una pagina web si modifica facilmente prima di stamparla, ad esempio cambiando il codice nel browser. Per la presunzione di ripudio spetta all’accusa dimostrarne l’attendibilità, e in assenza di altri elementi la stampa vale al massimo come prova molto debole nella scala di Casey.\n\n**Mancano gli elementi di provenienza.** Non c’è un indirizzo univoco del post, non c’è l’indirizzo IP del server, non c’è la cattura del traffico, non c’è una data certa. È esattamente ciò che una procedura di acquisizione forense del web avrebbe garantito.\n\n**Il profilo non prova l’autore.** Un profilo con il nome e la foto dell’imputato può essere falso o violato, oppure usato da un dispositivo condiviso. Per attribuire il post all’imputato servirebbero i dati del gestore (Meta): gli indirizzi IP da cui è stato creato l’account e da cui è stato pubblicato il post, con data e ora, da collegare tramite il provider a un’utenza riconducibile all’imputato. Servirebbe anche l’analisi dei suoi dispositivi. Nulla di questo è stato fatto.\n\n**Il post non c’è più**, quindi non si possono verificare né il contenuto né la data. Anche chi lo ha rimosso e quando andrebbe chiesto al gestore.\n\nIn conclusione, in assenza di riscontri la stampa non consente di affermare con un grado di certezza apprezzabile né che il post esistesse nei termini riportati né che fosse riconducibile all’imputato. Si può chiedere che il giudice ne tenga conto o, se lo ritiene, disponga accertamenti presso il gestore."
+  },
+  {
+   "n": 64,
+   "argomento": "F",
+   "priorita": 3,
+   "fonti": "F41",
+   "domanda": "Come si dimostra l’inattendibilità di un documento stampato prodotto come prova?",
+   "concetti": [
+    "La stampa è una rappresentazione: perde metadati e non è verificabile con hash",
+    "Contestare provenienza, assenza di catena di custodia e del file originale",
+    "Evidenziare incongruenze di formato",
+    "Mostrare quanto è facile creare un falso",
+    "Chiedere il dato originale acquisito forensicamente"
+   ],
+   "risposta": "Una stampa è la rappresentazione di un dato, non il dato. Perde i metadati (date, autore, intestazioni tecniche, indirizzi), non si può verificare con un hash e può essere stata modificata prima di essere stampata. Per contestarla si fanno valere:\n\n- l’assenza di informazioni su chi l’ha prodotta, da quale sistema e quando;\n- l’assenza di catena di custodia e del file originale acquisito forensicamente;\n- le eventuali incongruenze (formati di data, caratteri, impaginazione diversi da quelli del sistema da cui proverrebbe);\n- l’impossibilità per la controparte di verificarla.\n\nSi può mostrare quanto sia semplice produrre un falso, ad esempio costruendo una mail o modificando una pagina web come negli esempi del corso, e chiedere che venga prodotto il dato originale in forma digitale, acquisito con metodo forense."
+  },
+  {
+   "n": 65,
+   "argomento": "F",
+   "priorita": 3,
+   "fonti": "F43",
+   "domanda": "Una email stampata è una prova attendibile?",
+   "concetti": [
+    "No, da sola non è attendibile",
+    "Perde le intestazioni (Received, Message-ID, firme DKIM)",
+    "Mail senza metadati = reperto non integro; una mail si costruisce da zero",
+    "Acquisire la casella dal server o il file originale con hash",
+    "Riscontri: copia del destinatario, log dei server, PEC"
+   ],
+   "risposta": "No, da sola no. La stampa di una mail perde le **intestazioni complete**, cioè la serie di passaggi tra i server con indirizzi e orari, l’identificativo del messaggio e le firme digitali dei domini. Senza queste non si può verificare da dove sia partita la mail. Il corso usa proprio il corpo di una mail senza metadati come esempio di reperto **non integro**, e mostra quanto sia facile costruire da zero una mail con mittente e data a scelta.\n\nPer renderla attendibile bisogna acquisire con metodo forense la casella di posta, meglio se dal server del fornitore, o il file originale del messaggio con il suo hash. Poi si verificano le intestazioni e le firme dei domini e si cercano riscontri nella copia del destinatario e nei log dei server, preferibilmente su sistemi a cui nessuna delle parti ha accesso. Se serve una prova di invio con valore legale, si usa la PEC."
+  },
+  {
+   "n": 66,
+   "argomento": "F",
+   "priorita": 2,
+   "fonti": "F15",
+   "domanda": "Un’email risulta inviata il 01/02/2013 alle 15:26. Come si crea un’email con queste caratteristiche, per sostenerne l’inattendibilità?",
+   "concetti": [
+    "Scrivere la mail, salvarla in .eml e modificare le intestazioni (Date, From) con un editor",
+    "Trascinarla nella cartella del client: appare autentica",
+    "Cambiare l’orologio del computer o del server",
+    "Modificare una mail esistente o la stampa; spoofing del mittente",
+    "Come smascherarla: Received, Message-ID, DKIM, log e copia del destinatario"
+   ],
+   "risposta": "Ci sono diversi modi semplici.\n\n1. Il più semplice, mostrato a lezione con la mail di “Cleopatra”, consiste nello scrivere una mail con un programma di posta, salvarla come file `.eml`, aprirla con un editor di testo e modificare le intestazioni, ad esempio scrivendo `Date: Fri, 1 Feb 2013 15:26:00 +0100` e il mittente desiderato. Poi la si trascina nella cartella del programma di posta, dove appare come ricevuta o inviata in quella data.\n2. Cambiare l’orologio del computer, o di un server di posta che si controlla, a quella data e inviare o salvare la mail.\n3. Modificare una mail esistente o la sua stampa.\n4. Falsificare il mittente inviandola tramite un server che lo consente.\n\nPer smascherarla si analizzano le intestazioni (coerenza degli orari e degli indirizzi dei server, identificativo del messaggio, firme dei domini) e si confrontano con i log del fornitore e con la copia del destinatario. Spesso emergono incongruenze, come un’intestazione che rivela una bozza mai spedita o un programma di posta che nel 2013 non esisteva."
+  },
+  {
+   "n": 67,
+   "argomento": "F",
+   "priorita": 2,
+   "fonti": "F67",
+   "domanda": "Come si risale al reale autore di un’email analizzando il messaggio?",
+   "concetti": [
+    "Si analizzano le intestazioni (header)",
+    "Le righe Received si leggono dal basso verso l’alto (il file domande sbaglia)",
+    "Prima riga affidabile e IP di origine; SPF/DKIM/DMARC e orari",
+    "Log dell’account presso il fornitore tramite l’AG (webmail)",
+    "Dall’IP all’utenza tramite il provider; IP ≠ persona"
+   ],
+   "risposta": "Si analizzano le **intestazioni** della mail, che si possono immaginare come la busta con i timbri dei vari uffici postali attraversati.\n\n> **Attenzione** — Il file domande dice di partire dall’alto per trovare il primo sistema. È il contrario: ogni server che riceve la mail aggiunge la propria riga `Received:` in cima alle altre, quindi il primo passaggio, quello più vicino al mittente, è la riga `Received:` **più in basso**. Le intestazioni si leggono dal basso verso l’alto.\n\nLa procedura è questa:\n\n1. si individua la prima riga affidabile, cioè scritta da un server del fornitore del mittente, perché le righe sotto di essa possono essere state inventate dal mittente stesso;\n2. se ne ricava l’**indirizzo IP** di origine;\n3. si verificano le firme dei domini (SPF, DKIM, DMARC) e la coerenza degli orari;\n4. con un provvedimento dell’autorità giudiziaria si chiedono al **fornitore di posta** i log dell’account, con gli indirizzi da cui l’utente si è collegato e ha inviato la mail. Questo è spesso indispensabile, perché le webmail non riportano l’IP del mittente nelle intestazioni;\n5. dall’indirizzo IP, tramite il fornitore di connettività, si risale all’utenza a cui era assegnato in quel momento.\n\nCome sempre, l’IP porta a un’utenza e non a una persona, e servono riscontri sui dispositivi, come la mail nella cartella dei messaggi inviati."
+  },
+  {
+   "n": 68,
+   "argomento": "F",
+   "priorita": 2,
+   "fonti": "F37",
+   "domanda": "Il cloud computing: modelli e implicazioni per l’informatica forense.",
+   "concetti": [
+    "Definizione: risorse remote come servizio di un fornitore",
+    "SaaS, PaaS, IaaS con le diverse responsabilità",
+    "Pubblico, privato, ibrido: vantaggi e svantaggi",
+    "Problemi forensi: datacenter all’estero, supporti non individuabili, dipendenza dal CSP e dai suoi log",
+    "Opportunità: 'non dimentica’, versioni multiple, tracce sul client, cloud come strumento"
+   ],
+   "risposta": "Il cloud computing è l’uso da remoto, come servizio offerto da un fornitore, di risorse software e hardware.\n\nCi sono tre modelli di servizio:\n\n- **SaaS**: il cliente usa un software già pronto, senza controllo sui formati dei dati e sulla loro protezione;\n- **PaaS**: il cliente riceve una piattaforma su cui sviluppare le proprie applicazioni ed è responsabile del proprio codice;\n- **IaaS**: il cliente riceve un’infrastruttura virtuale che amministra, mentre il fornitore risponde della sicurezza fisica.\n\nIl cloud può essere **pubblico** (economico, ma con dubbi sulla riservatezza e sulla sopravvivenza del fornitore), **privato** (più riservato, ma costoso) o **ibrido**.\n\nPer l’informatica forense il cloud crea difficoltà:\n\n- i dati sono in data center spesso all’estero, sotto altre giurisdizioni, ed è impossibile individuare fisicamente i supporti;\n- i dati si distruggono facilmente;\n- possono esserci servizi appoggiati l’uno sull’altro e cifratura spinta.\n\nL’indagine dipende quindi dai dati estratti dal **fornitore** (copie delle macchine virtuali, file, log di accesso e delle operazioni) e dalla sua collaborazione. D’altra parte il cloud tende a “non dimenticare nulla”, con più versioni e copie dei dati, e sui computer degli utenti restano tracce dei servizi usati. Infine il cloud può essere usato dall’informatica forense stessa, per elaborare grandi quantità di dati con potenza di calcolo scalabile."
+  },
+  {
+   "n": 69,
+   "argomento": "F",
+   "priorita": 2,
+   "fonti": "F40",
+   "domanda": "Si dia una definizione di embedded forensics.",
+   "concetti": [
+    "Sistemi embedded: computer incorporati in apparati con funzione specifica",
+    "Esempi: centraline auto (OBD, rischio di scrittura), impianti industriali, rilevatori di gas, sanità",
+    "Difficoltà: hardware/protocolli proprietari, memorie piccole, software del produttore",
+    "Principi forensi 'per quanto possibile’",
+    "Sperimentare: la miglior forma di verifica"
+   ],
+   "risposta": "L’embedded forensics è la branca dell’informatica forense che individua, acquisisce, analizza e valuta i dati contenuti nei **sistemi embedded**, cioè nei computer incorporati in apparati con una funzione specifica:\n\n- le centraline delle automobili, lette dalla presa diagnostica, da cui però si può anche scrivere, con rischio di alterazione;\n- i sistemi che governano i macchinari industriali;\n- i rilevatori di gas usati per la sicurezza sul lavoro;\n- le apparecchiature sanitarie.\n\nLe difficoltà sono l’hardware e il software proprietari, le memorie piccole che si sovrascrivono e la necessità di usare spesso strumenti del produttore, da verificare confrontandoli con prodotti analoghi. Il corso raccomanda di rispettare per quanto possibile i principi dell’informatica forense (preservare i reperti, documentare tutto, seguire un metodo) e soprattutto di **sperimentare**, cioè riprodurre il comportamento del sistema per verificare le ipotesi, perché la sperimentazione è la miglior forma di verifica."
+  },
+  {
+   "n": 70,
+   "argomento": "G",
+   "priorita": 2,
+   "fonti": "25/05",
+   "domanda": "Sei il consulente tecnico del PM, che vuole farti eseguire un accertamento tecnico irripetibile. Come si procede?",
+   "concetti": [
+    "Art. 360 c.p.p.: avviso a indagato, persona offesa e difensori di giorno, ora e luogo",
+    "Diritto di assistere, partecipare, fare osservazioni e riserve",
+    "Riserva di incidente probatorio: il PM non procede salvo urgenza",
+    "Senza presupposti: risultati inutilizzabili in dibattimento",
+    "Operativamente: presenza dei CTP, verbale/video, write blocker, hash, copie alle parti, sigillo",
+    "Esempi di accertamenti irripetibili; dopo la copia le analisi diventano ripetibili"
+   ],
+   "risposta": "Si applica l’**art. 360 del codice di procedura penale**. Prima di conferirmi l’incarico, il PM deve avvisare senza ritardo la persona indagata, la persona offesa e i difensori del giorno, dell’ora e del luogo del conferimento e della facoltà di nominare propri consulenti. I difensori e i consulenti delle parti hanno diritto di assistere al conferimento, partecipare alle operazioni e fare osservazioni e riserve. Se l’indagato, prima del conferimento, dichiara di voler chiedere un incidente probatorio, il PM non può procedere, salvo che l’accertamento, se rinviato, non possa più essere utilmente compiuto (ad esempio dati volatili o un disco che si sta guastando). Se il PM procede senza rispettare queste regole, i risultati non sono utilizzabili in dibattimento.\n\nCome consulente, operativamente:\n\n- concordo con i consulenti delle parti data, luogo, metodo e strumenti;\n- eseguo le operazioni alla loro presenza, con un verbale dettagliato e possibilmente una videoregistrazione;\n- uso il write blocker e calcolo l’hash dell’originale e delle copie;\n- preparo una copia forense per ciascuna parte;\n- applico il sigillo elettronico e apro la catena di custodia;\n- metto a verbale le osservazioni dei colleghi;\n- scrivo infine la relazione.\n\nIl verbale di un accertamento irripetibile correttamente svolto entra nel fascicolo per il dibattimento e vale come prova. Sono tipicamente irripetibili l’acquisizione live, l’analisi di un telefono acceso, il chip-off, l’analisi di un supporto danneggiato e talvolta la copia stessa (ad esempio degli SSD). Una volta fatta la copia in contraddittorio, le analisi successive sulla copia diventano ripetibili."
+  },
+  {
+   "n": 71,
+   "argomento": "G",
+   "priorita": 2,
+   "fonti": "F46",
+   "domanda": "In quali fasi bisogna agire in contraddittorio?",
+   "concetti": [
+    "Nelle fasi che modificano il reperto o non sono ripetibili",
+    "Acquisizione: 360, incidente probatorio, perizia; nel civile partecipazione dei CTP",
+    "Copia identica a ogni parte verificata con hash",
+    "Analisi: assistenza e verifiche delle parti",
+    "Relazione: bozza ai CTP nel civile, esame in udienza nel penale",
+    "Principio dell’accertamento collegiale"
+   ],
+   "risposta": "In tutte le fasi in cui un’operazione può modificare il reperto o non può essere ripetuta, e comunque quando si formano gli elementi decisivi.\n\n- **Acquisizione.** È la fase più critica: copie forensi, acquisizioni live, telefoni, siti web, tecniche distruttive. Nel penale si fa con l’art. 360 del codice di procedura penale, con l’incidente probatorio o nella perizia con i consulenti delle parti. Nel civile il consulente del giudice deve consentire ai consulenti di parte di partecipare alle operazioni. In ogni caso ogni parte riceve una copia identica verificata con l’hash.\n- **Analisi.** Le parti possono assistere, fare osservazioni e chiedere verifiche. Se si lavora su copie, l’analisi è ripetibile, ma i risultati devono essere condivisi e verificabili.\n- **Relazione.** Nel civile il consulente del giudice trasmette una bozza alle parti, che presentano osservazioni a cui deve rispondere. Nel penale c’è l’esame in udienza.\n\nIl corso lo riassume nella “rilevanza dell’accertamento collegiale”, e avverte che le acquisizioni live fatte senza la controparte espongono il reperto a fortissime critiche."
+  },
+  {
+   "n": 72,
+   "argomento": "G",
+   "priorita": 2,
+   "fonti": "F32",
+   "domanda": "Che cosa sono le fasi destruens e costruens di una consulenza?",
+   "concetti": [
+    "Destruens: critica al lavoro della controparte (metodo, conclusioni non supportate, selettività)",
+    "Costruens: ricostruzione propria con ipotesi alternative e grado di certezza",
+    "Esempio: 'L’insostenibile leggerezza del settore’",
+    "Frammenti nel non allocato non sono necessariamente dello stesso file; non detenzione",
+    "Linguaggio divulgativo (casellario)"
+   ],
+   "risposta": "Sono le due parti in cui si struttura una consulenza, soprattutto quella di parte.\n\nLa **parte destruens** è l’analisi critica del lavoro o delle prove della controparte: si individuano errori di metodo (acquisizioni non forensi, assenza di hash o di documentazione), conclusioni non sostenute dai dati, spiegazioni alternative ignorate e selezione dei soli elementi favorevoli a una tesi.\n\nLa **parte costruens** propone la propria ricostruzione, coerente con i dati, con le ipotesi alternative compatibili e con il grado di certezza.\n\nL’esempio del corso è “L’insostenibile leggerezza del settore”:\n\n- *destruens*: il consulente dell’accusa non descriveva il metodo e collegava frammenti trovati nello spazio non allocato come se appartenessero allo stesso file;\n- *costruens*: il materiale cancellato, recuperabile solo con competenze e programmi specialistici che l’utente non aveva, non era nella sua disponibilità e quindi non era “detenuto”.\n\nIl tutto spiegato al giudice con un linguaggio semplice, usando la metafora del casellario."
+  },
+  {
+   "n": 73,
+   "argomento": "G",
+   "priorita": 2,
+   "fonti": "",
+   "domanda": "Ruolo del perito e del consulente tecnico d’ufficio; differenze tra le figure di consulente.",
+   "concetti": [
+    "Perito: consulente del giudice penale",
+    "CTU: consulente del giudice civile",
+    "Consulente del PM: per l’accusa nelle indagini",
+    "Consulenti di parte per le parti private",
+    "Accertamento collegiale"
+   ],
+   "risposta": "Si veda la risposta 5 e la tabella del capitolo 13.1. In sintesi:\n\n- il **perito** è il consulente del giudice penale, il **CTU** quello del giudice civile;\n- il **consulente del PM** lavora per l’accusa durante le indagini;\n- i **consulenti di parte** assistono le parti private.\n\nIl perito e il CTU svolgono l’accertamento collegialmente con i consulenti delle parti."
+  }
+ ]
+}
