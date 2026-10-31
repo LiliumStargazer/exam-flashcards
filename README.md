@@ -43,7 +43,9 @@ Le spunte manuali bastano e non costano nulla. In più ci sono due aiuti, attiva
 2. **Modello linguistico con chiave personale.** Attivalo in *Impostazioni → Valutazione con un modello linguistico*: scegli il servizio, segui il link per creare la chiave, incollala e premi *Prova la connessione*. Da quel momento sotto ogni risposta compare il pulsante **Valuta con il modello**.
    Più preciso e segnala anche gli errori. Funziona con qualsiasi servizio con API *compatibile OpenAI*; sono preimpostati Google Gemini, Groq, OpenRouter e Ollama (sul tuo computer). Crei una chiave gratuita sul sito del servizio e la incolli nelle impostazioni; resta salvata solo nel tuo browser.
    - I piani gratuiti hanno limiti giornalieri e possono usare i testi inviati per migliorare i loro modelli: leggi le condizioni del servizio.
-   - I nomi dei modelli cambiano nel tempo: se la prova di connessione fallisce, controlla sul sito del servizio il nome del modello attuale.
+   - I nomi dei modelli cambiano nel tempo: premi *Mostra i modelli disponibili* per scegliere dall’elenco aggiornato del servizio.
+   - Se il servizio è sovraccarico (errore 503) o hai superato un limite (429) il programma riprova da solo un paio di volte; se continua, riprova più tardi o scegli un altro modello.
+   - **DeepSeek**: l’API ufficiale è a pagamento; i modelli DeepSeek gratuiti si usano tramite OpenRouter (quelli con “:free” nel nome).
    - Alcuni servizi non accettano richieste direttamente da una pagina web (errore di rete o CORS): in quel caso prova un altro servizio. Per Ollama avvia il server con `OLLAMA_ORIGINS=*` e usa la pagina dal computer su cui gira.
 
 ## Aggiungere una materia

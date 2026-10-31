@@ -38,7 +38,8 @@ const DEFAULT_SETTINGS = {
 const PRESETS = {
   gemini: { nome: "Google Gemini (piano gratuito)", base: "https://generativelanguage.googleapis.com/v1beta/openai", model: "gemini-2.5-flash", chiave: "https://aistudio.google.com/apikey", come: "Accedi con un account Google su Google AI Studio e premi “Create API key”." },
   groq: { nome: "Groq (piano gratuito)", base: "https://api.groq.com/openai/v1", model: "llama-3.3-70b-versatile", chiave: "https://console.groq.com/keys", come: "Registrati sulla console di Groq e crea una chiave in “API Keys”." },
-  openrouter: { nome: "OpenRouter", base: "https://openrouter.ai/api/v1", model: "meta-llama/llama-3.3-70b-instruct:free", chiave: "https://openrouter.ai/keys", come: "Registrati su OpenRouter e crea una chiave; i modelli con “:free” nel nome sono gratuiti." },
+  openrouter: { nome: "OpenRouter (anche DeepSeek gratuito)", base: "https://openrouter.ai/api/v1", model: "", chiave: "https://openrouter.ai/keys", come: "Registrati su OpenRouter e crea una chiave. Poi premi “Mostra i modelli disponibili”: quelli con “:free” nel nome sono gratuiti (cerca “deepseek” per i modelli DeepSeek)." },
+  deepseek: { nome: "DeepSeek ufficiale (a pagamento, economico)", base: "https://api.deepseek.com", model: "deepseek-chat", chiave: "https://platform.deepseek.com/api_keys", come: "Crea una chiave sulla piattaforma DeepSeek e ricarica un piccolo credito: l’API ufficiale non ha un piano gratuito." },
   ollama: { nome: "Ollama sul tuo computer", base: "http://localhost:11434/v1", model: "qwen2.5:7b", chiave: "", come: "Nessuna chiave: installa Ollama, scarica il modello e avvialo con OLLAMA_ORIGINS=*. Funziona solo dal computer su cui gira." },
   custom: { nome: "Altro (compatibile OpenAI)", base: "", model: "", chiave: "", come: "Inserisci indirizzo, modello e chiave del servizio che preferisci." }
 };
@@ -368,17 +369,58 @@ function parseJsonLoose(t) {
   if (a < 0 || b < a) throw new Error("risposta non in formato JSON");
   return JSON.parse(s.slice(a, b + 1));
 }
-async function callLlm(prompt) {
+function llmHeaders() {
+  const h = { "Content-Type": "application/json" };
+  if (settings.llmKey) h["Authorization"] = "Bearer " + settings.llmKey;
+  return h;
+}
+function explainHttp(status, body) {
+  const b = String(body || "").toLowerCase();
+  if (status === 401 || status === 403) return "chiave non valida o senza permessi: ricopiala dal sito del servizio.";
+  if (status === 404 || (status === 400 && /model/.test(b) && /(not found|not exist|invalid|unknown|unsupported)/.test(b))) return "modello inesistente: premi “Mostra i modelli disponibili” e scegline uno dall’elenco.";
+  if (status === 429) return "limite di richieste raggiunto: aspetta un minuto (o fino a domani, se è il limite giornaliero) oppure usa un altro modello.";
+  if (status === 503 || status === 502 || status === 500) return "il servizio è sovraccarico in questo momento (non dipende da te): riprova tra poco o scegli un altro modello.";
+  if (status === 400) return "richiesta rifiutata dal servizio. Dettaglio: " + String(body || "").slice(0, 160);
+  return "errore HTTP " + status + ". Dettaglio: " + String(body || "").slice(0, 160);
+}
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+async function callLlm(prompt, onRetry) {
   const base = settings.llmBase.replace(/\/+$/, "");
-  const headers = { "Content-Type": "application/json" };
-  if (settings.llmKey) headers["Authorization"] = "Bearer " + settings.llmKey;
-  const r = await fetch(base + "/chat/completions", {
-    method: "POST", headers,
-    body: JSON.stringify({ model: settings.llmModel, temperature: 0, messages: [{ role: "user", content: prompt }] })
-  });
-  if (!r.ok) { let m = ""; try { m = (await r.text()).slice(0, 200); } catch (e) {} throw new Error("HTTP " + r.status + " " + m); }
+  if (!base) throw new Error("manca l’indirizzo API nelle Impostazioni.");
+  if (!settings.llmModel) throw new Error("manca il nome del modello: premi “Mostra i modelli disponibili” nelle Impostazioni.");
+  const waits = [2500, 6000];
+  for (let attempt = 0; ; attempt++) {
+    let r;
+    try {
+      r = await fetch(base + "/chat/completions", {
+        method: "POST", headers: llmHeaders(),
+        body: JSON.stringify({ model: settings.llmModel, temperature: 0, messages: [{ role: "user", content: prompt }] })
+      });
+    } catch (e) {
+      throw new Error("il browser non è riuscito a contattare il servizio (rete assente, indirizzo errato o servizio che non accetta richieste da una pagina web).");
+    }
+    if (r.ok) {
+      const j = await r.json();
+      return (((j.choices || [])[0] || {}).message || {}).content || "";
+    }
+    let body = ""; try { body = await r.text(); } catch (e) {}
+    if ((r.status === 503 || r.status === 429 || r.status === 502) && attempt < waits.length) {
+      if (onRetry) onRetry(attempt + 1);
+      await sleep(waits[attempt]);
+      continue;
+    }
+    throw new Error(explainHttp(r.status, body));
+  }
+}
+async function listModels() {
+  const base = settings.llmBase.replace(/\/+$/, "");
+  let r;
+  try { r = await fetch(base + "/models", { headers: llmHeaders() }); }
+  catch (e) { throw new Error("il browser non è riuscito a contattare il servizio."); }
+  let body = ""; if (!r.ok) { try { body = await r.text(); } catch (e) {} throw new Error(explainHttp(r.status, body)); }
   const j = await r.json();
-  return (((j.choices || [])[0] || {}).message || {}).content || "";
+  const arr = Array.isArray(j.data) ? j.data : Array.isArray(j.models) ? j.models : [];
+  return arr.map(m => String(m.id || m.name || "").replace(/^models\//, "")).filter(Boolean).sort();
 }
 async function runLlm() {
   const q = byN.get(cur), txt = ($("ans").value || "").trim();
@@ -386,7 +428,7 @@ async function runLlm() {
   if (!settings.llmKey && settings.llmPreset !== "ollama") { $("aiHint").textContent = "Inserisci la chiave del modello in Impostazioni."; return; }
   const b = $("bLlm"); b.disabled = true; b.innerHTML = '<span class="spin"></span>Sto valutando…';
   try {
-    const r = parseJsonLoose(await callLlm(buildPrompt(q, txt)));
+    const r = parseJsonLoose(await callLlm(buildPrompt(q, txt), n => { $("aiHint").textContent = "Servizio occupato, nuovo tentativo (" + n + ")…"; }));
     const idx = a => Array.isArray(a) ? a.map(Number).filter(i => Number.isInteger(i) && i >= 0 && i < q.concetti.length) : [];
     const cov = idx(r.covered);
     evalResult = { title: "Valutazione del modello", covered: cov, partial: idx(r.partial).filter(i => !cov.includes(i)),
@@ -394,7 +436,7 @@ async function runLlm() {
     reveal(true);
   } catch (e) {
     b.disabled = false; b.textContent = "Valuta con il modello";
-    $("aiHint").textContent = "Valutazione non riuscita (" + (e.message || "errore") + "). Controlla le impostazioni del modello o usa le spunte.";
+    $("aiHint").textContent = "Valutazione non riuscita: " + (e.message || "errore sconosciuto") + " Nel frattempo puoi usare le spunte.";
   }
 }
 
@@ -452,11 +494,15 @@ function renderSettings() {
     <label class="field">Servizio<select id="sPreset">${Object.entries(PRESETS).map(([k, v]) => `<option value="${k}" ${settings.llmPreset === k ? "selected" : ""}>${esc(v.nome)}</option>`).join("")}</select></label>
     <div class="row">
       <label class="field">Indirizzo API<input type="text" id="sBase" value="${esc(settings.llmBase)}" autocomplete="off"></label>
-      <label class="field">Modello<input type="text" id="sModel" value="${esc(settings.llmModel)}" autocomplete="off"></label>
+      <label class="field">Modello<input type="text" id="sModel" value="${esc(settings.llmModel)}" autocomplete="off" list="modelList" placeholder="Nome del modello"></label>
     </div>
+    <datalist id="modelList"></datalist>
+    <div class="row"><button class="btn ghost" id="bModels">Mostra i modelli disponibili</button><span class="note" id="modelsOut"></span></div>
+    <div id="modelPick"></div>
     <p class="note" id="keyHow"></p>
     <label class="field">Chiave API<input type="password" id="sKey" value="${esc(settings.llmKey)}" autocomplete="off" placeholder="Incolla qui la tua chiave"></label>
-    <div class="row"><button class="btn ghost" id="bTest">Prova la connessione</button><span class="note" id="testOut"></span></div>
+    <div class="row"><button class="btn ghost" id="bTest">Prova la connessione</button></div>
+    <p class="note" id="testOut"></p>
   </div>`;
   const dz = $("dropzone");
   dz.onclick = () => $("fileDeck").click();
@@ -486,13 +532,32 @@ function renderSettings() {
   ["sSim", "sHigh", "sLow", "sLlm", "sBase", "sModel", "sKey"].forEach(id => $(id).addEventListener("change", upd));
   $("sPreset").addEventListener("change", () => {
     const p = PRESETS[$("sPreset").value]; settings.llmPreset = $("sPreset").value;
-    if (p.base) $("sBase").value = p.base; if (p.model) $("sModel").value = p.model; upd(); showHow();
+    $("sBase").value = p.base || ""; $("sModel").value = p.model || ""; upd(); showHow(); $("modelPick").innerHTML = ""; $("modelsOut").textContent = "";
   });
   showHow();
   $("bTest").onclick = async () => {
-    upd(); const out = $("testOut"); out.textContent = "Provo…";
-    try { const t = await callLlm('Rispondi solo con il JSON {"ok":true}'); parseJsonLoose(t); out.textContent = "Connessione riuscita."; }
-    catch (e) { out.textContent = "Non riuscita: " + (e.message || "errore") + ". Alcuni servizi non accettano richieste dal browser: prova un altro servizio."; }
+    upd(); const out = $("testOut"); out.className = "note"; out.textContent = "Provo…";
+    try {
+      const t = await callLlm('Rispondi solo con il JSON {"ok":true}', n => { out.textContent = "Servizio occupato, nuovo tentativo (" + n + ")…"; });
+      parseJsonLoose(t); out.textContent = "Connessione riuscita: la valutazione è pronta.";
+    } catch (e) { out.className = "note err"; out.textContent = "Non riuscita: " + (e.message || "errore sconosciuto"); }
+  };
+  $("bModels").onclick = async () => {
+    upd(); const out = $("modelsOut"), pick = $("modelPick"); out.textContent = "Chiedo l’elenco…"; pick.innerHTML = "";
+    try {
+      let list = await listModels();
+      const sel = $("sPreset").value;
+      if (sel === "gemini") list = list.filter(m => /gemini/i.test(m) && !/(embedding|image|tts|audio|live|vision)/i.test(m));
+      if (sel === "openrouter") list = list.filter(m => /:free$/.test(m));
+      if (!list.length) { out.textContent = "Nessun modello trovato."; return; }
+      out.textContent = list.length + (sel === "openrouter" ? " modelli gratuiti" : " modelli") + ": scegline uno.";
+      const dl = $("modelList"); dl.innerHTML = ""; list.forEach(m => { const o = document.createElement("option"); o.value = m; dl.appendChild(o); });
+      const s = document.createElement("select"); s.setAttribute("aria-label", "Scegli il modello");
+      const o0 = document.createElement("option"); o0.value = ""; o0.textContent = "Scegli un modello…"; s.appendChild(o0);
+      list.forEach(m => { const o = document.createElement("option"); o.value = m; o.textContent = m; if (m === settings.llmModel) o.selected = true; s.appendChild(o); });
+      s.onchange = () => { if (s.value) { $("sModel").value = s.value; upd(); toast("Modello impostato: " + s.value); } };
+      pick.appendChild(s);
+    } catch (e) { out.textContent = "Elenco non disponibile: " + (e.message || "errore") + " Puoi scrivere il nome del modello a mano."; }
   };
 }
 function exportProgress() {
