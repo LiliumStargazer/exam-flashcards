@@ -33,7 +33,7 @@ const K = {
 };
 const DEFAULT_SETTINGS = {
   simOn: false, simHigh: 0.62, simLow: 0.50,
-  llmOn: false, llmPreset: "gemini", llmBase: "https://generativelanguage.googleapis.com/v1beta/openai", llmModel: "gemini-2.5-flash", llmKey: ""
+  llmOn: false, llmPreset: "gemini", llmBase: "https://generativelanguage.googleapis.com/v1beta/openai", llmModel: "gemini-2.5-flash", llmFallback: "", llmKey: ""
 };
 const PRESETS = {
   gemini: { nome: "Google Gemini (piano gratuito)", base: "https://generativelanguage.googleapis.com/v1beta/openai", model: "gemini-2.5-flash", chiave: "https://aistudio.google.com/apikey", come: "Accedi con un account Google su Google AI Studio e premi “Create API key”." },
@@ -374,27 +374,53 @@ function llmHeaders() {
   if (settings.llmKey) h["Authorization"] = "Bearer " + settings.llmKey;
   return h;
 }
+function serverDetail(body) {
+  try {
+    let j = JSON.parse(body); if (Array.isArray(j)) j = j[0];
+    const e = (j && (j.error || j)) || {};
+    const m = e.message || e.msg || (typeof e === "string" ? e : "");
+    if (m) return String(m).slice(0, 220);
+  } catch (e) { /* non JSON */ }
+  return String(body || "").replace(/\s+/g, " ").slice(0, 220);
+}
 function explainHttp(status, body) {
   const b = String(body || "").toLowerCase();
+  return explainHttpBase(status, body, b) + (serverDetail(body) ? " [HTTP " + status + ": " + serverDetail(body) + "]" : " [HTTP " + status + "]");
+}
+function explainHttpBase(status, body, b) {
   if (status === 401 || status === 403) return "chiave non valida o senza permessi: ricopiala dal sito del servizio.";
   if (status === 404 || (status === 400 && /model/.test(b) && /(not found|not exist|invalid|unknown|unsupported)/.test(b))) return "modello inesistente: premi “Mostra i modelli disponibili” e scegline uno dall’elenco.";
   if (status === 429) return "limite di richieste raggiunto: aspetta un minuto (o fino a domani, se è il limite giornaliero) oppure usa un altro modello.";
-  if (status === 503 || status === 502 || status === 500) return "il servizio è sovraccarico in questo momento (non dipende da te): riprova tra poco o scegli un altro modello.";
-  if (status === 400) return "richiesta rifiutata dal servizio. Dettaglio: " + String(body || "").slice(0, 160);
-  return "errore HTTP " + status + ". Dettaglio: " + String(body || "").slice(0, 160);
+  if (status === 503 || status === 502) return "il modello è sovraccarico in questo momento (non dipende da te): scegli un modello più leggero (es. flash-lite), imposta un modello di riserva o riprova più tardi.";
+  if (status === 500) return "errore interno del servizio: riprova tra poco o scegli un altro modello.";
+  if (status === 400) return "richiesta rifiutata dal servizio.";
+  return "errore del servizio.";
 }
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+let lastModelUsed = "";
 async function callLlm(prompt, onRetry) {
+  if (!settings.llmModel) throw new Error("manca il nome del modello: premi “Mostra i modelli disponibili” nelle Impostazioni.");
+  try { const t = await callLlmModel(prompt, settings.llmModel, onRetry); lastModelUsed = settings.llmModel; return t; }
+  catch (e) {
+    const fb = (settings.llmFallback || "").trim();
+    if (fb && fb !== settings.llmModel && e.retryable) {
+      if (onRetry) onRetry("riserva");
+      try { const t = await callLlmModel(prompt, fb, null); lastModelUsed = fb; return t; }
+      catch (e2) { throw new Error("modello principale: " + e.message + " Modello di riserva: " + e2.message); }
+    }
+    throw e;
+  }
+}
+async function callLlmModel(prompt, model, onRetry) {
   const base = settings.llmBase.replace(/\/+$/, "");
   if (!base) throw new Error("manca l’indirizzo API nelle Impostazioni.");
-  if (!settings.llmModel) throw new Error("manca il nome del modello: premi “Mostra i modelli disponibili” nelle Impostazioni.");
   const waits = [2500, 6000];
   for (let attempt = 0; ; attempt++) {
     let r;
     try {
       r = await fetch(base + "/chat/completions", {
         method: "POST", headers: llmHeaders(),
-        body: JSON.stringify({ model: settings.llmModel, temperature: 0, messages: [{ role: "user", content: prompt }] })
+        body: JSON.stringify({ model, temperature: 0, messages: [{ role: "user", content: prompt }] })
       });
     } catch (e) {
       throw new Error("il browser non è riuscito a contattare il servizio (rete assente, indirizzo errato o servizio che non accetta richieste da una pagina web).");
@@ -409,7 +435,9 @@ async function callLlm(prompt, onRetry) {
       await sleep(waits[attempt]);
       continue;
     }
-    throw new Error(explainHttp(r.status, body));
+    const err = new Error(explainHttp(r.status, body));
+    err.retryable = [429, 500, 502, 503].includes(r.status);
+    throw err;
   }
 }
 async function listModels() {
@@ -428,10 +456,10 @@ async function runLlm() {
   if (!settings.llmKey && settings.llmPreset !== "ollama") { $("aiHint").textContent = "Inserisci la chiave del modello in Impostazioni."; return; }
   const b = $("bLlm"); b.disabled = true; b.innerHTML = '<span class="spin"></span>Sto valutando…';
   try {
-    const r = parseJsonLoose(await callLlm(buildPrompt(q, txt), n => { $("aiHint").textContent = "Servizio occupato, nuovo tentativo (" + n + ")…"; }));
+    const r = parseJsonLoose(await callLlm(buildPrompt(q, txt), n => { $("aiHint").textContent = n === "riserva" ? "Modello principale occupato: provo il modello di riserva…" : "Servizio occupato, nuovo tentativo (" + n + ")…"; }));
     const idx = a => Array.isArray(a) ? a.map(Number).filter(i => Number.isInteger(i) && i >= 0 && i < q.concetti.length) : [];
     const cov = idx(r.covered);
-    evalResult = { title: "Valutazione del modello", covered: cov, partial: idx(r.partial).filter(i => !cov.includes(i)),
+    evalResult = { title: "Valutazione del modello" + (lastModelUsed ? " (" + lastModelUsed + ")" : ""), covered: cov, partial: idx(r.partial).filter(i => !cov.includes(i)),
       errors: Array.isArray(r.errors) ? r.errors.map(String).slice(0, 4) : [], feedback: typeof r.feedback === "string" ? r.feedback : "" };
     reveal(true);
   } catch (e) {
@@ -496,6 +524,7 @@ function renderSettings() {
       <label class="field">Indirizzo API<input type="text" id="sBase" value="${esc(settings.llmBase)}" autocomplete="off"></label>
       <label class="field">Modello<input type="text" id="sModel" value="${esc(settings.llmModel)}" autocomplete="off" list="modelList" placeholder="Nome del modello"></label>
     </div>
+    <label class="field">Modello di riserva (facoltativo: usato se il principale è sovraccarico)<input type="text" id="sFallback" value="${esc(settings.llmFallback || "")}" autocomplete="off" list="modelList" placeholder="Es. un modello flash-lite"></label>
     <datalist id="modelList"></datalist>
     <div class="row"><button class="btn ghost" id="bModels">Mostra i modelli disponibili</button><span class="note" id="modelsOut"></span></div>
     <div id="modelPick"></div>
@@ -526,20 +555,20 @@ function renderSettings() {
     settings.simOn = $("sSim").checked;
     settings.simHigh = Math.min(0.95, Math.max(0.3, parseFloat($("sHigh").value) || DEFAULT_SETTINGS.simHigh));
     settings.simLow = Math.min(settings.simHigh, Math.max(0.2, parseFloat($("sLow").value) || DEFAULT_SETTINGS.simLow));
-    settings.llmOn = $("sLlm").checked; settings.llmBase = $("sBase").value.trim(); settings.llmModel = $("sModel").value.trim(); settings.llmKey = $("sKey").value.trim();
+    settings.llmOn = $("sLlm").checked; settings.llmBase = $("sBase").value.trim(); settings.llmModel = $("sModel").value.trim(); settings.llmFallback = $("sFallback").value.trim(); settings.llmKey = $("sKey").value.trim();
     saveSettings();
   };
-  ["sSim", "sHigh", "sLow", "sLlm", "sBase", "sModel", "sKey"].forEach(id => $(id).addEventListener("change", upd));
+  ["sSim", "sHigh", "sLow", "sLlm", "sBase", "sModel", "sFallback", "sKey"].forEach(id => $(id).addEventListener("change", upd));
   $("sPreset").addEventListener("change", () => {
     const p = PRESETS[$("sPreset").value]; settings.llmPreset = $("sPreset").value;
-    $("sBase").value = p.base || ""; $("sModel").value = p.model || ""; upd(); showHow(); $("modelPick").innerHTML = ""; $("modelsOut").textContent = "";
+    $("sBase").value = p.base || ""; $("sModel").value = p.model || ""; $("sFallback").value = ""; upd(); showHow(); $("modelPick").innerHTML = ""; $("modelsOut").textContent = "";
   });
   showHow();
   $("bTest").onclick = async () => {
     upd(); const out = $("testOut"); out.className = "note"; out.textContent = "Provo…";
     try {
-      const t = await callLlm('Rispondi solo con il JSON {"ok":true}', n => { out.textContent = "Servizio occupato, nuovo tentativo (" + n + ")…"; });
-      parseJsonLoose(t); out.textContent = "Connessione riuscita: la valutazione è pronta.";
+      const t = await callLlm('Rispondi solo con il JSON {"ok":true}', n => { out.textContent = n === "riserva" ? "Modello principale occupato: provo il modello di riserva…" : "Servizio occupato, nuovo tentativo (" + n + ")…"; });
+      parseJsonLoose(t); out.textContent = "Connessione riuscita con " + lastModelUsed + ": la valutazione è pronta.";
     } catch (e) { out.className = "note err"; out.textContent = "Non riuscita: " + (e.message || "errore sconosciuto"); }
   };
   $("bModels").onclick = async () => {
@@ -555,8 +584,11 @@ function renderSettings() {
       const s = document.createElement("select"); s.setAttribute("aria-label", "Scegli il modello");
       const o0 = document.createElement("option"); o0.value = ""; o0.textContent = "Scegli un modello…"; s.appendChild(o0);
       list.forEach(m => { const o = document.createElement("option"); o.value = m; o.textContent = m; if (m === settings.llmModel) o.selected = true; s.appendChild(o); });
-      s.onchange = () => { if (s.value) { $("sModel").value = s.value; upd(); toast("Modello impostato: " + s.value); } };
-      pick.appendChild(s);
+      s.onchange = () => { if (s.value) { $("sModel").value = s.value; upd(); toast("Modello principale: " + s.value); } };
+      const l1 = document.createElement("label"); l1.className = "field"; l1.textContent = "Modello principale"; l1.appendChild(s); pick.appendChild(l1);
+      const s2 = s.cloneNode(true); s2.firstChild.textContent = "Nessun modello di riserva"; s2.value = settings.llmFallback || ""; s2.setAttribute("aria-label", "Scegli il modello di riserva");
+      s2.onchange = () => { $("sFallback").value = s2.value; upd(); toast(s2.value ? "Modello di riserva: " + s2.value : "Nessun modello di riserva"); };
+      const l2 = document.createElement("label"); l2.className = "field"; l2.textContent = "Modello di riserva"; l2.appendChild(s2); pick.appendChild(l2);
     } catch (e) { out.textContent = "Elenco non disponibile: " + (e.message || "errore") + " Puoi scrivere il nome del modello a mano."; }
   };
 }
