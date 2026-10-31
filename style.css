@@ -146,3 +146,9 @@ input[type=text],input[type=password],input[type=number]{font:inherit;font-size:
 .dropoverlay b{font-size:1.25rem} .dropoverlay span{color:var(--ink-soft)}
 .linkbtn{appearance:none;background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
 .note a{color:var(--accent)}
+
+.variants{margin:-4px 0 14px}
+.variants .note{margin:0 0 4px}
+.variants blockquote{margin:0 0 6px;padding:7px 10px;border-left:3px solid var(--line);background:var(--paper);border-radius:0 6px 6px 0;font-size:.95rem;white-space:pre-line}
+.variants .src{display:block;font-size:.78rem;color:var(--ink-soft);margin-bottom:2px}
+.q{white-space:pre-line}

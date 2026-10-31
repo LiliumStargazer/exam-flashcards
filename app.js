@@ -69,6 +69,7 @@ function validateDeck(d) {
       if (!q.domanda) errs.push(where + ": testo della domanda mancante.");
       if (!Array.isArray(q.concetti) || !q.concetti.length) errs.push(where + ": servono almeno un concetto chiave.");
       if (typeof q.risposta !== "string") errs.push(where + ": “risposta” deve essere testo (Markdown).");
+      if (q.varianti != null && (!Array.isArray(q.varianti) || q.varianti.some(v => !v || typeof v.testo !== "string"))) errs.push(where + ": “varianti” deve essere un elenco di oggetti con “testo”.");
     });
   }
   return errs.slice(0, 8);
@@ -206,6 +207,7 @@ function renderCard() {
      <span class="state ${r ? r.st : ""}">${r ? stLabel(r.st) + ", " + r.s + "%" : ""}</span></div>
    <div class="cbody">
      <h2 class="q">${esc(q.domanda)}</h2>
+     ${Array.isArray(q.varianti) && q.varianti.length ? `<div class="variants"><p class="note">Formulata anche così:</p>${q.varianti.map(v => `<blockquote><span class="src">${esc(v.fonte || "")}</span>${esc(v.testo || "")}</blockquote>`).join("")}</div>` : ""}
      ${secName ? `<div class="secname">${q.argomento.length <= 3 ? esc(q.argomento) + ". " : ""}${esc(secName)}</div>` : ""}
      <label for="ans" class="hint" style="display:block;margin:0 0 6px">Scrivi la tua risposta come all’esame (oppure rispondi a voce e scopri la risposta).</label>
      <textarea id="ans" placeholder="La tua risposta…">${esc(drafts[q.n] || "")}</textarea>
@@ -357,7 +359,7 @@ function buildPrompt(q, txt) {
 Materia: ${deck.titolo}.
 Valuta SOLO se i concetti chiave sono espressi nella risposta, anche con parole diverse. Non premiare frasi vaghe.
 
-Domanda: ${q.domanda}
+Domanda: ${q.domanda}${Array.isArray(q.varianti) && q.varianti.length ? "\nAltre formulazioni della stessa domanda: " + q.varianti.map(v => v.testo).join(" / ") : ""}
 
 Concetti chiave (indice: testo):
 ${q.concetti.map((c, i) => i + ": " + c).join("\n")}

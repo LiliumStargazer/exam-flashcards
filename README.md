@@ -14,7 +14,7 @@ mazzi/indice.json   l’elenco dei mazzi disponibili
 mazzi/*.json        un file per materia (un “mazzo”)
 ```
 
-Il mazzo incluso è **Computer Forensics** (73 domande d’esame con risposte modello).
+Il mazzo incluso è **Computer Forensics** (72 domande d’esame, con il testo originale delle fonti e risposte modello).
 
 ## Pubblicarlo con GitHub Pages
 
@@ -76,7 +76,8 @@ In alternativa **trascina il file JSON** in qualsiasi punto della pagina, oppure
       "argomento": "A",
       "priorita": 3,
       "fonti": "Appello 12/06/2025",
-      "domanda": "Testo della domanda",
+      "domanda": "Testo della domanda, parola per parola come nella fonte",
+      "varianti": [ { "fonte": "Appello 03/02/2026", "testo": "Altra formulazione della stessa domanda" } ],
       "concetti": [
         "Primo concetto chiave, una frase breve",
         "Secondo concetto chiave"
@@ -101,6 +102,7 @@ In alternativa **trascina il file JSON** in qualsiasi punto della pagina, oppure
 | `domande[].argomento` | no | uno dei codici di `argomenti` |
 | `domande[].priorita` | no | 3 = alta, 2 = media, 1 = bassa (predefinita 2) |
 | `domande[].fonti` | no | dove è uscita la domanda |
+| `domande[].varianti` | no | altre formulazioni della stessa domanda (`fonte`, `testo`), mostrate sotto la domanda |
 
 ### Generare un mazzo con un assistente AI
 
@@ -114,6 +116,7 @@ lo schema qui sotto. Per ogni domanda d’esame che ti fornisco:
   deve esprimere per dare una risposta completa;
 - assegna la priorità: 3 se la domanda è uscita più volte, 2 se è uscita una volta, 1 se non è mai uscita;
 - raggruppa le domande in argomenti (codici A, B, C… con un nome);
+- usa come "domanda" il testo originale, parola per parola; se la stessa domanda è uscita con parole diverse, metti le altre formulazioni in "varianti";
 - indica in "fonti" gli appelli in cui la domanda è uscita.
 Usa i materiali del corso come fonte principale e segnala nella risposta le parti integrate
 da fonti esterne. Restituisci SOLO il JSON valido, senza testo prima o dopo.
