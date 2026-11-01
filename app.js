@@ -44,7 +44,22 @@ const PRESETS = {
   custom: { nome: "Altro (compatibile OpenAI)", base: "", model: "", chiave: "", come: "Inserisci indirizzo, modello e chiave del servizio che preferisci." }
 };
 let settings = Object.assign({}, DEFAULT_SETTINGS, LS.get(K.settings, {}));
-function saveSettings() { LS.set(K.settings, settings); }
+/* Ogni servizio ha la sua configurazione (indirizzo, modello, riserva, chiave).
+   I campi llmBase/llmModel/llmFallback/llmKey contengono sempre quella del servizio selezionato. */
+function svcDefaults(name) { const p = PRESETS[name] || {}; return { base: p.base || "", model: p.model || "", fallback: "", key: "" }; }
+function storeActiveService() {
+  settings.services = settings.services || {};
+  settings.services[settings.llmPreset] = { base: settings.llmBase || "", model: settings.llmModel || "", fallback: settings.llmFallback || "", key: settings.llmKey || "" };
+}
+function loadService(name) {
+  settings.services = settings.services || {};
+  const c = Object.assign(svcDefaults(name), settings.services[name] || {});
+  settings.llmPreset = name; settings.llmBase = c.base; settings.llmModel = c.model; settings.llmFallback = c.fallback; settings.llmKey = c.key;
+}
+if (!settings.services) { settings.services = {}; storeActiveService(); }   // migrazione: le impostazioni già salvate vanno al servizio in uso
+else loadService(settings.llmPreset);
+function saveSettings() { storeActiveService(); LS.set(K.settings, settings); }
+function hasKey(name) { const c = (settings.services || {})[name]; return !!(c && c.key); }
 
 /* ---------- stato ---------- */
 let decks = [];          // [{id, titolo, source:'repo'|'locale', file?, data?}]
@@ -534,7 +549,8 @@ function renderSettings() {
   <div class="box set" id="boxEval"><h2>Valutazione con un modello linguistico (facoltativa)</h2>
     <p>Valutazione più precisa, che segnala anche gli errori. Usa un servizio esterno con la tua chiave personale: i piani gratuiti hanno limiti giornalieri e possono usare i testi inviati per migliorare i loro modelli. La chiave resta salvata solo in questo browser.</p>
     <label class="switch"><input type="checkbox" id="sLlm" ${settings.llmOn ? "checked" : ""}>Attiva la valutazione con il modello</label>
-    <label class="field">Servizio<select id="sPreset">${Object.entries(PRESETS).map(([k, v]) => `<option value="${k}" ${settings.llmPreset === k ? "selected" : ""}>${esc(v.nome)}</option>`).join("")}</select></label>
+    <label class="field">Servizio<select id="sPreset">${Object.entries(PRESETS).map(([k, v]) => `<option value="${k}" ${settings.llmPreset === k ? "selected" : ""}>${esc(v.nome)}${hasKey(k) ? " — chiave salvata" : ""}</option>`).join("")}</select></label>
+    <p class="note">Ogni servizio ricorda la sua chiave, il suo indirizzo e i suoi modelli: cambiando servizio i campi qui sotto mostrano i valori salvati per quello.</p>
     <div class="row">
       <label class="field">Indirizzo API<input type="text" id="sBase" value="${esc(settings.llmBase)}" autocomplete="off"></label>
       <label class="field">Modello<input type="text" id="sModel" value="${esc(settings.llmModel)}" autocomplete="off" list="modelList" placeholder="Nome del modello"></label>
@@ -574,9 +590,13 @@ function renderSettings() {
     saveSettings();
   };
   ["sSim", "sHigh", "sLow", "sLlm", "sBase", "sModel", "sFallback", "sKey"].forEach(id => $(id).addEventListener("change", upd));
+  $("sKey").addEventListener("change", () => { const o = $("sPreset").selectedOptions[0]; if (o) o.textContent = PRESETS[o.value].nome + (hasKey(o.value) ? " — chiave salvata" : ""); });
   $("sPreset").addEventListener("change", () => {
-    const p = PRESETS[$("sPreset").value]; settings.llmPreset = $("sPreset").value;
-    $("sBase").value = p.base || ""; $("sModel").value = p.model || ""; $("sFallback").value = ""; upd(); showHow(); $("modelPick").innerHTML = ""; $("modelsOut").textContent = "";
+    upd();                                   // salva i campi del servizio che si sta lasciando
+    loadService($("sPreset").value);         // carica quelli del nuovo servizio (o i valori predefiniti)
+    $("sBase").value = settings.llmBase; $("sModel").value = settings.llmModel; $("sFallback").value = settings.llmFallback; $("sKey").value = settings.llmKey;
+    saveSettings(); showHow(); $("modelPick").innerHTML = ""; $("modelsOut").textContent = ""; $("testOut").textContent = "";
+    [...$("sPreset").options].forEach(o => { o.textContent = PRESETS[o.value].nome + (hasKey(o.value) ? " — chiave salvata" : ""); });
   });
   showHow();
   $("bTest").onclick = async () => {
