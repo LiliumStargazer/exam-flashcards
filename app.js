@@ -393,6 +393,7 @@ function serverDetail(body) {
   } catch (e) { /* non JSON */ }
   return String(body || "").replace(/\s+/g, " ").slice(0, 220);
 }
+function isDailyLimit(body) { return /per ?day|perday|daily|requests per day|RPD/i.test(String(body || "")); }
 function explainHttp(status, body) {
   const b = String(body || "").toLowerCase();
   return explainHttpBase(status, body, b) + (serverDetail(body) ? " [HTTP " + status + ": " + serverDetail(body) + "]" : " [HTTP " + status + "]");
@@ -400,7 +401,10 @@ function explainHttp(status, body) {
 function explainHttpBase(status, body, b) {
   if (status === 401 || status === 403) return "chiave non valida o senza permessi: ricopiala dal sito del servizio.";
   if (status === 404 || (status === 400 && /model/.test(b) && /(not found|not exist|invalid|unknown|unsupported)/.test(b))) return "modello inesistente: premi “Mostra i modelli disponibili” e scegline uno dall’elenco.";
-  if (status === 429) return "limite di richieste raggiunto: aspetta un minuto (o fino a domani, se è il limite giornaliero) oppure usa un altro modello.";
+  if (status === 429) {
+    if (isDailyLimit(body)) return "hai raggiunto il limite giornaliero gratuito di questo modello. Si azzera intorno alle 9 del mattino (ora italiana); nel frattempo scegli un altro modello (ognuno ha un limite proprio) o un altro servizio. Cambiare chiave non serve se è nello stesso progetto.";
+    return "troppe richieste in poco tempo: aspetta un minuto e riprova, oppure usa un altro modello.";
+  }
   if (status === 503 || status === 502) return "il modello è sovraccarico in questo momento (non dipende da te): scegli un modello più leggero (es. flash-lite), imposta un modello di riserva o riprova più tardi.";
   if (status === 500) return "errore interno del servizio: riprova tra poco o scegli un altro modello.";
   if (status === 400) return "richiesta rifiutata dal servizio.";
@@ -440,7 +444,8 @@ async function callLlmModel(prompt, model, onRetry) {
       return (((j.choices || [])[0] || {}).message || {}).content || "";
     }
     let body = ""; try { body = await r.text(); } catch (e) {}
-    if ((r.status === 503 || r.status === 429 || r.status === 502) && attempt < waits.length) {
+    // 503/502: sovraccarico temporaneo, ha senso riprovare. 429: limite raggiunto, riprovare consuma solo altre richieste.
+    if ((r.status === 503 || r.status === 502) && attempt < waits.length) {
       if (onRetry) onRetry(attempt + 1);
       await sleep(waits[attempt]);
       continue;
