@@ -611,14 +611,18 @@ function renderSettings() {
     try {
       let list = await listModels();
       const sel = $("sPreset").value;
-      if (sel === "gemini") list = list.filter(m => /gemini/i.test(m) && !/(embedding|image|tts|audio|live|vision)/i.test(m));
+      if (sel === "gemini") {
+        list = list.filter(m => /(gemini|gemma)/i.test(m) && !/(embedding|image|tts|audio|live|vision|nano)/i.test(m));
+        // Gemma per primi: nel piano gratuito hanno limiti giornalieri molto più alti
+        list.sort((a, b) => (/gemma/i.test(b) - /gemma/i.test(a)) || a.localeCompare(b));
+      }
       if (sel === "openrouter") list = list.filter(m => /:free$/.test(m));
       if (!list.length) { out.textContent = "Nessun modello trovato."; return; }
       out.textContent = list.length + (sel === "openrouter" ? " modelli gratuiti" : " modelli") + ": scegline uno.";
       const dl = $("modelList"); dl.innerHTML = ""; list.forEach(m => { const o = document.createElement("option"); o.value = m; dl.appendChild(o); });
       const s = document.createElement("select"); s.setAttribute("aria-label", "Scegli il modello");
       const o0 = document.createElement("option"); o0.value = ""; o0.textContent = "Scegli un modello…"; s.appendChild(o0);
-      list.forEach(m => { const o = document.createElement("option"); o.value = m; o.textContent = m; if (m === settings.llmModel) o.selected = true; s.appendChild(o); });
+      list.forEach(m => { const o = document.createElement("option"); o.value = m; o.textContent = m + (/gemma/i.test(m) ? " — limiti gratuiti alti" : ""); if (m === settings.llmModel) o.selected = true; s.appendChild(o); });
       s.onchange = () => { if (s.value) { $("sModel").value = s.value; upd(); toast("Modello principale: " + s.value); } };
       const l1 = document.createElement("label"); l1.className = "field"; l1.textContent = "Modello principale"; l1.appendChild(s); pick.appendChild(l1);
       const s2 = s.cloneNode(true); s2.firstChild.textContent = "Nessun modello di riserva"; s2.value = settings.llmFallback || ""; s2.setAttribute("aria-label", "Scegli il modello di riserva");
