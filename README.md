@@ -1,5 +1,7 @@
 # Exam Flashcards — Ripasso esami
 
+https://liliumstargazer.github.io/exam-flashcards/
+
 Flashcard per preparare esami orali e scritti a risposta aperta. Per ogni domanda scrivi (o dici) la tua risposta, poi spunti i **concetti chiave** che hai espresso: il programma calcola la copertura, segna la domanda come *sicura*, *parziale* o *da rifare* e ti ripropone per prime quelle più deboli.
 
 Funziona da telefono e da computer, senza account e senza server: è un sito statico pubblicato con GitHub Pages.
