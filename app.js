@@ -3,6 +3,7 @@
    Progressi: localStorage del browser (esportabili/importabili). */
 (function () {
 "use strict";
+const APP_VERSION = "2026.11.01-3"; // aggiornare insieme ai parametri ?v= in index.html
 
 /* ---------- utilità ---------- */
 const $ = id => document.getElementById(id);
@@ -593,7 +594,8 @@ function renderSettings() {
     <label class="field">Chiave API<input type="password" id="sKey" value="${esc(settings.llmKey)}" autocomplete="off" placeholder="Incolla qui la tua chiave"></label>
     <div class="row"><button class="btn ghost" id="bTest">Prova la connessione</button></div>
     <p class="note" id="testOut"></p>
-  </div>`;
+  </div>
+  <p class="note" style="text-align:center">Versione del programma: <b>${APP_VERSION}</b></p>`;
   const dz = $("dropzone");
   dz.onclick = () => $("fileDeck").click();
   dz.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("fileDeck").click(); } };
