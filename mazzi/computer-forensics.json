@@ -21,7 +21,7 @@
    "n": 1,
    "argomento": "A",
    "priorita": 2,
-   "fonti": "File domande, n. 16; Lista “Sabrina”",
+   "fonti": "File domande, n. 16",
    "domanda": "Dare una definizione di informatica forense.",
    "concetti": [
     "Definizione di Maioli: individuazione, conservazione, protezione, estrazione, documentazione, interpretazione del dato",
@@ -29,13 +29,19 @@
     "Studia processi, tecniche e strumenti per l’esame metodologico di qualsiasi sistema informatico o telematico",
     "Serve un metodo rigoroso per superare la prova di resistenza giudiziaria"
    ],
-   "risposta": "L’informatica forense è la disciplina che si occupa dell’individuazione, conservazione, protezione, estrazione, documentazione e di ogni altra forma di trattamento e interpretazione del dato memorizzato su supporto informatico, al fine di essere valutato come prova nel processo (definizione di Cesare Maioli). Studia i processi, le tecniche e gli strumenti per esaminare in modo metodologico qualsiasi sistema informatico o telematico (computer, reti, telefoni, ogni dispositivo che tratta dati digitali), per recuperare i dati ed esibirli come prova. Ciò che la distingue dall’informatica comune è la **finalità probatoria**: non basta trovare un dato, bisogna trattarlo in modo che resista alle contestazioni della controparte in giudizio, cioè alla “prova di resistenza giudiziaria”. Per questo l’informatica forense si fonda su un metodo rigoroso e documentato."
+   "risposta": "L’informatica forense è la disciplina che si occupa dell’individuazione, conservazione, protezione, estrazione, documentazione e di ogni altra forma di trattamento e interpretazione del dato memorizzato su supporto informatico, al fine di essere valutato come prova nel processo (definizione di Cesare Maioli). Studia i processi, le tecniche e gli strumenti per esaminare in modo metodologico qualsiasi sistema informatico o telematico (computer, reti, telefoni, ogni dispositivo che tratta dati digitali), per recuperare i dati ed esibirli come prova. Ciò che la distingue dall’informatica comune è la **finalità probatoria**: non basta trovare un dato, bisogna trattarlo in modo che resista alle contestazioni della controparte in giudizio, cioè alla “prova di resistenza giudiziaria”. Per questo l’informatica forense si fonda su un metodo rigoroso e documentato.",
+   "varianti": [
+    {
+     "fonte": "Lista “Sabrina”",
+     "testo": "Si dia una definizione di informatica forense"
+    }
+   ]
   },
   {
    "n": 2,
    "argomento": "A",
    "priorita": 2,
-   "fonti": "File domande, n. 17; Lista “Sabrina”",
+   "fonti": "File domande, n. 17",
    "domanda": "Illustrare la rilevanza dell’adozione best practices nell’ambito dell’informatica forense.",
    "concetti": [
     "Best practice = procedure riconosciute dalla comunità scientifica (es. ISO/IEC 27037)",
@@ -45,13 +51,19 @@
     "Sono anche un obbligo di legge (L. 48/2008, misure per conservare l’originale e impedirne l’alterazione)",
     "Esempio di danni senza metodo (Garlasco)"
    ],
-   "risposta": "Le best practice sono le procedure riconosciute dalla comunità scientifica per trattare le prove digitali, come la norma ISO/IEC 27037. Sono rilevanti perché il dato digitale è fragile: si altera facilmente, anche solo accendendo un computer, si falsifica facilmente e non conserva traccia delle modifiche subite. Seguire le best practice garantisce quattro cose:\n\n- l’**integrità** della prova, con write blocker, copia bit per bit e hash;\n- la sua **ripetibilità e verificabilità**, perché si lavora su copie identiche che anche le controparti possono esaminare;\n- la **trasparenza**, con la documentazione di ogni operazione e la catena di custodia;\n- l’**utilizzabilità** in giudizio.\n\nSolo un accertamento metodologicamente rigoroso supera la prova di resistenza giudiziaria. Dal 2008 (L. 48/2008) adottare misure tecniche che assicurino la conservazione dei dati originali e ne impediscano l’alterazione è anche un **obbligo di legge** previsto dal codice di procedura penale per ispezioni, perquisizioni, sequestri e accertamenti urgenti. Quando le best practice non vengono seguite il danno può essere enorme: nel caso Garlasco gli accessi al computer dell’indagato senza tecniche forensi alterarono circa tre quarti dei file, rendendo molto più difficile verificare l’alibi."
+   "risposta": "Le best practice sono le procedure riconosciute dalla comunità scientifica per trattare le prove digitali, come la norma ISO/IEC 27037. Sono rilevanti perché il dato digitale è fragile: si altera facilmente, anche solo accendendo un computer, si falsifica facilmente e non conserva traccia delle modifiche subite. Seguire le best practice garantisce quattro cose:\n\n- l’**integrità** della prova, con write blocker, copia bit per bit e hash;\n- la sua **ripetibilità e verificabilità**, perché si lavora su copie identiche che anche le controparti possono esaminare;\n- la **trasparenza**, con la documentazione di ogni operazione e la catena di custodia;\n- l’**utilizzabilità** in giudizio.\n\nSolo un accertamento metodologicamente rigoroso supera la prova di resistenza giudiziaria. Dal 2008 (L. 48/2008) adottare misure tecniche che assicurino la conservazione dei dati originali e ne impediscano l’alterazione è anche un **obbligo di legge** previsto dal codice di procedura penale per ispezioni, perquisizioni, sequestri e accertamenti urgenti. Quando le best practice non vengono seguite il danno può essere enorme: nel caso Garlasco gli accessi al computer dell’indagato senza tecniche forensi alterarono circa tre quarti dei file, rendendo molto più difficile verificare l’alibi.",
+   "varianti": [
+    {
+     "fonte": "Lista “Sabrina”",
+     "testo": "Si illustri la rilevanza dell'adozione best practices nell'ambito dell'informatica forense"
+    }
+   ]
   },
   {
    "n": 3,
    "argomento": "A",
    "priorita": 2,
-   "fonti": "File domande, n. 18; Lista “Sabrina”",
+   "fonti": "File domande, n. 18",
    "domanda": "Quali sono i limiti e le criticità dell’informatica forense?",
    "concetti": [
     "Estrema alterabilità dei reperti (dolosa o colposa)",
@@ -60,13 +72,19 @@
     "Effimero valore del bit e presunzione di ripudio",
     "Atteggiamento: autocritica, diffidenza, ricerca di riscontri"
    ],
-   "risposta": "Il corso individua tre limiti strutturali.\n\n1. **Estrema alterabilità dei reperti**, per dolo o per colpa: basta un errore di chi indaga, o una cattiva conservazione, per modificare i dati.\n2. **Facile creazione ad arte di prove false**: date dei file modificabili con un comando, email costruite da zero, SMS falsi generati da app.\n3. **Difficile riconducibilità dei dati ai veri autori**: un IP identifica un’utenza e non una persona, un computer può essere usato da più persone.\n\nA questi limiti si lega l’“effimero valore probatorio del bit”: analizzando una sequenza di bit non si può sapere se e quando sia stata modificata. Ne deriva la “presunzione di ripudio”, per cui il dato va presunto alterato finché chi lo produce non ne dimostra l’attendibilità. Il consulente deve quindi:\n\n- praticare una profonda autocritica;\n- essere diffidente anche verso le proprie conclusioni;\n- cercare in modo quasi “paranoico” riscontri indipendenti.\n\nAltre criticità sono la mole crescente di dati, la cifratura, i dati conservati nel cloud o all’estero, l’estrema varietà dei dispositivi mobili e l’elevato margine di errore della localizzazione tramite celle telefoniche."
+   "risposta": "Il corso individua tre limiti strutturali.\n\n1. **Estrema alterabilità dei reperti**, per dolo o per colpa: basta un errore di chi indaga, o una cattiva conservazione, per modificare i dati.\n2. **Facile creazione ad arte di prove false**: date dei file modificabili con un comando, email costruite da zero, SMS falsi generati da app.\n3. **Difficile riconducibilità dei dati ai veri autori**: un IP identifica un’utenza e non una persona, un computer può essere usato da più persone.\n\nA questi limiti si lega l’“effimero valore probatorio del bit”: analizzando una sequenza di bit non si può sapere se e quando sia stata modificata. Ne deriva la “presunzione di ripudio”, per cui il dato va presunto alterato finché chi lo produce non ne dimostra l’attendibilità. Il consulente deve quindi:\n\n- praticare una profonda autocritica;\n- essere diffidente anche verso le proprie conclusioni;\n- cercare in modo quasi “paranoico” riscontri indipendenti.\n\nAltre criticità sono la mole crescente di dati, la cifratura, i dati conservati nel cloud o all’estero, l’estrema varietà dei dispositivi mobili e l’elevato margine di errore della localizzazione tramite celle telefoniche.",
+   "varianti": [
+    {
+     "fonte": "Lista “Sabrina”",
+     "testo": "Quali sono le criticità dell'informatica forense?"
+    }
+   ]
   },
   {
    "n": 4,
    "argomento": "A",
    "priorita": 2,
-   "fonti": "File domande, n. 19; Lista “Sabrina”",
+   "fonti": "File domande, n. 19",
    "domanda": "Cosa individua un indirizzo IP nel contesto dell’informatica forense?",
    "concetti": [
     "L’IP identifica un sistema in rete in un preciso istante",
@@ -75,7 +93,13 @@
     "Limiti: NAT, Wi-Fi condivisa o abusiva, proxy/VPN/Tor, log imprecisi",
     "Per arrivare alla persona servono altri riscontri"
    ],
-   "risposta": "Un indirizzo IP individua univocamente un sistema in una rete **in un preciso istante**. Su Internet individua l’**utenza**, cioè il contratto o la linea del fornitore di connettività a cui quell’indirizzo era assegnato in quel momento. Siccome i provider riassegnano gli indirizzi nel tempo, per sapere a chi corrispondeva un IP servono la data e l’ora esatte, con il fuso orario, e i registri (log) del provider.\n\nL’IP **non individua una persona**:\n\n- dietro un router domestico più dispositivi condividono lo stesso IP pubblico;\n- una rete Wi-Fi può essere usata da altri, anche abusivamente;\n- proxy, VPN e Tor fanno apparire un indirizzo diverso da quello reale;\n- i log possono essere imprecisi.\n\nL’IP è quindi un indizio che porta a un’utenza; per arrivare alla persona servono riscontri sui dispositivi e da altre fonti. Nel caso del “terrorista mancato” visto a lezione, l’imputato fu assolto proprio perché nulla collegava gli indirizzi IP dell’attacco a un’utenza a lui riconducibile."
+   "risposta": "Un indirizzo IP individua univocamente un sistema in una rete **in un preciso istante**. Su Internet individua l’**utenza**, cioè il contratto o la linea del fornitore di connettività a cui quell’indirizzo era assegnato in quel momento. Siccome i provider riassegnano gli indirizzi nel tempo, per sapere a chi corrispondeva un IP servono la data e l’ora esatte, con il fuso orario, e i registri (log) del provider.\n\nL’IP **non individua una persona**:\n\n- dietro un router domestico più dispositivi condividono lo stesso IP pubblico;\n- una rete Wi-Fi può essere usata da altri, anche abusivamente;\n- proxy, VPN e Tor fanno apparire un indirizzo diverso da quello reale;\n- i log possono essere imprecisi.\n\nL’IP è quindi un indizio che porta a un’utenza; per arrivare alla persona servono riscontri sui dispositivi e da altre fonti. Nel caso del “terrorista mancato” visto a lezione, l’imputato fu assolto proprio perché nulla collegava gli indirizzi IP dell’attacco a un’utenza a lui riconducibile.",
+   "varianti": [
+    {
+     "fonte": "Lista “Sabrina”",
+     "testo": "Cosa individua un indirizzo IP nel contesto dell'informatica forense?"
+    }
+   ]
   },
   {
    "n": 5,
@@ -331,7 +355,7 @@
    "n": 20,
    "argomento": "B",
    "priorita": 3,
-   "fonti": "File domande, n. 5; Esame 14/01/2023",
+   "fonti": "File domande, n. 5",
    "domanda": "Se si hanno due copie forensi dallo stesso hard disk, ma con hash diversi, come posso individuare i file diversi?",
    "concetti": [
     "Verificare che le copie siano confrontabili (stessa porzione, dimensione, algoritmo)",
@@ -340,7 +364,13 @@
     "Interpretare la causa: disco montato senza write blocker, settori danneggiati, SSD/TRIM, errore",
     "Documentare; la copia più vecchia verificata è il riferimento"
    ],
-   "risposta": "L’hash di un’immagine dice soltanto che le due copie sono diverse, non dove. Il primo passo è verificare che le copie siano davvero confrontabili: devono riguardare lo stesso disco e la stessa porzione (disco intero o partizione), avere la stessa dimensione, nessuna deve essere incompleta per settori illeggibili, e l’algoritmo di hash deve essere lo stesso.\n\nPoi si montano entrambe le immagini in sola lettura e si calcola l’**hash di ogni singolo file**, ad esempio con `hashdeep`. Confrontando i due elenchi emergono i file con hash diverso, quelli presenti in una sola copia e quelli mancanti.\n\nSe le differenze stanno fuori dai file, cioè nello spazio non allocato o nei metadati, si confrontano le immagini **settore per settore**: con `cmp -l` si ottengono le posizioni dei byte diversi, oppure si calcolano hash per blocchi di dimensione fissa per localizzare le zone. Da queste posizioni gli strumenti forensi risalgono al file o all’area interessata.\n\nInfine si interpreta la causa:\n\n- il disco può essere stato **acceso o montato senza write blocker** tra le due acquisizioni, e Windows modifica subito date e log;\n- possono esserci **settori danneggiati** letti in modo diverso;\n- su un **SSD** il comando TRIM può aver azzerato dei blocchi;\n- può esserci un errore di copia.\n\nTutto va documentato, e la copia più vecchia, se verificata, resta il riferimento."
+   "risposta": "L’hash di un’immagine dice soltanto che le due copie sono diverse, non dove. Il primo passo è verificare che le copie siano davvero confrontabili: devono riguardare lo stesso disco e la stessa porzione (disco intero o partizione), avere la stessa dimensione, nessuna deve essere incompleta per settori illeggibili, e l’algoritmo di hash deve essere lo stesso.\n\nPoi si montano entrambe le immagini in sola lettura e si calcola l’**hash di ogni singolo file**, ad esempio con `hashdeep`. Confrontando i due elenchi emergono i file con hash diverso, quelli presenti in una sola copia e quelli mancanti.\n\nSe le differenze stanno fuori dai file, cioè nello spazio non allocato o nei metadati, si confrontano le immagini **settore per settore**: con `cmp -l` si ottengono le posizioni dei byte diversi, oppure si calcolano hash per blocchi di dimensione fissa per localizzare le zone. Da queste posizioni gli strumenti forensi risalgono al file o all’area interessata.\n\nInfine si interpreta la causa:\n\n- il disco può essere stato **acceso o montato senza write blocker** tra le due acquisizioni, e Windows modifica subito date e log;\n- possono esserci **settori danneggiati** letti in modo diverso;\n- su un **SSD** il comando TRIM può aver azzerato dei blocchi;\n- può esserci un errore di copia.\n\nTutto va documentato, e la copia più vecchia, se verificata, resta il riferimento.",
+   "varianti": [
+    {
+     "fonte": "Esame 14/01/2023",
+     "testo": "Si hanno due copie forense dallo stesso hard disk ma con hash diversi come individuare file diversi"
+    }
+   ]
   },
   {
    "n": 21,
@@ -511,7 +541,7 @@
    "n": 30,
    "argomento": "C",
    "priorita": 3,
-   "fonti": "File domande, n. 20; Lista “Sabrina”",
+   "fonti": "File domande, n. 20",
    "domanda": "Spiegare le differenze tra data di ultimo accesso e data di ultima modifica dei file e fare un esempio di come si possono utilizzare.",
    "concetti": [
     "Modifica = ultimo cambiamento del contenuto salvato",
@@ -520,7 +550,13 @@
     "Esempio: modifica anteriore alla creazione = file copiato da altro supporto",
     "Cautele: aggiornamenti automatici, accesso disattivabile su NTFS, date falsificabili"
    ],
-   "risposta": "La data di **ultima modifica** indica l’ultimo momento in cui il **contenuto** del file è stato cambiato e salvato. La data di **ultimo accesso** indica l’ultimo momento in cui il file è stato **letto in qualsiasi modo** (aperto, visualizzato, stampato, copiato), anche senza modificarlo.\n\nUn primo esempio è il **furto di dati da parte di un dipendente**. Se nella timeline centinaia di file aziendali hanno la data di ultimo accesso concentrata in pochi secondi, mentre la data di modifica è rimasta invariata, si è di fronte a una “lettura massiva”, compatibile con una copia: copiare un file significa leggerlo, non modificarlo. Se negli stessi secondi il registro di Windows mostra il collegamento di una chiavetta USB (un “evento sentinella”), l’indizio diventa forte.\n\nUn secondo esempio riguarda il riconoscimento delle **copie**. Copiando un file su un altro disco, la copia riceve come data di creazione il momento della copia ma conserva la data di modifica originale. Un file con la data di modifica anteriore alla data di creazione è quindi stato copiato da un altro supporto.\n\nVa sempre ricordato che la data di accesso viene aggiornata anche da processi automatici come antivirus e ricerca di Windows, che su NTFS il suo aggiornamento può essere disattivato e che tutte le date si possono falsificare. Vanno quindi incrociate con log, registro e metadati."
+   "risposta": "La data di **ultima modifica** indica l’ultimo momento in cui il **contenuto** del file è stato cambiato e salvato. La data di **ultimo accesso** indica l’ultimo momento in cui il file è stato **letto in qualsiasi modo** (aperto, visualizzato, stampato, copiato), anche senza modificarlo.\n\nUn primo esempio è il **furto di dati da parte di un dipendente**. Se nella timeline centinaia di file aziendali hanno la data di ultimo accesso concentrata in pochi secondi, mentre la data di modifica è rimasta invariata, si è di fronte a una “lettura massiva”, compatibile con una copia: copiare un file significa leggerlo, non modificarlo. Se negli stessi secondi il registro di Windows mostra il collegamento di una chiavetta USB (un “evento sentinella”), l’indizio diventa forte.\n\nUn secondo esempio riguarda il riconoscimento delle **copie**. Copiando un file su un altro disco, la copia riceve come data di creazione il momento della copia ma conserva la data di modifica originale. Un file con la data di modifica anteriore alla data di creazione è quindi stato copiato da un altro supporto.\n\nVa sempre ricordato che la data di accesso viene aggiornata anche da processi automatici come antivirus e ricerca di Windows, che su NTFS il suo aggiornamento può essere disattivato e che tutte le date si possono falsificare. Vanno quindi incrociate con log, registro e metadati.",
+   "varianti": [
+    {
+     "fonte": "Lista “Sabrina”",
+     "testo": "Spiegare le differenze tra data di ultimo accesso e data di ultima modifica dei file e fare un esempio di come si posso utilizzare"
+    }
+   ]
   },
   {
    "n": 31,
@@ -586,7 +622,7 @@
    "argomento": "C",
    "priorita": 3,
    "fonti": "File domande, n. 53; Esame 27/01/2024",
-   "domanda": "Inserendo questa stringa di ricerca un software di analisi forense, che tipologia di risultati vengono forniti? [A-Z]{6}{0-9}{2}[ABCDEHLMPRST]{1}[0-9]{2} [A-Z]{1}[0- 9]{3}[A-Z]{1}",
+   "domanda": "Inserendo questa stringa di ricerca un software di analisi forense, che tipologia di risultati vengono forniti? [A-Z]{6}{0-9}{2}[ABCDEHLMPRST]{1}[0-9]{2} [A-Z]{1}[0-9]{3}[A-Z]{1}",
    "concetti": [
     "È un’espressione regolare (regex)",
     "Spiegare la sintassi: [A-Z], [0-9], {n}, insieme di caratteri",
@@ -663,7 +699,7 @@
    "n": 40,
    "argomento": "D",
    "priorita": 3,
-   "fonti": "File domande, n. 7; Esame 14/01/2023",
+   "fonti": "File domande, n. 7",
    "domanda": "Simulare una presentazione processuale dove si spiega il perché si può recuperare da un disco formattato i dati.",
    "concetti": [
     "Metafora: cassetti (settori) e schedario (indice)",
@@ -672,7 +708,13 @@
     "Data carving: lettura cassetto per cassetto riconoscendo la forma dei file",
     "Limiti: sovrascritture, perdita di nomi e date; solo il wiping cancella davvero; SSD/TRIM"
    ],
-   "risposta": "Signor Giudice, provo a spiegarlo con un’immagine. Pensi al disco come a un grande archivio fatto di migliaia di cassetti numerati, e al sistema che lo gestisce come allo schedario all’ingresso, che dice in quali cassetti si trova ogni pratica. Quando un utente cancella un file, o formatta il disco, il computer non svuota i cassetti: si limita a buttare via le schede dello schedario e a considerare quei cassetti liberi. Le pratiche restano dove sono, finché qualcuno non ci mette dentro altro, cioè finché quei punti del disco non vengono sovrascritti da nuovi dati.\n\nCon strumenti forensi possiamo leggere il disco cassetto per cassetto, senza usare lo schedario, e riconoscere i documenti dalla loro forma, perché ogni tipo di file ha un inizio e una fine caratteristici. È la tecnica chiamata data carving, ed è così che abbiamo recuperato quei documenti.\n\nIl recupero non è sempre completo: se nel frattempo il disco è stato usato, alcune parti possono essere state sovrascritte. Inoltre dei file recuperati perdiamo il nome e le date, che stavano nello schedario. L’unico modo per cancellare davvero è riscrivere tutti i cassetti, operazione chiamata wiping, che una normale formattazione non fa.\n\nPer completezza va detto che sui dischi a stato solido (SSD) il disco stesso può azzerare in automatico gli spazi liberati, e che alcune formattazioni “complete” scrivono zeri su tutto il disco: in questi casi il recupero può non essere possibile."
+   "risposta": "Signor Giudice, provo a spiegarlo con un’immagine. Pensi al disco come a un grande archivio fatto di migliaia di cassetti numerati, e al sistema che lo gestisce come allo schedario all’ingresso, che dice in quali cassetti si trova ogni pratica. Quando un utente cancella un file, o formatta il disco, il computer non svuota i cassetti: si limita a buttare via le schede dello schedario e a considerare quei cassetti liberi. Le pratiche restano dove sono, finché qualcuno non ci mette dentro altro, cioè finché quei punti del disco non vengono sovrascritti da nuovi dati.\n\nCon strumenti forensi possiamo leggere il disco cassetto per cassetto, senza usare lo schedario, e riconoscere i documenti dalla loro forma, perché ogni tipo di file ha un inizio e una fine caratteristici. È la tecnica chiamata data carving, ed è così che abbiamo recuperato quei documenti.\n\nIl recupero non è sempre completo: se nel frattempo il disco è stato usato, alcune parti possono essere state sovrascritte. Inoltre dei file recuperati perdiamo il nome e le date, che stavano nello schedario. L’unico modo per cancellare davvero è riscrivere tutti i cassetti, operazione chiamata wiping, che una normale formattazione non fa.\n\nPer completezza va detto che sui dischi a stato solido (SSD) il disco stesso può azzerare in automatico gli spazi liberati, e che alcune formattazioni “complete” scrivono zeri su tutto il disco: in questi casi il recupero può non essere possibile.",
+   "varianti": [
+    {
+     "fonte": "Esame 14/01/2023",
+     "testo": "Simulare una presentazione processuale dove si spiega il perché si può recuperare da un disco formattato i dati"
+    }
+   ]
   },
   {
    "n": 41,
@@ -765,7 +807,7 @@
    "n": 47,
    "argomento": "E",
    "priorita": 3,
-   "fonti": "File domande, n. 3; Esame 14/01/2023",
+   "fonti": "File domande, n. 3",
    "domanda": "Una persona intende produrre come prova in un processo tre immagini presenti nel suo cellulare che però non viene visto dal software UFED. In che modo è possibile produrre quei dati? Indicare le modalità alternative di acquisizione.",
    "concetti": [
     "Altri software o UFED in altra modalità/aggiornato",
@@ -780,6 +822,10 @@
     {
      "fonte": "File domande, n. 4",
      "testo": "Descrivere la modalità di acquisizione di un dispositivo mobile non riconosciuto da alcun software di mobile forensics."
+    },
+    {
+     "fonte": "Esame 14/01/2023",
+     "testo": "Una persona intende produrre come prova in un processo tre immagini presenti nel suo cellulare che però non viene visto dal software UFED. In che modo è possibile riprodurre quei dati? Indica le modalità alternative di acquisizione."
     }
    ]
   },
@@ -890,7 +936,7 @@
    "n": 54,
    "argomento": "E",
    "priorita": 3,
-   "fonti": "File domande, n. 51; Esame 27/01/2024",
+   "fonti": "File domande, n. 51",
    "domanda": "In caso di rapimento, un dispositivo mobile aggancia delle antenne distanti tra loro molti chilometri nel tratto da Napoli a Venezia. Che tipo di handover si è verificato? Il tabulato telefonico chiarisce che tipo di handover è?",
    "concetti": [
     "Handover di salvataggio (spostamento lungo il tragitto)",
@@ -899,7 +945,13 @@
     "Si deduce da sequenza, orari, percorso e tempi",
     "Riscontri: pedaggi, telecamere, pagamenti"
    ],
-   "risposta": "Si tratta di un **handover di salvataggio**. Il telefono si sposta lungo il tragitto, il segnale della cella a cui è collegato si indebolisce sotto la soglia e il telefono passa alla cella successiva con segnale migliore. Che le antenne siano molto distanti tra loro è normale fuori dalle città, dove le celle coprono anche decine di chilometri.\n\nIl tabulato **non lo chiarisce**: per ogni evento di traffico riporta soltanto data, ora, tipo di evento e cella, ma non il tipo di handover né la potenza del segnale. Il tipo di handover si **deduce** dalla sequenza delle celle, dagli orari e dalla compatibilità con un percorso (autostrada, ferrovia) e con i tempi di percorrenza. Va riscontrato con altri elementi come pedaggi, telecamere e pagamenti. Gli handover avvengono durante le chiamate, ma il tabulato registra solo la cella di inizio (e talvolta di fine) dell’evento."
+   "risposta": "Si tratta di un **handover di salvataggio**. Il telefono si sposta lungo il tragitto, il segnale della cella a cui è collegato si indebolisce sotto la soglia e il telefono passa alla cella successiva con segnale migliore. Che le antenne siano molto distanti tra loro è normale fuori dalle città, dove le celle coprono anche decine di chilometri.\n\nIl tabulato **non lo chiarisce**: per ogni evento di traffico riporta soltanto data, ora, tipo di evento e cella, ma non il tipo di handover né la potenza del segnale. Il tipo di handover si **deduce** dalla sequenza delle celle, dagli orari e dalla compatibilità con un percorso (autostrada, ferrovia) e con i tempi di percorrenza. Va riscontrato con altri elementi come pedaggi, telecamere e pagamenti. Gli handover avvengono durante le chiamate, ma il tabulato registra solo la cella di inizio (e talvolta di fine) dell’evento.",
+   "varianti": [
+    {
+     "fonte": "Esame 27/01/2024",
+     "testo": "In caso di rapimento , un dispositivo mobile aggancia delle antenne distanti tra loro molti chilometri nel tratto da Napoli a Venezia. Che tipo di handover si è verificato? Il tabulato telefonico chiarisce che tipo di handover è?"
+    }
+   ]
   },
   {
    "n": 55,
@@ -988,7 +1040,7 @@
    "n": 60,
    "argomento": "F",
    "priorita": 3,
-   "fonti": "File domande, n. 50; Esame 27/01/2024",
+   "fonti": "File domande, n. 50",
    "domanda": "Quale dato non è presente in una stampa di pagina web, rendendo impossibile risalire al luogo fisico in cui è presente il dato informatico consultato via internet? Come si può invece ricavare?",
    "concetti": [
     "Manca l’indirizzo IP del server (e DNS, header, certificato)",
@@ -997,7 +1049,13 @@
     "Whois e geolocalizzazione per risalire al provider e al Paese",
     "Attenzione a CDN e proxy intermedi"
    ],
-   "risposta": "Manca l’**indirizzo IP del server** che ha fornito la pagina, insieme alle altre informazioni tecniche dello scambio: la traduzione del nome a dominio in indirizzo, le intestazioni della risposta del server, il certificato di sicurezza. La stampa mostra solo il contenuto e l’indirizzo del sito, che non dice dove si trovi fisicamente il server, e quindi né quale fornitore lo ospiti né quale giurisdizione sia competente.\n\nSi ricava catturando il **traffico di rete** durante l’acquisizione, che è il terzo passo della procedura forense: nei pacchetti registrati compaiono l’IP del server e tutte le informazioni dello scambio. Dall’indirizzo, con i servizi “whois” e di geolocalizzazione, si risale al fornitore e al Paese del server. Bisogna fare attenzione ai servizi intermedi, come le reti di distribuzione dei contenuti, che mostrano un proprio indirizzo invece di quello del server originario."
+   "risposta": "Manca l’**indirizzo IP del server** che ha fornito la pagina, insieme alle altre informazioni tecniche dello scambio: la traduzione del nome a dominio in indirizzo, le intestazioni della risposta del server, il certificato di sicurezza. La stampa mostra solo il contenuto e l’indirizzo del sito, che non dice dove si trovi fisicamente il server, e quindi né quale fornitore lo ospiti né quale giurisdizione sia competente.\n\nSi ricava catturando il **traffico di rete** durante l’acquisizione, che è il terzo passo della procedura forense: nei pacchetti registrati compaiono l’IP del server e tutte le informazioni dello scambio. Dall’indirizzo, con i servizi “whois” e di geolocalizzazione, si risale al fornitore e al Paese del server. Bisogna fare attenzione ai servizi intermedi, come le reti di distribuzione dei contenuti, che mostrano un proprio indirizzo invece di quello del server originario.",
+   "varianti": [
+    {
+     "fonte": "Esame 27/01/2024",
+     "testo": "Quale daro non è presente in una stampa di pagina web, rendendo impossibile risalire al luogo fisico in cui è presente il dato informatico consultato via internet? Come si puo invece ricavare?"
+    }
+   ]
   },
   {
    "n": 61,
@@ -1018,7 +1076,7 @@
    "n": 62,
    "argomento": "F",
    "priorita": 3,
-   "fonti": "File domande, n. 58; Esame 23/11/2024",
+   "fonti": "File domande, n. 58",
    "domanda": "Si ha un sito web da acquisire ma dal momento dell'accettazione del lavoro all'effettiva esecuzione il sito è cambiato come comportarsi",
    "concetti": [
     "Acquisire subito la versione attuale dichiarando la difformità",
@@ -1027,13 +1085,19 @@
     "Chiedere backup e log al gestore tramite l’AG",
     "Informare subito committente o giudice"
    ],
-   "risposta": "1. Acquisire comunque **subito**, con la procedura forense, la versione attuale, dichiarando nella relazione che non corrisponde a quella oggetto del quesito.\n2. Cercare le **versioni precedenti** presso fonti terze, soprattutto la Wayback Machine di Internet Archive e altri archivi del web. Ciascuna va acquisita con la stessa procedura forense, precisando che si tratta di copie conservate da terzi, con un’attendibilità diversa da un’acquisizione diretta. Si possono considerare anche eventuali acquisizioni fatte da altri quando il sito era ancora nella versione originale, valutandole con prudenza se prodotte da una parte.\n3. Valutare la richiesta al gestore del sito, tramite l’autorità giudiziaria nel penale, dei **backup e dei log** che documentano le modifiche e chi le ha fatte.\n4. **Informare subito** il committente o il giudice, perché il quesito potrebbe dover essere riformulato."
+   "risposta": "1. Acquisire comunque **subito**, con la procedura forense, la versione attuale, dichiarando nella relazione che non corrisponde a quella oggetto del quesito.\n2. Cercare le **versioni precedenti** presso fonti terze, soprattutto la Wayback Machine di Internet Archive e altri archivi del web. Ciascuna va acquisita con la stessa procedura forense, precisando che si tratta di copie conservate da terzi, con un’attendibilità diversa da un’acquisizione diretta. Si possono considerare anche eventuali acquisizioni fatte da altri quando il sito era ancora nella versione originale, valutandole con prudenza se prodotte da una parte.\n3. Valutare la richiesta al gestore del sito, tramite l’autorità giudiziaria nel penale, dei **backup e dei log** che documentano le modifiche e chi le ha fatte.\n4. **Informare subito** il committente o il giudice, perché il quesito potrebbe dover essere riformulato.",
+   "varianti": [
+    {
+     "fonte": "Esame 23/11/2024",
+     "testo": "si ha un sito web da acquisire ma dal momento dell'accettazione del lavoro all'effettiva esecuzione il sito è cambiato come comportarsi"
+    }
+   ]
   },
   {
    "n": 63,
    "argomento": "F",
    "priorita": 3,
-   "fonti": "File domande, n. 6; Esame 14/01/2023",
+   "fonti": "File domande, n. 6",
    "domanda": "In un procedimento penale, siete il CTP dell’imputato (il sig. Michele Ferrazzano) accusato di aver scritto una diffamazione con un post su Facebook. Alla data del processo il post non risulta più presente su Facebook. Il PM produce la seguente stampa, senza ulteriore attività di indagine. Argomentare in difesa del vostro cliente (si dia per scontato che il messaggio riportato sia effettivamente diffamatorio).",
    "concetti": [
     "La stampa non è acquisita forensicamente: niente hash, catena di custodia, autore, data",
@@ -1043,7 +1107,13 @@
     "Il post non c’è più: contenuto e data non verificabili",
     "Conclusione: nessuna certezza su esistenza e attribuzione"
    ],
-   "risposta": "La difesa si costruisce mostrando che la stampa non basta a provare né l’esistenza del post né la sua attribuzione all’imputato.\n\n**La stampa non è una prova informatica attendibile.** Non è stata acquisita con metodo forense: non c’è hash, non c’è catena di custodia, non si sa chi l’abbia fatta, quando e come. Una pagina web si modifica facilmente prima di stamparla, ad esempio cambiando il codice nel browser. Per la presunzione di ripudio spetta all’accusa dimostrarne l’attendibilità, e in assenza di altri elementi la stampa vale al massimo come prova molto debole nella scala di Casey.\n\n**Mancano gli elementi di provenienza.** Non c’è un indirizzo univoco del post, non c’è l’indirizzo IP del server, non c’è la cattura del traffico, non c’è una data certa. È esattamente ciò che una procedura di acquisizione forense del web avrebbe garantito.\n\n**Il profilo non prova l’autore.** Un profilo con il nome e la foto dell’imputato può essere falso o violato, oppure usato da un dispositivo condiviso. Per attribuire il post all’imputato servirebbero i dati del gestore (Meta): gli indirizzi IP da cui è stato creato l’account e da cui è stato pubblicato il post, con data e ora, da collegare tramite il provider a un’utenza riconducibile all’imputato. Servirebbe anche l’analisi dei suoi dispositivi. Nulla di questo è stato fatto.\n\n**Il post non c’è più**, quindi non si possono verificare né il contenuto né la data. Anche chi lo ha rimosso e quando andrebbe chiesto al gestore.\n\nIn conclusione, in assenza di riscontri la stampa non consente di affermare con un grado di certezza apprezzabile né che il post esistesse nei termini riportati né che fosse riconducibile all’imputato. Si può chiedere che il giudice ne tenga conto o, se lo ritiene, disponga accertamenti presso il gestore."
+   "risposta": "La difesa si costruisce mostrando che la stampa non basta a provare né l’esistenza del post né la sua attribuzione all’imputato.\n\n**La stampa non è una prova informatica attendibile.** Non è stata acquisita con metodo forense: non c’è hash, non c’è catena di custodia, non si sa chi l’abbia fatta, quando e come. Una pagina web si modifica facilmente prima di stamparla, ad esempio cambiando il codice nel browser. Per la presunzione di ripudio spetta all’accusa dimostrarne l’attendibilità, e in assenza di altri elementi la stampa vale al massimo come prova molto debole nella scala di Casey.\n\n**Mancano gli elementi di provenienza.** Non c’è un indirizzo univoco del post, non c’è l’indirizzo IP del server, non c’è la cattura del traffico, non c’è una data certa. È esattamente ciò che una procedura di acquisizione forense del web avrebbe garantito.\n\n**Il profilo non prova l’autore.** Un profilo con il nome e la foto dell’imputato può essere falso o violato, oppure usato da un dispositivo condiviso. Per attribuire il post all’imputato servirebbero i dati del gestore (Meta): gli indirizzi IP da cui è stato creato l’account e da cui è stato pubblicato il post, con data e ora, da collegare tramite il provider a un’utenza riconducibile all’imputato. Servirebbe anche l’analisi dei suoi dispositivi. Nulla di questo è stato fatto.\n\n**Il post non c’è più**, quindi non si possono verificare né il contenuto né la data. Anche chi lo ha rimosso e quando andrebbe chiesto al gestore.\n\nIn conclusione, in assenza di riscontri la stampa non consente di affermare con un grado di certezza apprezzabile né che il post esistesse nei termini riportati né che fosse riconducibile all’imputato. Si può chiedere che il giudice ne tenga conto o, se lo ritiene, disponga accertamenti presso il gestore.",
+   "varianti": [
+    {
+     "fonte": "Esame 14/01/2023",
+     "testo": "In un procedimento penale, siete il CTP dell’imputato (il sig. Michele Ferrazzano) accusato di aver scritto una diffamazione con un post su Facebook. Alla data del processo il post non risulta più presente su Facebook. Il PM produce la seguente stampa, senza ulteriore attività di indagine. Argomentare in difesa del vostro cliente (si dia per scontato che il messaggio riportato sia effettivamente diffamatorio)"
+    }
+   ]
   },
   {
    "n": 64,
