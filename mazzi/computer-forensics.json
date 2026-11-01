@@ -1,7 +1,7 @@
 {
  "id": "computer-forensics",
  "titolo": "Computer Forensics",
- "descrizione": "Prof. D. E. Caccavella — Università degli Studi di Milano. 72 domande d’esame (testo originale delle fonti) con risposte modello.",
+ "descrizione": "Prof. D. E. Caccavella — Università degli Studi di Milano. 71 domande d’esame (testo originale delle fonti) con risposte modello.",
  "legenda_priorita": {
   "3": "★★★ chiesta spesso",
   "2": "★★ chiesta",
@@ -907,30 +907,16 @@
     "Sconfinamento: segnale oltre l’area teorica",
     "Caso pratico alibi: PC usato fino alle 13:46 (file delle 13:48 dopo 2 minuti di inattività)",
     "Celle 12:40, 13:42, 14:13, 14:29; linee di handover, tempi a ritroso, uscita alle 13:35",
-    "Alle 13:46 l’imputato era a circa 8 km: alibi"
+    "Alle 13:46 l’imputato era a circa 8 km: alibi",
+    "Vero/falso tipici: una BTS non prova la vicinanza all’antenna, il tabulato non indica il tipo di handover, linea teorica ≠ reale, celle non esagonali, più BTS ricevibili nello stesso punto"
    ],
-   "risposta": "L’handover è il passaggio di un telefono da una cella all’altra.\n\n- L’**handover di salvataggio** avviene quando il segnale scende sotto una soglia, tipicamente durante un viaggio, e permette di proseguire la comunicazione in movimento.\n- L’**handover di confinamento** avviene quando una cella è troppo affollata, ad esempio in centro città o durante un evento sportivo, e il telefono passa a una cella meno carica, che può essere **anche molto lontana** dal punto in cui si trova.\n- Si parla poi di **sconfinamento** quando il segnale di una cella arriva ben oltre la sua area teorica.\n\nIl caso pratico del corso è quello dell’**alibi informatico**. Bisognava stabilire se l’imputato potesse aver ucciso Paolo Tizio nel suo studio.\n\n- La timeline del computer della vittima mostrava che il PC era stato usato fino alle **13:46**. Secondo gli appunti integrativi, un file di sistema creato alle 13:48, che Windows genera dopo due minuti di inattività, fissava l’ultimo utilizzo.\n- I tabulati del telefono dell’imputato mostravano celle in città alle 12:40 e alle 13:42, e celle fuori città alle 14:13 e alle 14:29.\n- Il perito tracciò le linee di handover tenendo conto di sensi unici e mura, stabilì che alle 14:13 il telefono era sulla strada provinciale 64 e, con i tempi di percorrenza calcolati a ritroso, concluse che l’imputato era uscito dallo studio alle 13:35.\n\nAlle 13:46, quando qualcuno usava ancora il PC, l’imputato era già a circa 8 km: computer e telefono insieme gli davano l’alibi.",
+   "risposta": "L’handover è il passaggio di un telefono da una cella all’altra.\n\n- L’**handover di salvataggio** avviene quando il segnale scende sotto una soglia, tipicamente durante un viaggio, e permette di proseguire la comunicazione in movimento.\n- L’**handover di confinamento** avviene quando una cella è troppo affollata, ad esempio in centro città o durante un evento sportivo, e il telefono passa a una cella meno carica, che può essere **anche molto lontana** dal punto in cui si trova.\n- Si parla poi di **sconfinamento** quando il segnale di una cella arriva ben oltre la sua area teorica.\n\nIl caso pratico del corso è quello dell’**alibi informatico**. Bisognava stabilire se l’imputato potesse aver ucciso Paolo Tizio nel suo studio.\n\n- La timeline del computer della vittima mostrava che il PC era stato usato fino alle **13:46**. Secondo gli appunti integrativi, un file di sistema creato alle 13:48, che Windows genera dopo due minuti di inattività, fissava l’ultimo utilizzo.\n- I tabulati del telefono dell’imputato mostravano celle in città alle 12:40 e alle 13:42, e celle fuori città alle 14:13 e alle 14:29.\n- Il perito tracciò le linee di handover tenendo conto di sensi unici e mura, stabilì che alle 14:13 il telefono era sulla strada provinciale 64 e, con i tempi di percorrenza calcolati a ritroso, concluse che l’imputato era uscito dallo studio alle 13:35.\n\nAlle 13:46, quando qualcuno usava ancora il PC, l’imputato era già a circa 8 km: computer e telefono insieme gli davano l’alibi.\n\n**La parte “vero/falso”** (esame 23/11/2024: “vero falso + aperta”). Esempi di affermazioni da saper valutare:\n\n- “Il collegamento a una BTS dimostra che il telefono era a poche centinaia di metri dall’antenna”: **falso**, le celle sono ampie e sovrapposte, e il confinamento può far agganciare celle lontane.\n- “Il tabulato indica se l’handover è di salvataggio o di confinamento”: **falso**, riporta solo la cella e l’orario degli eventi.\n- “L’handover di salvataggio è tipico di chi si sposta”: **vero**.\n- “L’handover di confinamento avviene quando una cella è sovraccarica, ad esempio durante un evento sportivo”: **vero**.\n- “La linea di handover teorica coincide con quella reale”: **falso**, va misurata sul campo.\n- “Le celle reali hanno forma esagonale”: **falso**, l’esagono è solo la rappresentazione schematica; le celle reali sono irregolari.\n- “In un punto si può ricevere il segnale di più BTS”: **vero**.\n- “Il tabulato registra la posizione del telefono anche quando non ci sono chiamate o messaggi”: **falso**, registra solo gli eventi di traffico.",
    "varianti": [
     {
      "fonte": "Esame 23/11/2024",
      "testo": "handover (vero falso + aperta)"
     }
    ]
-  },
-  {
-   "n": 53,
-   "argomento": "E",
-   "priorita": 3,
-   "fonti": "Esame 23/11/2024",
-   "domanda": "handover (vero falso + aperta)",
-   "concetti": [
-    "Una BTS non prova vicinanza all’antenna (falso)",
-    "Il tabulato non indica il tipo di handover (falso)",
-    "Salvataggio tipico di chi si sposta (vero); confinamento per sovraccarico (vero)",
-    "Linea teorica ≠ reale; celle non esagonali (falso)",
-    "Più BTS ricevibili in un punto (vero); tabulato solo eventi di traffico"
-   ],
-   "risposta": "- “Il collegamento a una BTS dimostra che il telefono era a poche centinaia di metri dall’antenna”: **falso**, le celle sono ampie e sovrapposte, e il confinamento può far agganciare celle lontane.\n- “Il tabulato indica se l’handover è di salvataggio o di confinamento”: **falso**, riporta solo la cella e l’orario degli eventi.\n- “L’handover di salvataggio è tipico di chi si sposta”: **vero**.\n- “L’handover di confinamento avviene quando una cella è sovraccarica, ad esempio durante un evento sportivo”: **vero**.\n- “La linea di handover teorica coincide con quella reale”: **falso**, va misurata sul campo.\n- “Le celle reali hanno forma esagonale”: **falso**, l’esagono è solo la rappresentazione schematica; le celle reali sono irregolari.\n- “In un punto si può ricevere il segnale di più BTS”: **vero**.\n- “Il tabulato registra la posizione del telefono anche quando non ci sono chiamate o messaggi”: **falso**, registra solo gli eventi di traffico."
   },
   {
    "n": 54,

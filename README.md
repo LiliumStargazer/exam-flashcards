@@ -16,7 +16,7 @@ mazzi/indice.json   l’elenco dei mazzi disponibili
 mazzi/*.json        un file per materia (un “mazzo”)
 ```
 
-Il mazzo incluso è **Computer Forensics** (72 domande d’esame, con il testo originale delle fonti e risposte modello).
+Il mazzo incluso è **Computer Forensics** (71 domande d’esame, con il testo originale delle fonti e risposte modello).
 
 ## Pubblicarlo con GitHub Pages
 
