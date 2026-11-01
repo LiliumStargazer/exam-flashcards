@@ -5,7 +5,7 @@
  "legenda_priorita": {
   "3": "★★★ chiesta spesso",
   "2": "★★ chiesta",
-  "1": "★ mai chiesta"
+  "1": "★ aggiunta (mai chiesta)"
  },
  "argomenti": {
   "A": "Definizioni e principi",
@@ -1237,6 +1237,23 @@
     "Linguaggio divulgativo (casellario)"
    ],
    "risposta": "Sono le due parti in cui si struttura una consulenza, soprattutto quella di parte.\n\nLa **parte destruens** è l’analisi critica del lavoro o delle prove della controparte: si individuano errori di metodo (acquisizioni non forensi, assenza di hash o di documentazione), conclusioni non sostenute dai dati, spiegazioni alternative ignorate e selezione dei soli elementi favorevoli a una tesi.\n\nLa **parte costruens** propone la propria ricostruzione, coerente con i dati, con le ipotesi alternative compatibili e con il grado di certezza.\n\nL’esempio del corso è “L’insostenibile leggerezza del settore”:\n\n- *destruens*: il consulente dell’accusa non descriveva il metodo e collegava frammenti trovati nello spazio non allocato come se appartenessero allo stesso file;\n- *costruens*: il materiale cancellato, recuperabile solo con competenze e programmi specialistici che l’utente non aveva, non era nella sua disponibilità e quindi non era “detenuto”.\n\nIl tutto spiegato al giudice con un linguaggio semplice, usando la metafora del casellario."
+  },
+  {
+   "n": 74,
+   "argomento": "G",
+   "priorita": 1,
+   "fonti": "Domanda aggiunta per il ripasso (non presente nelle fonti d’esame)",
+   "domanda": "Che differenza c’è tra una perizia e un incidente probatorio?",
+   "concetti": [
+    "Perizia: disposta dal giudice durante il processo (dibattimento), artt. 220 e seguenti c.p.p., con un perito terzo e imparziale",
+    "Incidente probatorio: strumento per anticipare la formazione della prova durante le indagini, davanti al GIP (art. 392 c.p.p.)",
+    "Presupposto dell’incidente probatorio: la prova non può aspettare il dibattimento (es. reperto soggetto a modificazione inevitabile)",
+    "Nell’incidente probatorio di solito si svolge proprio una perizia, con le stesse garanzie di contraddittorio (consulenti delle parti)",
+    "I risultati dell’incidente probatorio valgono come prova nel dibattimento",
+    "Differenza dall’accertamento tecnico del PM (artt. 359-360): quello è un consulente di parte, non un perito del giudice",
+    "Esempi informatici: acquisizioni live, chip-off, supporti danneggiati, SSD; riserva di incidente probatorio nell’art. 360"
+   ],
+   "risposta": "La **perizia** e l’**incidente probatorio** non sono due cose alternative: la differenza riguarda soprattutto **il momento** del procedimento e **la sede** in cui si forma la prova.\n\nLa **perizia** (artt. 220 e seguenti del codice di procedura penale) è il mezzo di prova con cui il **giudice**, quando servono competenze tecniche specifiche, nomina un **perito**: un esperto terzo e imparziale, che presta giuramento e risponde ai quesiti del giudice. Normalmente la perizia viene disposta **durante il processo**, cioè nel dibattimento. Le parti possono nominare i propri **consulenti tecnici**, che partecipano alle operazioni del perito, fanno osservazioni e chiedono integrazioni: è l’accertamento collegiale di cui parla il corso.\n\nL’**incidente probatorio** (art. 392 c.p.p.) è invece lo strumento che permette di **anticipare la formazione della prova durante le indagini preliminari**, davanti al **giudice per le indagini preliminari (GIP)**, senza aspettare il dibattimento. Lo si chiede quando la prova **non può essere rinviata**: ad esempio quando riguarda una persona, una cosa o un luogo destinati a modificarsi in modo inevitabile, oppure quando una perizia, se disposta nel dibattimento, richiederebbe una sospensione troppo lunga del processo. Molto spesso, all’interno dell’incidente probatorio, il GIP dispone proprio **una perizia**, che si svolge con le stesse garanzie di contraddittorio. I risultati **valgono come prova** nel successivo dibattimento, come se fossero stati raccolti lì.\n\nIn sintesi: la perizia è *il tipo di accertamento* (svolto da un perito del giudice), l’incidente probatorio è *il modo per farlo in anticipo*, già durante le indagini, quando aspettare significherebbe perdere la prova.\n\nVa distinto da entrambi l’**accertamento tecnico del pubblico ministero** (artt. 359 e 360): lì il consulente è nominato dal PM, quindi è un consulente di parte e non un perito del giudice. Le due cose si collegano nell’art. 360: se il PM vuole svolgere un accertamento **irripetibile**, l’indagato può fare **riserva di promuovere incidente probatorio**, e il PM deve fermarsi, salvo urgenza, perché la prova venga formata davanti al giudice.\n\nIn informatica forense l’incidente probatorio è tipico per gli accertamenti che **non si possono ripetere**: un’acquisizione live con il dump della memoria, l’estrazione del chip di memoria di un telefono (chip-off), l’analisi di un disco danneggiato che potrebbe guastarsi del tutto, o la copia di un SSD che può modificarsi da solo. Una volta eseguita la copia forense in contraddittorio, le analisi successive sulla copia diventano ripetibili."
   }
  ]
 }
