@@ -389,10 +389,22 @@ Rispondi SOLO con JSON valido, senza altro testo, in questo formato:
 {"covered":[indici dei concetti espressi in modo corretto e sufficiente],"partial":[indici accennati in modo incompleto],"errors":["affermazioni errate o imprecise presenti nella risposta, max 4, in italiano"],"feedback":"2-3 frasi in italiano, dirette e concrete: cosa va bene e cosa manca"}`;
 }
 function parseJsonLoose(t) {
-  const s = String(t || "").replace(/```json|```/g, "");
-  const a = s.indexOf("{"), b = s.lastIndexOf("}");
-  if (a < 0 || b < a) throw new Error("risposta non in formato JSON");
-  return JSON.parse(s.slice(a, b + 1));
+  // Estrae il primo oggetto JSON completo dalla risposta, ignorando testo prima o dopo
+  // (alcuni modelli, come Gemma, aggiungono spiegazioni o blocchi di codice).
+  const s = String(t || "").replace(/```(?:json)?/gi, "");
+  let start = s.indexOf("{");
+  while (start >= 0) {
+    let depth = 0, inStr = false, escp = false;
+    for (let i = start; i < s.length; i++) {
+      const c = s[i];
+      if (inStr) { if (escp) escp = false; else if (c === "\\") escp = true; else if (c === '"') inStr = false; continue; }
+      if (c === '"') inStr = true;
+      else if (c === "{") depth++;
+      else if (c === "}") { depth--; if (depth === 0) { try { return JSON.parse(s.slice(start, i + 1)); } catch (e) { break; } } }
+    }
+    start = s.indexOf("{", start + 1);
+  }
+  throw new Error("il modello ha risposto ma non nel formato richiesto (JSON). Riprova: se succede spesso, scegli un altro modello.");
 }
 function llmHeaders() {
   const h = { "Content-Type": "application/json" };
@@ -426,6 +438,21 @@ function explainHttpBase(status, body, b) {
   return "errore del servizio.";
 }
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+let llmTimeoutMs = 90000;
+async function fetchWithTimeout(url, opts, ms) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), ms);
+  try { return await fetch(url, Object.assign({}, opts, { signal: ctl.signal })); }
+  catch (e) {
+    if (e && e.name === "AbortError") { const err = new Error("nessuna risposta dal servizio entro " + Math.round(ms / 1000) + " secondi: il modello è lento o bloccato in coda. Riprova più tardi o scegli un modello diverso (i modelli più piccoli rispondono più in fretta)."); err.retryable = true; err.timeout = true; throw err; }
+    throw e;
+  } finally { clearTimeout(t); }
+}
+function startTicker(el, prefix) {
+  const t0 = Date.now();
+  const id = setInterval(() => { if (el) el.textContent = prefix + " " + Math.round((Date.now() - t0) / 1000) + " s"; }, 1000);
+  return () => clearInterval(id);
+}
 let lastModelUsed = "";
 async function callLlm(prompt, onRetry) {
   if (!settings.llmModel) throw new Error("manca il nome del modello: premi “Mostra i modelli disponibili” nelle Impostazioni.");
@@ -447,11 +474,12 @@ async function callLlmModel(prompt, model, onRetry) {
   for (let attempt = 0; ; attempt++) {
     let r;
     try {
-      r = await fetch(base + "/chat/completions", {
+      r = await fetchWithTimeout(base + "/chat/completions", {
         method: "POST", headers: llmHeaders(),
         body: JSON.stringify({ model, temperature: 0, messages: [{ role: "user", content: prompt }] })
-      });
+      }, llmTimeoutMs);
     } catch (e) {
+      if (e && e.timeout) throw e;
       throw new Error("il browser non è riuscito a contattare il servizio (rete assente, indirizzo errato o servizio che non accetta richieste da una pagina web).");
     }
     if (r.ok) {
@@ -473,8 +501,8 @@ async function callLlmModel(prompt, model, onRetry) {
 async function listModels() {
   const base = settings.llmBase.replace(/\/+$/, "");
   let r;
-  try { r = await fetch(base + "/models", { headers: llmHeaders() }); }
-  catch (e) { throw new Error("il browser non è riuscito a contattare il servizio."); }
+  try { r = await fetchWithTimeout(base + "/models", { headers: llmHeaders() }, 30000); }
+  catch (e) { if (e && e.timeout) throw e; throw new Error("il browser non è riuscito a contattare il servizio."); }
   let body = ""; if (!r.ok) { try { body = await r.text(); } catch (e) {} throw new Error(explainHttp(r.status, body)); }
   const j = await r.json();
   const arr = Array.isArray(j.data) ? j.data : Array.isArray(j.models) ? j.models : [];
@@ -485,15 +513,17 @@ async function runLlm() {
   if (txt.length < 20) return;
   if (!settings.llmKey && settings.llmPreset !== "ollama") { $("aiHint").textContent = "Inserisci la chiave del modello in Impostazioni."; return; }
   const b = $("bLlm"); b.disabled = true; b.innerHTML = '<span class="spin"></span>Sto valutando…';
+  const stopT = startTicker($("aiHint"), "Attendo la risposta del modello…");
   try {
     const r = parseJsonLoose(await callLlm(buildPrompt(q, txt), n => { $("aiHint").textContent = n === "riserva" ? "Modello principale occupato: provo il modello di riserva…" : "Servizio occupato, nuovo tentativo (" + n + ")…"; }));
+    stopT();
     const idx = a => Array.isArray(a) ? a.map(Number).filter(i => Number.isInteger(i) && i >= 0 && i < q.concetti.length) : [];
     const cov = idx(r.covered);
     evalResult = { title: "Valutazione del modello" + (lastModelUsed ? " (" + lastModelUsed + ")" : ""), covered: cov, partial: idx(r.partial).filter(i => !cov.includes(i)),
       errors: Array.isArray(r.errors) ? r.errors.map(String).slice(0, 4) : [], feedback: typeof r.feedback === "string" ? r.feedback : "" };
     reveal(true);
   } catch (e) {
-    b.disabled = false; b.textContent = "Valuta con il modello";
+    stopT(); b.disabled = false; b.textContent = "Valuta con il modello";
     $("aiHint").textContent = "Valutazione non riuscita: " + (e.message || "errore sconosciuto") + " Nel frattempo puoi usare le spunte.";
   }
 }
@@ -601,10 +631,13 @@ function renderSettings() {
   showHow();
   $("bTest").onclick = async () => {
     upd(); const out = $("testOut"); out.className = "note"; out.textContent = "Provo…";
+    const btn = $("bTest"); btn.disabled = true;
+    const stop = startTicker(out, "Provo…"); llmTimeoutMs = 45000;
     try {
       const t = await callLlm('Rispondi solo con il JSON {"ok":true}', n => { out.textContent = n === "riserva" ? "Modello principale occupato: provo il modello di riserva…" : "Servizio occupato, nuovo tentativo (" + n + ")…"; });
-      parseJsonLoose(t); out.textContent = "Connessione riuscita con " + lastModelUsed + ": la valutazione è pronta.";
-    } catch (e) { out.className = "note err"; out.textContent = "Non riuscita: " + (e.message || "errore sconosciuto"); }
+      stop(); parseJsonLoose(t); out.textContent = "Connessione riuscita con " + lastModelUsed + ": la valutazione è pronta.";
+    } catch (e) { stop(); out.className = "note err"; out.textContent = "Non riuscita: " + (e.message || "errore sconosciuto"); }
+    finally { stop(); llmTimeoutMs = 90000; btn.disabled = false; }
   };
   $("bModels").onclick = async () => {
     upd(); const out = $("modelsOut"), pick = $("modelPick"); out.textContent = "Chiedo l’elenco…"; pick.innerHTML = "";
