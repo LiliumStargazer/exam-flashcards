@@ -1,7 +1,7 @@
 name: Test flashcards
 on:
   push:
-    branches: [main, "fix/**"]
+    branches: [main, "fix/**", "feat/**"]
   pull_request:
     branches: [main]
 jobs:
@@ -16,5 +16,6 @@ jobs:
         run: |
           node --check app.js
           node --check grading.js
+          node --check judge.js
       - name: Run tests
         run: node --test tests/*.test.cjs
