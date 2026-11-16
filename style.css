@@ -156,3 +156,5 @@ input[type=text],input[type=password],input[type=number]{font:inherit;font-size:
 /* Correzione basata sui concetti indispensabili */
 .optional{font-size:.78em;color:var(--ink-soft);font-weight:400}
 #fb .err{margin:10px 0}
+
+.evidence{display:block;margin-top:4px;color:var(--ink-soft);font-size:.78rem;line-height:1.4;font-weight:400}

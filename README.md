@@ -12,7 +12,8 @@ Funziona da telefono e da computer, senza account e senza server: è un sito sta
 index.html          la pagina
 style.css           la grafica (modalità chiara e scura automatica)
 app.js              la logica di interfaccia e valutazione
- grading.js         rubriche essenziali, calcolo dei punteggi e ripasso
+grading.js          rubriche essenziali, calcolo dei punteggi e ripasso
+judge.js            controlli deterministici e verifica delle evidenze API
 mazzi/indice.json   l’elenco dei mazzi disponibili
 mazzi/*.json        un file per materia (un “mazzo”)
 ```
@@ -40,18 +41,18 @@ Il mazzo incluso è **Computer Forensics** (75 schede: 73 domande del riassunto 
 
 Sono salvati nel browser del dispositivo. Per passarli da un dispositivo all’altro usa *Esporta i progressi* (scarica un file JSON) e *Importa i progressi* sull’altro: per ogni domanda viene tenuto il risultato più recente.
 
-## Valutazione automatica (facoltativa)
+## Valutazione delle risposte
 
-Le spunte manuali bastano e non costano nulla. In più ci sono due aiuti, attivabili in **Impostazioni**:
+Il programma funziona interamente con **regole JavaScript e API remote**: non scarica o avvia modelli AI locali nel browser o sul PC.
 
-1. **Controllo automatico gratuito.** Un modello di similarità multilingue (`Xenova/paraphrase-multilingual-MiniLM-L12-v2`, eseguito con Transformers.js) gira direttamente nel browser: confronta il significato delle frasi della tua risposta con ogni concetto chiave e pre-spunta quelli presenti. Al primo uso scarica circa 120 MB, poi resta in memoria e funziona anche offline. **Non riconosce le affermazioni sbagliate**: dice solo se un concetto sembra presente. Le soglie si regolano nelle impostazioni (se spunta troppo poco abbassale, se spunta troppo alzale).
-2. **Modello linguistico con chiave personale.** Attivalo in *Impostazioni → Valutazione con un modello linguistico*: scegli il servizio, segui il link per creare la chiave, incollala e premi *Prova la connessione*. Da quel momento sotto ogni risposta compare il pulsante **Valuta con il modello**.
-   Il modello valuta i concetti essenziali, accetta parafrasi e segnala errori fondamentali (che impediscono di superare la domanda). La valutazione automatica non è infallibile e le spunte restano modificabili. Funziona con qualsiasi servizio con API *compatibile OpenAI*; sono preimpostati Google Gemini, Groq, OpenRouter e Ollama (sul tuo computer). Con la chiave Gemini puoi usare anche i modelli **Gemma**, che nel piano gratuito hanno limiti giornalieri molto più alti: compaiono per primi in *Mostra i modelli disponibili*. Crei una chiave gratuita sul sito del servizio e la incolli nelle impostazioni; resta salvata solo nel tuo browser. **Ogni servizio ricorda la sua chiave, il suo indirizzo e i suoi modelli**: puoi configurare Gemini e OpenRouter e passare dall’uno all’altro senza reinserire nulla (nel menu compare “chiave salvata” accanto ai servizi già configurati).
-   - I piani gratuiti hanno limiti giornalieri e possono usare i testi inviati per migliorare i loro modelli: leggi le condizioni del servizio.
-   - I nomi dei modelli cambiano nel tempo: premi *Mostra i modelli disponibili* per scegliere dall’elenco aggiornato del servizio.
-   - Se il servizio è sovraccarico (errore 503) o hai superato un limite (429) il programma riprova da solo un paio di volte; se continua, riprova più tardi o scegli un altro modello.
-   - **DeepSeek**: l’API ufficiale è a pagamento; i modelli DeepSeek gratuiti si usano tramite OpenRouter (quelli con “:free” nel nome).
-   - Alcuni servizi non accettano richieste direttamente da una pagina web (errore di rete o CORS): in quel caso prova un altro servizio. Per Ollama avvia il server con `OLLAMA_ORIGINS=*` e usa la pagina dal computer su cui gira.
+- **Comandi Linux** (schede 14, 15, 75): vengono riconosciuti e controllati con regole deterministiche quando la sintassi è inequivocabile. Il programma **non esegue mai** i comandi. Risposte in forma non standard ricadono sulla valutazione via API, se attiva.
+- **Risposte aperte**: richiedono un servizio API configurato in **Impostazioni** (Groq, Gemini, OpenRouter, DeepSeek o un servizio compatibile OpenAI). Il nuovo valore predefinito per chi non ha già una configurazione è Groq con `openai/gpt-oss-120b`. Una configurazione esistente nel browser resta invariata.
+- **Verifica per affermazioni**: il modello esamina tutti i concetti, assegnando per ciascuno `supported`, `partial`, `contradicted` o `absent`. Ogni giudizio diverso da `absent` deve riportare una citazione del testo scritto dallo studente; il programma ne verifica la corrispondenza letterale prima di assegnare punti.
+- **Punteggio**: viene sempre calcolato da `grading.js`, non dal modello. Un concetto essenziale contraddetto limita la copertura al 39%; gli approfondimenti facoltativi non penalizzano.
+- **JSON strutturato**: per i modelli Groq GPT-OSS 20B e 120B viene richiesto JSON Schema rigoroso, dove supportato dal provider. Gli altri provider ricevono istruzioni JSON testuali e la risposta viene comunque validata prima dell'uso.
+- **Trasparenza**: per ogni concetto si mostrano la citazione e una spiegazione sintetica. Il docente AI può ancora sbagliare: puoi controllare e modificare le spunte.
+
+**Privacy e costi:** le chiavi restano nel browser e vengono inviate solo al servizio che scegli. Non pubblicarle nel repository. Il piano gratuito e i limiti dipendono dal provider. Le risposte scritte vengono inviate al provider per la correzione. L'app è un sito statico, non necessita di un server applicativo.
 
 ## Test automatici
 
