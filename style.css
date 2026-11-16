@@ -158,3 +158,6 @@ input[type=text],input[type=password],input[type=number]{font:inherit;font-size:
 #fb .err{margin:10px 0}
 
 .evidence{display:block;margin-top:4px;color:var(--ink-soft);font-size:.78rem;line-height:1.4;font-weight:400}
+
+.answer-counter{text-align:right;margin-top:5px;margin-bottom:10px;font-variant-numeric:tabular-nums}
+.answer-counter.err{color:var(--ko);font-weight:700}

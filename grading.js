@@ -12,6 +12,20 @@
     const valid = [...new Set(q.essenziali)].filter(i => Number.isInteger(i) && i >= 0 && i < all.length);
     return valid.length ? valid : all;
   }
+  // Un limite = 0 significa nessun limite. L'override e' specifico del mazzo.
+  function answerLimit(question, deck, override) {
+    if (Number.isInteger(override) && override >= 0) return override || null;
+    if (question && Number.isInteger(question.max_caratteri) && question.max_caratteri > 0) return question.max_caratteri;
+    if (deck && Number.isInteger(deck.max_caratteri) && deck.max_caratteri > 0) return deck.max_caratteri;
+    return null;
+  }
+  function charCount(answer) {
+    return String(answer == null ? "" : answer).length;
+  }
+  function withinAnswerLimit(answer, question, deck, override) {
+    const limit = answerLimit(question, deck, override);
+    return limit === null || charCount(answer) <= limit;
+  }
   function normalizeEvaluation(raw, q) {
     if (!raw || typeof raw !== "object" || !Array.isArray(raw.covered) || !Array.isArray(raw.partial) ||
         !Array.isArray(raw.errors) || typeof raw.critical_error !== "boolean" || typeof raw.feedback !== "string") {
@@ -63,5 +77,5 @@
   function isReviewDue(record, now = Date.now()) {
     return !!(record && record.st === "ok" && Number.isFinite(record.t) && now - record.t >= 7 * 86400000);
   }
-  return { essentialIndices, normalizeEvaluation, computeScore, studyDay, nextProgress, progressLabel, isReviewDue };
+  return { essentialIndices, answerLimit, charCount, withinAnswerLimit, normalizeEvaluation, computeScore, studyDay, nextProgress, progressLabel, isReviewDue };
 });

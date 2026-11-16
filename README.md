@@ -147,3 +147,11 @@ Non c’è alcun server: domande, risposte, progressi e chiavi restano nel tuo b
 ## Calibrazione e interfaccia (2026-11-16)
 
 Le rubriche distinguono i nuclei essenziali dagli approfondimenti: per la domanda sulle cinque fasi del trattamento del dato i dettagli tecnici aggiuntivi non sono necessari per riconoscere la fase come corretta o parzialmente corretta. Il modello riceve una guida specifica che distingue le omissioni dagli errori sostanziali. Dopo una valutazione il pulsante torna a **Rivaluta la risposta**; l'animazione termina e cambiare testo/domanda invalida le risposte API precedenti. Il punteggio non può essere garantito a priori: dipende dalla classificazione del modello.
+
+## Limite caratteri per materia
+
+In **Impostazioni → Limite caratteri della materia** puoi scegliere il massimo dei caratteri per il mazzo selezionato. **Computer Forensics** parte con **700 caratteri**, mentre altri mazzi senza limite predefinito sono illimitati. Puoi scrivere **0** per eliminare il limite, inserire un altro numero oppure premere **Ripristina predefinito**. Ogni materia mantiene la propria impostazione nel browser; modificare un limite non modifica gli altri mazzi né cancella i progressi.
+
+Il contatore sotto la risposta include spazi, punteggiatura e a capo. Il programma blocca la valutazione e il salvataggio se superi il massimo, senza tagliare quanto hai scritto. Le risposte brevi e complete non ricevono penalità di lunghezza. La risposta modello può essere più estesa del limite: serve per studiare e non definisce una lunghezza minima da raggiungere.
+
+Nel JSON di un mazzo puoi inserire `"max_caratteri": 700` come predefinito della materia; `max_caratteri` è ammesso anche nelle singole domande. I limiti modificati manualmente nelle Impostazioni prevalgono sul valore del file.
