@@ -11,12 +11,13 @@ Funziona da telefono e da computer, senza account e senza server: è un sito sta
 ```
 index.html          la pagina
 style.css           la grafica (modalità chiara e scura automatica)
-app.js              la logica
+app.js              la logica di interfaccia e valutazione
+ grading.js         rubriche essenziali, calcolo dei punteggi e ripasso
 mazzi/indice.json   l’elenco dei mazzi disponibili
 mazzi/*.json        un file per materia (un “mazzo”)
 ```
 
-Il mazzo incluso è **Computer Forensics** (71 domande d’esame, con il testo originale delle fonti e risposte modello).
+Il mazzo incluso è **Computer Forensics** (75 schede: 73 domande del riassunto discorsivo più 2 varianti/esercizi, con risposte modello).
 
 ## Pubblicarlo con GitHub Pages
 
@@ -28,7 +29,9 @@ Il mazzo incluso è **Computer Forensics** (71 domande d’esame, con il testo o
 ## Come si usa
 
 - **Studia**: scrivi la risposta, poi *Mostra i concetti chiave*, spunta quelli che hai espresso e *Salva e vai avanti*. Sotto c’è sempre la risposta modello completa.
-  Copertura ≥ 80% = sicura, ≥ 45% = parziale, sotto = da rifare.
+  La copertura si calcola sui soli concetti **essenziali**. Risposta al 100% in un giorno = **da consolidare**; due risposte al 100% in giorni distinti = **sicura**; dal 45% al 99% = parziale; sotto il 45% = da rifare. Un errore essenziale segnalato dal modello limita il voto a 39%.
+- **Definizioni**: nel filtro Argomento trovi **Solo definizioni (tutti gli argomenti)**, per iniziare il ripasso dai concetti di base.
+- **Ripasso**: la modalità **Prima le più deboli** ripresenta le domande non consolidate e, dopo almeno 7 giorni, quelle già sicure.
 - **Mappa**: un quadratino per domanda, colorato in base al risultato; la striscia gialla indica le domande ad alta priorità. Toccandolo apri la domanda.
 - **Andamento**: totali per priorità e argomento, elenco delle domande da ripassare.
 - **Impostazioni**: mazzi, progressi, valutazione automatica.
@@ -43,12 +46,16 @@ Le spunte manuali bastano e non costano nulla. In più ci sono due aiuti, attiva
 
 1. **Controllo automatico gratuito.** Un modello di similarità multilingue (`Xenova/paraphrase-multilingual-MiniLM-L12-v2`, eseguito con Transformers.js) gira direttamente nel browser: confronta il significato delle frasi della tua risposta con ogni concetto chiave e pre-spunta quelli presenti. Al primo uso scarica circa 120 MB, poi resta in memoria e funziona anche offline. **Non riconosce le affermazioni sbagliate**: dice solo se un concetto sembra presente. Le soglie si regolano nelle impostazioni (se spunta troppo poco abbassale, se spunta troppo alzale).
 2. **Modello linguistico con chiave personale.** Attivalo in *Impostazioni → Valutazione con un modello linguistico*: scegli il servizio, segui il link per creare la chiave, incollala e premi *Prova la connessione*. Da quel momento sotto ogni risposta compare il pulsante **Valuta con il modello**.
-   Più preciso e segnala anche gli errori. Funziona con qualsiasi servizio con API *compatibile OpenAI*; sono preimpostati Google Gemini, Groq, OpenRouter e Ollama (sul tuo computer). Con la chiave Gemini puoi usare anche i modelli **Gemma**, che nel piano gratuito hanno limiti giornalieri molto più alti: compaiono per primi in *Mostra i modelli disponibili*. Crei una chiave gratuita sul sito del servizio e la incolli nelle impostazioni; resta salvata solo nel tuo browser. **Ogni servizio ricorda la sua chiave, il suo indirizzo e i suoi modelli**: puoi configurare Gemini e OpenRouter e passare dall’uno all’altro senza reinserire nulla (nel menu compare “chiave salvata” accanto ai servizi già configurati).
+   Il modello valuta i concetti essenziali, accetta parafrasi e segnala errori fondamentali (che impediscono di superare la domanda). La valutazione automatica non è infallibile e le spunte restano modificabili. Funziona con qualsiasi servizio con API *compatibile OpenAI*; sono preimpostati Google Gemini, Groq, OpenRouter e Ollama (sul tuo computer). Con la chiave Gemini puoi usare anche i modelli **Gemma**, che nel piano gratuito hanno limiti giornalieri molto più alti: compaiono per primi in *Mostra i modelli disponibili*. Crei una chiave gratuita sul sito del servizio e la incolli nelle impostazioni; resta salvata solo nel tuo browser. **Ogni servizio ricorda la sua chiave, il suo indirizzo e i suoi modelli**: puoi configurare Gemini e OpenRouter e passare dall’uno all’altro senza reinserire nulla (nel menu compare “chiave salvata” accanto ai servizi già configurati).
    - I piani gratuiti hanno limiti giornalieri e possono usare i testi inviati per migliorare i loro modelli: leggi le condizioni del servizio.
    - I nomi dei modelli cambiano nel tempo: premi *Mostra i modelli disponibili* per scegliere dall’elenco aggiornato del servizio.
    - Se il servizio è sovraccarico (errore 503) o hai superato un limite (429) il programma riprova da solo un paio di volte; se continua, riprova più tardi o scegli un altro modello.
    - **DeepSeek**: l’API ufficiale è a pagamento; i modelli DeepSeek gratuiti si usano tramite OpenRouter (quelli con “:free” nel nome).
    - Alcuni servizi non accettano richieste direttamente da una pagina web (errore di rete o CORS): in quel caso prova un altro servizio. Per Ollama avvia il server con `OLLAMA_ORIGINS=*` e usa la pagina dal computer su cui gira.
+
+## Test automatici
+
+Con Node.js >= 18: `node --test tests/*.test.cjs`. I test controllano integrità del mazzo, rubrica delle domande brevi, penalità per errori concettuali e ripetizione in giorni differenti.
 
 ## Aggiungere una materia
 
@@ -84,6 +91,8 @@ In alternativa **trascina il file JSON** in qualsiasi punto della pagina, oppure
         "Primo concetto chiave, una frase breve",
         "Secondo concetto chiave"
       ],
+      "essenziali": [0],
+      "tipo": "definizione",
       "risposta": "Risposta modello in **Markdown**: paragrafi, elenchi, tabelle e codice sono supportati."
     }
   ]
@@ -100,6 +109,8 @@ In alternativa **trascina il file JSON** in qualsiasi punto della pagina, oppure
 | `domande[].n` | sì | numero intero univoco |
 | `domande[].domanda` | sì | testo della domanda |
 | `domande[].concetti` | sì | da 3 a 7 concetti, ognuno verificabile da solo |
+| `domande[].essenziali` | no | Indici a partire da 0 dei concetti indispensabili; se manca, tutti i concetti sono essenziali |
+| `domande[].tipo` | no | `definizione` attiva il filtro trasversale delle definizioni |
 | `domande[].risposta` | sì | risposta modello in Markdown |
 | `domande[].argomento` | no | uno dei codici di `argomenti` |
 | `domande[].priorita` | no | 3 = alta, 2 = media, 1 = bassa (predefinita 2) |
