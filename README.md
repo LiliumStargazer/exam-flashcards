@@ -143,3 +143,7 @@ Controlla il risultato importandolo dal dispositivo: se il file ha errori di for
 ## Privacy
 
 Non c’è alcun server: domande, risposte, progressi e chiavi restano nel tuo browser. Le uniche richieste esterne sono i caratteri (Google Fonts), le librerie per il Markdown (cdnjs), il modello di similarità (jsDelivr e Hugging Face, solo se attivi il controllo automatico) e il servizio di valutazione che scegli tu, solo quando premi *Valuta con il modello*.
+
+## Calibrazione e interfaccia (2026-11-16)
+
+Le rubriche distinguono i nuclei essenziali dagli approfondimenti: per la domanda sulle cinque fasi del trattamento del dato i dettagli tecnici aggiuntivi non sono necessari per riconoscere la fase come corretta o parzialmente corretta. Il modello riceve una guida specifica che distingue le omissioni dagli errori sostanziali. Dopo una valutazione il pulsante torna a **Rivaluta la risposta**; l'animazione termina e cambiare testo/domanda invalida le risposte API precedenti. Il punteggio non può essere garantito a priori: dipende dalla classificazione del modello.
