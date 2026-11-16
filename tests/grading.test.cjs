@@ -93,3 +93,15 @@ test('regex del codice fiscale corretta e nuova domanda sulle figure processuali
   assert.ok(q(73).domanda.includes('CTU'));
   assert.ok(q(53).concetti.length === 8);
 });
+
+test('fasi del trattamento: il nucleo di ogni fase è separato dagli approfondimenti', () => {
+  const card = q(9);
+  assert.equal(card.essenziali.length, 5);
+  assert.equal(card.concetti.length, 11);
+  assert.deepEqual(card.essenziali, [0, 1, 2, 3, 4]);
+  assert.ok(card.guida_valutazione.includes('omette'));
+  // Esempio reale: identificazione e presentazione corrette,
+  // raccolta e valutazione parziali, analisi assente => 60%.
+  assert.equal(G.computeScore(card, [0, 4], [1, 3]), 60);
+  assert.equal(G.computeScore(card, [0, 4], [1, 3], true), 39);
+});
