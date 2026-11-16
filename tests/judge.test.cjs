@@ -92,3 +92,18 @@ test('script sospetti o risposte discorsive non passano per le regole', () => {
   assert.equal(J.evaluateRules(q(17), 'Una funzione hash è deterministica.'), null);
   assert.equal(J.parseDd('dd if=/dev/zero of=/dev/sda status=progress').of, '/dev/sda');
 });
+
+test('i nuclei delle cinque fasi possono ricevere punteggio parziale senza errore critico', () => {
+  const question = q(9);
+  const answer = 'identificazione: si provvede a identificare i componenti che contengono i dati.\\nacquisizione: si effettuano delle copie con software forensi e write blocker.\\nvalutazione: si analizzano i dati cercando di capirne la compatibilità con il reato.\\npresentazione: si espongono i dati in modo comprensibile.';
+  const result = J.normalize(raw(question, {
+    0: v(0, 'supported', 'identificare i componenti che contengono i dati'),
+    1: v(1, 'partial', 'si effettuano delle copie con software forensi e write blocker'),
+    3: v(3, 'partial', 'compatibilità con il reato'),
+    4: v(4, 'supported', 'si espongono i dati in modo comprensibile')
+  }), question, answer);
+  assert.deepEqual(result.covered, [0, 4]);
+  assert.deepEqual(result.partial, [1, 3]);
+  assert.equal(result.critical_error, false);
+  assert.equal(G.computeScore(question, result.covered, result.partial, result.critical_error), 60);
+});
