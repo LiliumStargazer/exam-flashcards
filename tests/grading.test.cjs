@@ -105,3 +105,25 @@ test('fasi del trattamento: il nucleo di ogni fase è separato dagli approfondim
   assert.equal(G.computeScore(card, [0, 4], [1, 3]), 60);
   assert.equal(G.computeScore(card, [0, 4], [1, 3], true), 39);
 });
+
+test('limite predefinito Forensics a 700 caratteri', () => {
+  assert.equal(deck.max_caratteri, 700);
+  assert.equal(G.answerLimit(null, deck), 700);
+  assert.equal(G.withinAnswerLimit('a'.repeat(700), q(9), deck), true);
+  assert.equal(G.withinAnswerLimit('a'.repeat(701), q(9), deck), false);
+});
+
+test('limite modificabile per materia, 0 = illimitato', () => {
+  assert.equal(G.answerLimit(null, deck, 450), 450);
+  assert.equal(G.answerLimit(null, deck, 0), null);
+  assert.equal(G.withinAnswerLimit('a'.repeat(800), q(9), deck, 0), true);
+  const otherDeck = {id:'altra-materia',domande:[]};
+  assert.equal(G.answerLimit(null, otherDeck), null);
+  assert.equal(G.answerLimit(null, otherDeck, 300), 300);
+});
+
+test('conteggio comprende spazi e ritorni a capo e non modifica i progressi', () => {
+  assert.equal(G.charCount('A B\\nC'.replace('\\n','\n')), 5);
+  assert.equal(G.withinAnswerLimit('a'.repeat(701), q(9), deck), false);
+  assert.equal(G.computeScore(q(9), [0, 4], [1, 3]), 60);
+});
