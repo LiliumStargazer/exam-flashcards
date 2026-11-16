@@ -43,14 +43,14 @@ test('nessuna contraddizione per un concetto semplicemente mancante', () => {
 });
 test('rifiuta prove testuali inventate, incomplete o duplicate', () => {
   const question = q(19), answer = 'L’hash non cambia.';
-  assert.throws(() => J.normalize(raw(question, {0:v(0,'supported','frase inesistente')}), question, answer), /citazione/);
+  assert.throws(() => J.normalize(raw(question, {0:v(0,'supported','frase inesistente')}), question, answer), /citazione|cita la risposta/);
   const truncated = raw(question);
   truncated.concepts.pop();
   assert.throws(() => J.normalize(truncated, question, answer), /tutti i concetti/);
   const duplicated = raw(question);
   duplicated.concepts[1].index = 0;
   assert.throws(() => J.normalize(duplicated, question, answer), /indici/);
-  assert.throws(() => J.normalize(raw(question, {}, [{description:'sbagliato',evidence:'nessuna prova',critical:true}]), question, answer), /citazione/);
+  assert.throws(() => J.normalize(raw(question, {}, [{description:'sbagliato',evidence:'nessuna prova',critical:true}]), question, answer), /citazione|cita la risposta/);
 });
 test('una contraddizione su un approfondimento non è automaticamente critica', () => {
   const question = q(19), answer = 'L’hash di un file resta uguale, ma non esiste signature analysis.';
