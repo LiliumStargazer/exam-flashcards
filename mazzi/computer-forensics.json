@@ -224,11 +224,17 @@
       "fonti": "File domande, n. 27",
       "domanda": "Spiegare quali sono e a cosa servono le fasi di trattamento del dato informatico.",
       "concetti": [
-        "Identificazione: esaustiva, luoghi fisici e virtuali",
-        "Raccolta: acquisizione, conservazione, trasporto (write blocker, hash, sigillo, catena di custodia)",
-        "Analisi: sulla copia, riproducibile, 5W",
-        "Valutazione: significato, attendibilità/integrità/autenticità, grado di certezza",
-        "Presentazione: relazione chiara ed esposizione in udienza"
+        "Identificazione: individuare i dispositivi, i supporti e le fonti dei dati potenzialmente rilevanti.",
+        "Raccolta (include acquisizione): ottenere i dati in modo forense e preservarli, includendo la corretta conservazione e gestione dei reperti.",
+        "Analisi: esaminare i dati acquisiti, preferibilmente sulle copie, per ricostruire eventi, attività e tracce.",
+        "Valutazione: interpretare il significato dei risultati e stimarne attendibilità, compatibilità con i fatti e grado di certezza.",
+        "Presentazione: comunicare le conclusioni in una relazione o esposizione chiara anche per i non tecnici.",
+        "Identificazione, approfondimenti: ricerca esaustiva di fonti fisiche e virtuali, fotografie e documentazione dello stato iniziale.",
+        "Raccolta, approfondimenti: write blocker, copia bit a bit, hash, sigillo, catena di custodia, conservazione e trasporto.",
+        "Analisi, approfondimenti: riproducibilità, timeline, metadati, file cancellati e domande chi/cosa/quando/dove/perché.",
+        "Valutazione, approfondimenti: legittimità, integrità, autenticità, confronto fra fonti e scala di certezza.",
+        "Presentazione, approfondimenti: risposta ai quesiti, relazione documentata ed eventuale esposizione in udienza.",
+        "Finalità complessiva: metodo rigoroso e verificabile che preservi il valore probatorio dei reperti e consenta il contraddittorio, quando previsto."
       ],
       "risposta": "Il trattamento del reperto informatico si articola in cinque fasi.\n\n1. **Identificazione**: individuare in modo esaustivo e preciso tutti i supporti e i luoghi, fisici e virtuali, che contengono dati rilevanti, dai computer ai telefoni fino ai server remoti e al cloud.\n2. **Raccolta**, che comprende acquisizione, conservazione e trasporto: copiare i dati bit per bit con un write blocker, calcolarne l’hash, applicare il sigillo elettronico, conservare e trasportare i reperti senza contaminarli, documentando ogni passaggio nella catena di custodia.\n3. **Analisi**: sulla copia e mai sull’originale, in modo riproducibile, ricostruire i fatti rispondendo alle domande chi, cosa, quando, dove e perché, con ricerche, recupero dei dati cancellati, timeline e studio degli artefatti.\n4. **Valutazione**: stabilire il significato dei dati, verificarne legittimità, attendibilità, integrità e autenticità ed esprimere il grado di certezza delle conclusioni.\n5. **Presentazione**: esporre i risultati in una relazione chiara, conforme ai quesiti e comprensibile a chi non è tecnico, e poi oralmente in udienza.",
       "essenziali": [
@@ -237,7 +243,8 @@
         2,
         3,
         4
-      ]
+      ],
+      "guida_valutazione": "Non valutare come assente una fase descritta con terminologia equivalente (per es. «acquisizione» per la raccolta). Una descrizione pertinente ma incompleta della fase va classificata partial, non absent; omissioni di strumenti, hash, esempi, 5W o formalità di trasporto non devono impedire di riconoscere il nucleo della fase. Se lo studente omette la fase autonoma «analisi», questa è absent. Se attribuisce alla valutazione l'esame dei dati ma menziona anche il significato o la compatibilità dei risultati, la valutazione può essere partial; non è automaticamente una contraddizione grave. Distingui sempre omissioni e imprecisioni da affermazioni tecnicamente false."
     },
     {
       "n": 10,
